@@ -480,6 +480,22 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Checkpoint
       objectReference: {fileID: 0}
+    - target: {fileID: 8975593253429809120, guid: fe37f05d577a7244ea2dfa5843e7c26d, type: 3}
+      propertyPath: m_Size.x
+      value: 0.50633657
+      objectReference: {fileID: 0}
+    - target: {fileID: 8975593253429809120, guid: fe37f05d577a7244ea2dfa5843e7c26d, type: 3}
+      propertyPath: m_Size.y
+      value: 0.7266103
+      objectReference: {fileID: 0}
+    - target: {fileID: 8975593253429809120, guid: fe37f05d577a7244ea2dfa5843e7c26d, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.012236059
+      objectReference: {fileID: 0}
+    - target: {fileID: 8975593253429809120, guid: fe37f05d577a7244ea2dfa5843e7c26d, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.036694825
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -508,11 +524,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 422030592097535212, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.03
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 422030592097535212, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.84
+      value: 2.74
       objectReference: {fileID: 0}
     - target: {fileID: 422030592097535212, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -545,6 +561,38 @@ PrefabInstance:
     - target: {fileID: 422030592097535212, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 597335160937958636, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
+      propertyPath: DashAction.m_Name
+      value: Dash
+      objectReference: {fileID: 0}
+    - target: {fileID: 597335160937958636, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
+      propertyPath: DashAction.m_SingletonActionBindings.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 597335160937958636, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
+      propertyPath: DashAction.m_SingletonActionBindings.Array.data[0].m_Id
+      value: 7bd2e963-677e-460c-8e0d-e8db246686df
+      objectReference: {fileID: 0}
+    - target: {fileID: 597335160937958636, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
+      propertyPath: DashAction.m_SingletonActionBindings.Array.data[1].m_Id
+      value: d7e34495-b8fb-4526-aa3e-9781a506d08d
+      objectReference: {fileID: 0}
+    - target: {fileID: 597335160937958636, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
+      propertyPath: DashAction.m_SingletonActionBindings.Array.data[0].m_Path
+      value: <Keyboard>/leftShift
+      objectReference: {fileID: 0}
+    - target: {fileID: 597335160937958636, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
+      propertyPath: DashAction.m_SingletonActionBindings.Array.data[1].m_Path
+      value: <Mouse>/rightButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 597335160937958636, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
+      propertyPath: DashAction.m_SingletonActionBindings.Array.data[0].m_Action
+      value: Dash
+      objectReference: {fileID: 0}
+    - target: {fileID: 597335160937958636, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
+      propertyPath: DashAction.m_SingletonActionBindings.Array.data[1].m_Action
+      value: Dash
       objectReference: {fileID: 0}
     - target: {fileID: 7347623003919924956, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -936,7 +984,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.006597124, y: -0.070768535}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -946,7 +994,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.8, y: 0.8}
+  m_Size: {x: 0.41552514, y: 0.658463}
   m_EdgeRadius: 0
 --- !u!114 &1832457118
 MonoBehaviour:
@@ -981,7 +1029,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.9922042
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -1065,6 +1113,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2802597380032771268, guid: fe37f05d577a7244ea2dfa5843e7c26d, type: 3}
+      propertyPath: MinDistance
+      value: 0.6760006
+      objectReference: {fileID: 0}
     - target: {fileID: 5459489562726362244, guid: fe37f05d577a7244ea2dfa5843e7c26d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13.19
@@ -1108,6 +1160,22 @@ PrefabInstance:
     - target: {fileID: 5459489562726362246, guid: fe37f05d577a7244ea2dfa5843e7c26d, type: 3}
       propertyPath: m_Name
       value: Checkpoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 8975593253429809120, guid: fe37f05d577a7244ea2dfa5843e7c26d, type: 3}
+      propertyPath: m_Size.x
+      value: 0.5073366
+      objectReference: {fileID: 0}
+    - target: {fileID: 8975593253429809120, guid: fe37f05d577a7244ea2dfa5843e7c26d, type: 3}
+      propertyPath: m_Size.y
+      value: 0.6676232
+      objectReference: {fileID: 0}
+    - target: {fileID: 8975593253429809120, guid: fe37f05d577a7244ea2dfa5843e7c26d, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.020904176
+      objectReference: {fileID: 0}
+    - target: {fileID: 8975593253429809120, guid: fe37f05d577a7244ea2dfa5843e7c26d, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.066188365
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

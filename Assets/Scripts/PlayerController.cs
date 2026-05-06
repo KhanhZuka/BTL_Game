@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     public InputAction MoveAction;
     public InputAction JumpAction;
     public InputAction AttackAction;
+    public InputAction DashAction;
 
     // Movement 
     public float speed = 6f;
@@ -56,6 +57,16 @@ public class PlayerController : MonoBehaviour
 
     bool isAttacking;
 
+    // Dash
+    [Header("Dash")]
+    public float dashForce = 12f;
+    public float dashDuration = 0.2f;
+    public float dashCooldown = 1f;
+
+    bool isDashing;
+    float dashTime;
+    float dashCooldownTimer;
+
     // EVENTS
     void Start()
     {
@@ -73,6 +84,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         moveX = MoveAction.ReadValue<Vector2>().x;
+        //moveInputX = MoveAction.ReadValue<Vector2>().x;
 
         CheckGround();
         Flip();
@@ -95,15 +107,18 @@ public class PlayerController : MonoBehaviour
 
         if (jumpBufferCounter > 0 && coyoteTimeCounter > 0)
         {
-            rigidbody2d.linearVelocity = new Vector2(
-                rigidbody2d.linearVelocity.x,
-                jumpForce
-            );
+            rigidbody2d.linearVelocity = new Vector2(rigidbody2d.linearVelocity.x, jumpForce);
 
             // reset để tránh double jump ngoài ý muốn
             jumpBufferCounter = 0;
             coyoteTimeCounter = 0;
         }
+
+        // giảm cooldown dash
+        if (dashCooldownTimer > 0)
+            dashCooldownTimer -= Time.deltaTime;
+
+        if (isDashing) return;
 
         UpdateAnimator();
         HandleInvincible();
@@ -111,6 +126,12 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         rigidbody2d.linearVelocity = new Vector2(moveX * speed, rigidbody2d.linearVelocity.y);
+
+        if (isDashing)
+        {
+            DashMovement();
+            return; // chặn movement khác
+        }
     }
 
     void OnEnable()
@@ -119,14 +140,18 @@ public class PlayerController : MonoBehaviour
 
         AttackAction.Enable();
         AttackAction.performed += OnAttack;
-    }
+        DashAction.Enable();
+        DashAction.performed += OnDash;
 
+    }
     void OnDisable()
     {
         JumpAction.performed -= OnJump;
 
         AttackAction.performed -= OnAttack;
         AttackAction.Disable();
+        DashAction.performed -= OnDash;
+        DashAction.Disable();
     }
 
     // METHODS
@@ -135,12 +160,10 @@ public class PlayerController : MonoBehaviour
         // Ghi nhận ý định nhảy
         jumpBufferCounter = jumpBufferTime;
     }
-
     void CheckGround()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
     }
-
     void Flip()
     {
         if (moveX > 0)
@@ -148,7 +171,6 @@ public class PlayerController : MonoBehaviour
         else if (moveX < 0)
             spriteRenderer.flipX = true;
     }
-
     void UpdateAnimator()
     {
         animator.SetFloat("Speed", Mathf.Abs(moveX));
@@ -178,9 +200,7 @@ public class PlayerController : MonoBehaviour
     {
         if (amount < 0)
         {
-            if (isInvincible)
-                return;
-
+            if (isInvincible) return;
             isInvincible = true;
             damageCooldown = timeInvincible;
             animator.SetTrigger("Hit");
@@ -201,7 +221,6 @@ public class PlayerController : MonoBehaviour
     void Die()
     {
         if (isDead) return;
-
         isDead = true;
 
         // Dừng physics
@@ -248,7 +267,6 @@ public class PlayerController : MonoBehaviour
     void OnAttack(InputAction.CallbackContext ctx)
     {
         if (!isGrounded) return;
-
         TryAttack();
     }
     void TryAttack()
@@ -284,6 +302,62 @@ public class PlayerController : MonoBehaviour
                 enemy.Dead();
             }
         }
+    }
+
+    //
+    void OnDash(InputAction.CallbackContext ctx)
+    {
+        if (!ctx.performed) return;
+
+        if (isDashing) return;
+        if (dashCooldownTimer > 0) return;
+
+        StartDash();
+    }
+
+    void StartDash()
+    {
+        isDashing = true;
+        dashTime = dashDuration;
+        dashCooldownTimer = dashCooldown;
+
+        // tắt gravity khi dash
+        GetComponent<Rigidbody2D>().gravityScale = 0;
+
+        isInvincible = true;
+
+        animator.SetTrigger("Dash");
+    }
+    void DashMovement()
+    {
+        dashTime -= Time.deltaTime;
+
+        float direction;
+        if (Mathf.Abs(rigidbody2d.linearVelocity.x) > 0.1f)
+        {
+            // đang di chuyển dùng velocity
+            direction = Mathf.Sign(rigidbody2d.linearVelocity.x);
+        }
+        else
+        {
+            // đứng yên dùng hướng nhìn
+            direction = spriteRenderer.flipX ? -1 : 1;
+        }
+
+        GetComponent<Rigidbody2D>().linearVelocity = new Vector2(direction * dashForce, 0);
+
+        if (dashTime <= 0)
+        {
+            EndDash();
+        }
+    }
+    void EndDash()
+    {
+        isDashing = false;
+
+        // bật lại gravity
+        GetComponent<Rigidbody2D>().gravityScale = 3;
+        isInvincible = false;
     }
 
     // DEBUG
