@@ -34,7 +34,6 @@ public class EnemyPatrol : MonoBehaviour
         if (!isAlive) return;
 
         rigidbody2d.linearVelocity = new Vector2(direction * moveSpeed, rigidbody2d.linearVelocity.y);
-        animator.SetBool("IsMoving", true);
 
         if (direction == 1 && transform.position.x >= rightX)
         {
@@ -48,7 +47,7 @@ public class EnemyPatrol : MonoBehaviour
     void TurnAround()
     {
         direction *= -1;
-        sprite.flipX = direction < 0;
+        sprite.flipX = direction > 0;
     }
 
     public void Dead()
