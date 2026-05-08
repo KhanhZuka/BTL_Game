@@ -562,38 +562,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 597335160937958636, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
-      propertyPath: DashAction.m_Name
-      value: Dash
-      objectReference: {fileID: 0}
-    - target: {fileID: 597335160937958636, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
-      propertyPath: DashAction.m_SingletonActionBindings.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 597335160937958636, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
-      propertyPath: DashAction.m_SingletonActionBindings.Array.data[0].m_Id
-      value: 7bd2e963-677e-460c-8e0d-e8db246686df
-      objectReference: {fileID: 0}
-    - target: {fileID: 597335160937958636, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
-      propertyPath: DashAction.m_SingletonActionBindings.Array.data[1].m_Id
-      value: d7e34495-b8fb-4526-aa3e-9781a506d08d
-      objectReference: {fileID: 0}
-    - target: {fileID: 597335160937958636, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
-      propertyPath: DashAction.m_SingletonActionBindings.Array.data[0].m_Path
-      value: <Keyboard>/leftShift
-      objectReference: {fileID: 0}
-    - target: {fileID: 597335160937958636, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
-      propertyPath: DashAction.m_SingletonActionBindings.Array.data[1].m_Path
-      value: <Mouse>/rightButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 597335160937958636, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
-      propertyPath: DashAction.m_SingletonActionBindings.Array.data[0].m_Action
-      value: Dash
-      objectReference: {fileID: 0}
-    - target: {fileID: 597335160937958636, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
-      propertyPath: DashAction.m_SingletonActionBindings.Array.data[1].m_Action
-      value: Dash
-      objectReference: {fileID: 0}
     - target: {fileID: 7347623003919924956, guid: ed1aab9cdeab5fa459272f7604291df0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.313

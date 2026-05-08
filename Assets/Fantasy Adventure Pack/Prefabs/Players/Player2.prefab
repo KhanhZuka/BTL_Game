@@ -286,6 +286,31 @@ MonoBehaviour:
       m_Action: Attack
       m_Flags: 0
     m_Flags: 0
+  DashAction:
+    m_Name: Dash
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 610a18bf-82e6-4c2a-9b0b-b3a9ae568eea
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 7bd2e963-677e-460c-8e0d-e8db246686df
+      m_Path: <Keyboard>/leftShift
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Dash
+      m_Flags: 0
+    - m_Name: 
+      m_Id: d7e34495-b8fb-4526-aa3e-9781a506d08d
+      m_Path: <Mouse>/rightButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Dash
+      m_Flags: 0
+    m_Flags: 0
   speed: 6
   jumpForce: 8
   coyoteTime: 0.15
@@ -302,6 +327,9 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 256
+  dashForce: 12
+  dashDuration: 0.2
+  dashCooldown: 1
 --- !u!1 &3195846191454060158
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public InputAction DashAction;
 
     // Movement 
-    public float speed = 6f;
+    public float speed = 3f;
     public float jumpForce = 12f;
 
     Rigidbody2D rigidbody2d;
