@@ -14,12 +14,10 @@ public class RangedEnemyController : MonoBehaviour
     public float chaseSpeed = 2.5f; 
 
     [Header("--- AI Ranges & Territory ---")]
-    // Đã chuyển toàn bộ thành khoảng cách ngang (Trục X)
     public float detectionRange = 12f; 
-    public float attackRange = 7f;     
-    
-    public float verticalDetectionLimit = 1.5f; // Vẫn giữ giới hạn chiều cao để không bắn bậy
-    public float territoryRadius = 10f;       
+    public float attackRange = 9f;       // TẦM ĐÁNH (Xa)
+    public float verticalDetectionLimit = 1.5f; 
+    public float territoryRadius = 5f;   // TẦM TUẦN TRA (Nhỏ lại)
     private Vector2 startPos; 
 
     [Header("--- Combat ---")]
@@ -27,8 +25,9 @@ public class RangedEnemyController : MonoBehaviour
     private float attackTimer = 0f;
 
     private bool isDead = false;
-    private bool isPatrolling = false;
-    private float patrolTimer = 0f;
+    private bool isAlerted = false; 
+    
+    private float waitTimer = 0f;
     private float patrolDirection = 1f; 
 
     [Header("--- Ranged Setup ---")]
@@ -42,7 +41,13 @@ public class RangedEnemyController : MonoBehaviour
 
         if (player == null)
         {
-            player = GameObject.FindGameObjectWithTag("Player").transform;
+            GameObject pObj = GameObject.FindGameObjectWithTag("Player2");
+            if (pObj != null) player = pObj.transform;
+        }
+
+        if (projectilePrefab == null)
+        {
+            projectilePrefab = Resources.Load<GameObject>("SpearProjectile");
         }
         
         attackTimer = attackCooldown; 
@@ -51,7 +56,7 @@ public class RangedEnemyController : MonoBehaviour
 
     void Update()
     {
-        if (isDead) return;
+        if (isDead || player == null) return;
 
         attackTimer += Time.deltaTime;
 
@@ -66,126 +71,126 @@ public class RangedEnemyController : MonoBehaviour
 
         if (attackTimer < 0.1f) return;
 
-        // KIỂM TRA MỚI: Chỉ tính khoảng cách ngang (X) giữa Quái và Player
         float distanceToPlayerX = Mathf.Abs(player.position.x - transform.position.x);
         float directionX = player.position.x - transform.position.x;
-        
         float verticalDistance = Mathf.Abs(player.position.y - transform.position.y);
         float playerDistanceFromHomeX = Mathf.Abs(player.position.x - startPos.x);
 
         bool isPlayerInTerritory = playerDistanceFromHomeX <= territoryRadius;
         bool isPlayerAtSameLevel = verticalDistance <= verticalDetectionLimit;
 
-        // QUÁI ĐÁNH XA (THEO HÀNG NGANG)
-        
-        if (isPlayerAtSameLevel && distanceToPlayerX <= attackRange)
+        bool isFacingRight = transform.localScale.x < 0; 
+        bool isPlayerToRight = directionX > 0;
+        bool isFacingPlayer = (isFacingRight && isPlayerToRight) || (!isFacingRight && !isPlayerToRight);
+
+        bool canSeePlayer = isPlayerAtSameLevel && distanceToPlayerX <= detectionRange && isPlayerInTerritory && isFacingPlayer;
+
+        if (canSeePlayer && !isAlerted)
         {
-            // 1. TRONG TẦM BẮN NGANG -> ĐỨNG LẠI BẮN
             StopMoving();
             FlipTowards(directionX);
+            isAlerted = true; 
+            return;
+        }
 
-            if (attackTimer >= attackCooldown)
+        if (isAlerted)
+        {
+            if (isPlayerAtSameLevel && distanceToPlayerX <= detectionRange && isPlayerInTerritory)
             {
-                animator.SetTrigger("Attack");
+                if (distanceToPlayerX <= attackRange)
+                {
+                    StopMoving();
+                    FlipTowards(directionX);
+
+                    if (attackTimer >= attackCooldown)
+                    {
+                        animator.SetTrigger("Attack");
+                        animator.SetBool("isWalk", false);
+                        
+                        // ==========================================
+                        // TẠO CÂY GIÁO NGAY TRONG UPDATE
+                        // ==========================================
+                        if (projectilePrefab != null && firePoint != null)
+                        {
+                            GameObject spear = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+                            float facingDir = transform.localScale.x < 0 ? 1f : -1f;
+                            
+                            SpearProjectile script = spear.GetComponent<SpearProjectile>();
+                            if (script != null) script.Setup(facingDir);
+                        }
+
+                        attackTimer = 0f; 
+                    }
+                }
+                else
+                {
+                    animator.SetBool("isWalk", true);
+                    float dirNormal = Mathf.Sign(directionX);
+                    rb.linearVelocity = new Vector2(dirNormal * chaseSpeed, rb.linearVelocity.y);
+                    FlipTowards(directionX);
+                }
+            }
+            else 
+            {
+                isAlerted = false; 
                 animator.SetBool("isWalk", false);
-                attackTimer = 0f; 
+                PatrolLogic(); 
             }
         }
-        else if (isPlayerAtSameLevel && distanceToPlayerX <= detectionRange && isPlayerInTerritory)
+        else
         {
-            // 2. TRONG TẦM NHÌN NGANG NHƯNG CHƯA TỚI TẦM BẮN -> ĐI LÙA
-            animator.SetBool("isWalk", true);
-
-            float dirNormal = Mathf.Sign(directionX);
-            rb.linearVelocity = new Vector2(dirNormal * chaseSpeed, rb.linearVelocity.y);
-            FlipTowards(directionX);
-        }
-        else 
-        {
-            // 3. MẤT DẤU -> QUAY VỀ TUẦN TRA
             animator.SetBool("isWalk", false);
-            PatrolLogic(); 
+            PatrolLogic();
         }
     }
 
     private void PatrolLogic()
     {
-        patrolTimer -= Time.deltaTime;
-
-        if (patrolTimer <= 0)
+        if (waitTimer > 0)
         {
-            patrolTimer = Random.Range(3f, 5f);
-            int action = Random.Range(0, 10); 
-
-            if (action < 7) 
-            {
-                isPatrolling = true;
-                animator.SetBool("isWalk", true);
-                
-                float myDistanceFromHomeX = Mathf.Abs(transform.position.x - startPos.x);
-                
-                if (myDistanceFromHomeX > territoryRadius)
-                {
-                    float dirToHome = startPos.x - transform.position.x;
-                    patrolDirection = Mathf.Sign(dirToHome);
-                }
-                else
-                {
-                    patrolDirection *= -1f; 
-                }
-                
-                Vector3 currentScale = transform.localScale;
-                currentScale.x = patrolDirection == 1f ? -Mathf.Abs(currentScale.x) : Mathf.Abs(currentScale.x);
-                transform.localScale = currentScale;
-            }
-            else 
-            {
-                StopMoving();
-                animator.SetBool("isWalk", false);
-                animator.Play("RangedEnemy"); 
-            }
+            waitTimer -= Time.deltaTime;
+            animator.SetBool("isWalk", false);
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            return;
         }
 
-        if (isPatrolling && animator.GetBool("isWalk"))
+        animator.SetBool("isWalk", true);
+        rb.linearVelocity = new Vector2(patrolDirection * walkSpeed, rb.linearVelocity.y);
+
+        float distanceFromHomeX = transform.position.x - startPos.x;
+
+        if ((patrolDirection == 1f && distanceFromHomeX >= territoryRadius) || 
+            (patrolDirection == -1f && distanceFromHomeX <= -territoryRadius))
         {
-            rb.linearVelocity = new Vector2(patrolDirection * walkSpeed, rb.linearVelocity.y);
+            patrolDirection *= -1f;
+            waitTimer = Random.Range(1f, 2.5f); 
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            
+            Vector3 currentScale = transform.localScale;
+            currentScale.x = patrolDirection == 1f ? -Mathf.Abs(currentScale.x) : Mathf.Abs(currentScale.x);
+            transform.localScale = currentScale;
         }
     }
 
     private void StopMoving()
     {
         rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
-        isPatrolling = false;
     }
 
     private void FlipTowards(float directionX)
     {
         Vector3 currentScale = transform.localScale;
-
-        if (directionX > 0.1f) 
-        {
-            currentScale.x = -Mathf.Abs(currentScale.x); 
-        }
-        else if (directionX < -0.1f) 
-        {
-            currentScale.x = Mathf.Abs(currentScale.x);
-        }
-
+        if (directionX > 0.1f) currentScale.x = -Mathf.Abs(currentScale.x); 
+        else if (directionX < -0.1f) currentScale.x = Mathf.Abs(currentScale.x);
         transform.localScale = currentScale;
     }
 
     public void TakeDamage(float damageAmount)
     {
         if (isDead) return;
-
         hp -= damageAmount;
-
-        if (hp <= 0)
-        {
-            Die();
-            return;
-        }
-
+        isAlerted = true; 
+        if (hp <= 0) { Die(); return; }
         animator.Play("Hit"); 
     }
 
@@ -193,11 +198,9 @@ public class RangedEnemyController : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
-
         animator.Play("Dead"); 
         StopMoving();
         rb.gravityScale = 0;
-        
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
     }
@@ -206,7 +209,6 @@ public class RangedEnemyController : MonoBehaviour
     {
         Vector2 drawPos = Application.isPlaying ? startPos : (Vector2)transform.position;
         
-        // 1. Vẽ lãnh thổ (Màu vàng)
         Gizmos.color = Color.yellow;
         Vector3 leftBound = new Vector3(drawPos.x - territoryRadius, drawPos.y, 0);
         Vector3 rightBound = new Vector3(drawPos.x + territoryRadius, drawPos.y, 0);
@@ -214,13 +216,7 @@ public class RangedEnemyController : MonoBehaviour
         Gizmos.DrawLine(leftBound + Vector3.up * 0.5f, leftBound - Vector3.up * 0.5f);
         Gizmos.DrawLine(rightBound + Vector3.up * 0.5f, rightBound - Vector3.up * 0.5f);
         
-        // 2. Vẽ giới hạn chiều cao (Màu xanh)
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.up * verticalDetectionLimit);
-        Gizmos.DrawLine(transform.position, transform.position - Vector3.up * verticalDetectionLimit);
-        
-        // 3. VẼ TẦM BẮN MỚI THEO HÀNG NGANG (Màu đỏ)
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.cyan;
         Vector3 attackLeft = new Vector3(transform.position.x - attackRange, transform.position.y, 0);
         Vector3 attackRight = new Vector3(transform.position.x + attackRange, transform.position.y, 0);
         Gizmos.DrawLine(attackLeft, attackRight);

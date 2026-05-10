@@ -19,7 +19,6 @@ public class MeleeEnemyController : MonoBehaviour
     public float loseSightRange = 10f; 
     
     [Header("--- Vertical Limits ---")]
-    // BIẾN : Player cao hơn quái bao nhiêu thì quái sẽ ngừng đuổi (ví dụ: 3 mét)
     public float verticalDetectionLimit = 2f; 
 
     [Header("--- Territory ---")]
@@ -59,6 +58,7 @@ public class MeleeEnemyController : MonoBehaviour
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         bool isAttacking = stateInfo.IsName("Attack");
 
+        // Ngừng di chuyển khi đang có animation đặc biệt
         if (isAttacking || stateInfo.IsName("Alert") || stateInfo.IsName("Hit") || stateInfo.IsName("Blink"))
         {
             StopMoving();
@@ -69,64 +69,83 @@ public class MeleeEnemyController : MonoBehaviour
         // 1. Tính toán các loại khoảng cách
         float distanceToPlayer = Vector2.Distance(player.position, transform.position);
         float directionX = player.position.x - transform.position.x;
-        
-        // Khoảng cách chiều dọc (Y)
         float verticalDistance = Mathf.Abs(player.position.y - transform.position.y);
-        
-        // Khoảng cách chiều ngang (X) so với nhà
         float playerDistanceFromHomeX = Mathf.Abs(player.position.x - startPos.x);
 
-        // 2. Kiểm tra điều kiện Player có "hợp lệ" để đuổi không
+        // 2. Các điều kiện cơ bản
         bool isPlayerInTerritory = playerDistanceFromHomeX <= territoryRadius;
         bool isPlayerAtSameLevel = verticalDistance <= verticalDetectionLimit;
+
+        // 3. ĐIỀU KIỆN QUAN TRỌNG: Quái có đang quay mặt về phía Player không?
+        // Theo hàm FlipTowards của bạn: scale.x âm là quay phải, dương là quay trái
+        bool isFacingRight = transform.localScale.x < 0; 
+        bool isPlayerToRight = directionX > 0;
+        bool isFacingPlayer = (isFacingRight && isPlayerToRight) || (!isFacingRight && !isPlayerToRight);
 
         // ==========================================
         // BỘ NÃO AI CỦA QUÁI
         // ==========================================
         
-        // Chỉ tấn công và rượt đuổi nếu Player KHÔNG quá cao/thấp
-        if (isPlayerAtSameLevel && distanceToPlayer <= attackRange)
+        // Quái chỉ "thấy" bạn khi: Cùng độ cao + Trong tầm nhìn + Trong lãnh thổ + ĐANG QUAY MẶT VỀ PHÍA BẠN
+        bool canSeePlayer = isPlayerAtSameLevel && distanceToPlayer <= detectionRange && isPlayerInTerritory && isFacingPlayer;
+
+        // XỬ LÝ LÚC MỚI PHÁT HIỆN
+        if (canSeePlayer && !isAlerted)
         {
             StopMoving();
             FlipTowards(directionX);
-
-            if (attackTimer >= attackCooldown)
-            {
-                animator.SetBool("isAttack", true);
-                animator.SetBool("isRun", false);
-                animator.SetBool("isWalk", false);
-                attackTimer = 0f; 
-            }
+            animator.SetTrigger("alert"); 
+            isAlerted = true; // Chuyển sang trạng thái đã phát hiện mục tiêu
+            return; 
         }
-        else if (isPlayerAtSameLevel && distanceToPlayer <= detectionRange && isPlayerInTerritory)
+
+        // XỬ LÝ KHI ĐANG TRONG TRẠNG THÁI RƯỢT ĐUỔI (Đã Alert)
+        if (isAlerted)
         {
-            // PLAYER Ở TRONG TẦM MẮT VÀ CÙNG ĐỘ CAO CHO PHÉP
-            if (!isAlerted)
+            // Kiểm tra xem Player còn trong phạm vi đuổi không (không cần isFacingPlayer nữa vì đang rượt)
+            if (isPlayerAtSameLevel && distanceToPlayer <= loseSightRange && isPlayerInTerritory)
             {
-                StopMoving();
-                FlipTowards(directionX);
-                animator.SetTrigger("alert"); 
-                isAlerted = true; 
+                // Nếu lọt vào tầm đánh -> Tấn công
+                if (distanceToPlayer <= attackRange)
+                {
+                    StopMoving();
+                    FlipTowards(directionX);
+
+                    if (attackTimer >= attackCooldown)
+                    {
+                        animator.SetBool("isAttack", true);
+                        animator.SetBool("isRun", false);
+                        animator.SetBool("isWalk", false);
+                        attackTimer = 0f; 
+                    }
+                }
+                // Nếu ở ngoài tầm đánh -> Chạy lại gần
+                else
+                {
+                    animator.SetBool("isAttack", false);
+                    animator.SetBool("isRun", true);
+                    animator.SetBool("isWalk", false);
+
+                    float dirNormal = Mathf.Sign(directionX);
+                    rb.linearVelocity = new Vector2(dirNormal * runSpeed, rb.linearVelocity.y);
+                    FlipTowards(directionX);
+                }
             }
-            else
+            else 
             {
+                // MẤT DẤU (Player chạy quá xa, nhảy lên cao, hoặc ra khỏi lãnh thổ)
+                isAlerted = false; 
                 animator.SetBool("isAttack", false);
-                animator.SetBool("isRun", true);
-                animator.SetBool("isWalk", false);
-
-                float dirNormal = Mathf.Sign(directionX);
-                rb.linearVelocity = new Vector2(dirNormal * runSpeed, rb.linearVelocity.y);
-                FlipTowards(directionX);
+                animator.SetBool("isRun", false);
+                PatrolLogic(); 
             }
         }
-        else 
+        // NẾU CHƯA PHÁT HIỆN GÌ (Player ở sau lưng hoặc ngoài tầm)
+        else
         {
-            // NẾU PLAYER NHẢY QUÁ CAO HOẶC RA KHỎI LÃNH THỔ -> QUAY LẠI TUẦN TRA
-            isAlerted = false; 
             animator.SetBool("isAttack", false);
             animator.SetBool("isRun", false);
-            
-            PatrolLogic(); 
+            PatrolLogic();
         }
     }
 
@@ -192,7 +211,10 @@ public class MeleeEnemyController : MonoBehaviour
     {
         if (isDead) return;
         hp -= damageAmount;
+        
+        // Dù đang quay lưng nhưng nếu bị đánh trúng sẽ tự động giật mình (Alert) và quay lại đánh
         isAlerted = true; 
+        
         if (hp <= 0) { Die(); return; }
         animator.Play("Hit"); 
     }
@@ -213,12 +235,10 @@ public class MeleeEnemyController : MonoBehaviour
         Gizmos.color = Color.yellow;
         Vector2 drawPos = Application.isPlaying ? startPos : (Vector2)transform.position;
         
-        // Vẽ lãnh thổ ngang
         Vector3 leftBound = new Vector3(drawPos.x - territoryRadius, drawPos.y, 0);
         Vector3 rightBound = new Vector3(drawPos.x + territoryRadius, drawPos.y, 0);
         Gizmos.DrawLine(leftBound, rightBound);
         
-        // Vẽ giới hạn chiều cao (để bạn dễ căn chỉnh)
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, transform.position + Vector3.up * verticalDetectionLimit);
         Gizmos.DrawLine(transform.position, transform.position - Vector3.up * verticalDetectionLimit);
