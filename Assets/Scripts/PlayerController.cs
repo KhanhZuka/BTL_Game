@@ -10,8 +10,8 @@ public class PlayerController : MonoBehaviour
     public InputAction DashAction;
 
     // Movement 
-    public float speed = 3f;
-    public float jumpForce = 12f;
+    public float speed = 6f;
+    public float jumpForce = 8f;
 
     Rigidbody2D rigidbody2d;
     float moveX;
@@ -119,6 +119,16 @@ public class PlayerController : MonoBehaviour
             dashCooldownTimer -= Time.deltaTime;
 
         if (isDashing) return;
+
+        if (isAttacking)
+        {
+            var state = animator.GetCurrentAnimatorStateInfo(0);
+
+            if (state.normalizedTime >= 1f)
+            {
+                isAttacking = false;
+            }
+        }
 
         UpdateAnimator();
         HandleInvincible();
@@ -266,20 +276,58 @@ public class PlayerController : MonoBehaviour
     // ATTACK 
     void OnAttack(InputAction.CallbackContext ctx)
     {
-        if (!isGrounded) return;
-        TryAttack();
-    }
-    void TryAttack()
-    {
         if (isAttacking) return;
 
+        Vector2 moveInput = MoveAction.ReadValue<Vector2>();
+
+        // đứng đất + nhấn W
+        if (isGrounded && moveInput.y > 0.5f)
+        {
+            AttackUp();
+        }
+
+
+        // đang trên không (có buff nhảy cao) + nhấn attack
+        if (!isGrounded && jumpForce >= 20)
+        {
+            AttackDown();
+        }
+
+        // Attack thường
+        if (isGrounded)
+        {
+            NormalAttack();
+        }
+    }
+    void NormalAttack()
+    {
+        if (isAttacking) return;
         isAttacking = true;
 
-        animator.ResetTrigger("Attack"); 
+        animator.ResetTrigger("Attack");
         animator.SetTrigger("Attack");
+    }
+    void AttackUp()
+    {
+        if (isAttacking) return;
+        isAttacking = true;
+
+        animator.ResetTrigger("AttackUp");
+        animator.SetTrigger("AttackUp");
+    }
+    void AttackDown()
+    {
+        if (isAttacking) return;
+        isAttacking = true;
+
+        animator.ResetTrigger("AttackDown");
+        animator.SetTrigger("AttackDown");
+
+        rigidbody2d.linearVelocity = new Vector2(rigidbody2d.linearVelocity.x, -15f);
     }
     public void EndAttack()
     {
+        Debug.Log("EndAttack called");
         isAttacking = false;
     }
 

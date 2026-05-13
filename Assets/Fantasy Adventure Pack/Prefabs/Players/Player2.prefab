@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 597335160937958636}
   m_Layer: 0
   m_Name: Player2
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.05391141, y: -0.8307, z: 0}
-  m_LocalScale: {x: 7.5427356, y: 4.707189, z: 1}
+  m_LocalScale: {x: 7, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8622865897962537227}
@@ -290,7 +290,7 @@ MonoBehaviour:
     m_Name: Dash
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 610a18bf-82e6-4c2a-9b0b-b3a9ae568eea
+    m_Id: 1a4917ea-7f9a-4da4-9a49-0c6d8ad4a8e7
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings:
@@ -355,7 +355,7 @@ Transform:
   m_GameObject: {fileID: 3195846191454060158}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.121, y: -0.095, z: 0}
+  m_LocalPosition: {x: 0.313, y: -0.095, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -386,7 +386,7 @@ Transform:
   m_GameObject: {fileID: 5226909831142867466}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.098, y: -0.162, z: 0}
+  m_LocalPosition: {x: 0.043, y: -0.162, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
