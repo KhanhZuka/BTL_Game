@@ -344,10 +344,10 @@ public class PlayerController : MonoBehaviour
 
         foreach (Collider2D hit in hits)
         {
-            EnemyPatrol enemy = hit.GetComponent<EnemyPatrol>();
+            EnemySystemController enemy = hit.GetComponent<EnemySystemController>();
             if (enemy != null)
             {
-                enemy.Dead();
+                enemy.Die();
             }
         }
     }

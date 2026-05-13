@@ -41,8 +41,7 @@ public abstract class EnemySystemController : MonoBehaviour
 
         if (player == null)
         {
-            GameObject pObj = GameObject.FindGameObjectWithTag("Player2"); 
-            if (pObj == null) pObj = GameObject.FindGameObjectWithTag("Player");
+            GameObject pObj = GameObject.FindGameObjectWithTag("Player");
             if (pObj != null) player = pObj.transform;
         }
     }

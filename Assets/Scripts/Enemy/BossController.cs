@@ -206,9 +206,6 @@ public class BossController : EnemySystemController
         }
     }
 
-    // ====================================================================
-    // XỬ LÝ ĐẠN BAY ĐÚNG HƯỚNG TRƯỚC MẶT VÀ SAU LƯNG
-    // ====================================================================
     private IEnumerator SpawnSpikesRoutine(float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
@@ -218,10 +215,8 @@ public class BossController : EnemySystemController
             Vector3 trueLeftPos = transform.position + Vector3.left;
             Vector3 trueRightPos = transform.position + Vector3.right;
 
-            // Nếu đã kéo Point vào, ta sẽ so sánh tọa độ X của chúng trên thế giới
             if (leftShootPoint != null && rightShootPoint != null)
             {
-                // Điểm nào có tọa độ X nhỏ hơn thì chắc chắn nó đang nằm ở bên TRÁI màn hình
                 if (leftShootPoint.position.x < rightShootPoint.position.x)
                 {
                     trueLeftPos = leftShootPoint.position;
@@ -234,29 +229,28 @@ public class BossController : EnemySystemController
                 }
             }
 
-            // 1. VIÊN BẮN SANG TRÁI MÀN HÌNH
             GameObject leftBullet = Instantiate(spikeBulletPrefab, trueLeftPos, Quaternion.identity);
             
             FlyingBullet flyLeft = leftBullet.GetComponent<FlyingBullet>();
-            if (flyLeft != null) flyLeft.Setup(Vector2.left); // Ép bay sang Trái
+            if (flyLeft != null) flyLeft.Setup(Vector2.left); 
             else 
             {
                 SpearProjectile spearLeft = leftBullet.GetComponent<SpearProjectile>();
-                if (spearLeft != null) spearLeft.Setup(-1f); // Ép bay sang Trái
+                if (spearLeft != null) spearLeft.Setup(-1f); 
             }
 
-            // 2. VIÊN BẮN SANG PHẢI MÀN HÌNH
             GameObject rightBullet = Instantiate(spikeBulletPrefab, trueRightPos, Quaternion.identity);
             
             FlyingBullet flyRight = rightBullet.GetComponent<FlyingBullet>();
-            if (flyRight != null) flyRight.Setup(Vector2.right); // Ép bay sang Phải
+            if (flyRight != null) flyRight.Setup(Vector2.right); 
             else 
             {
                 SpearProjectile spearRight = rightBullet.GetComponent<SpearProjectile>();
-                if (spearRight != null) spearRight.Setup(1f); // Ép bay sang Phải
+                if (spearRight != null) spearRight.Setup(1f); 
             }
         }
     }
+    
     public override void TakeDamage(float damageAmount)
     {
         if (isDead) return;
@@ -286,7 +280,8 @@ public class BossController : EnemySystemController
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") || other.CompareTag("Player2"))
+        // Đã xóa điều kiện other.CompareTag("Player2")
+        if (other.CompareTag("Player"))
         {
             PlayerController player = other.GetComponent<PlayerController>();
             
@@ -301,7 +296,8 @@ public class BossController : EnemySystemController
     {
         if (isDead) return;
 
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Player2"))
+        // Đã xóa điều kiện collision.gameObject.CompareTag("Player2")
+        if (collision.gameObject.CompareTag("Player"))
         {
             PlayerController playerStats = collision.gameObject.GetComponent<PlayerController>();
             if (playerStats != null)
