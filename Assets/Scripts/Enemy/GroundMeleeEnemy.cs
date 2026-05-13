@@ -10,7 +10,7 @@ public class GroundMeleeEnemy : GroundEnemy
 
     protected override void Start()
     {
-        maxHp = 0f; // Quái cận chiến thường trâu bò hơn
+        maxHp = 200f; // Quái cận chiến thường trâu bò hơn
         base.Start();
     }
 
