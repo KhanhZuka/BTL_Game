@@ -4,7 +4,7 @@ public class EnemyFireHitbox : MonoBehaviour
 {
     [Header("--- Sát thương lửa ---")]
     public float damagePerSecond = 20f; 
-    public string playerTag = "Player2"; // Chú ý: Đặt đúng Tag của người chơi
+    public string playerTag = "Player"; // Chú ý: Đặt đúng Tag của người chơi
 
     // Hàm OnTriggerStay2D sẽ chạy LIÊN TỤC mỗi frame khi Player đứng trong lửa
     private void OnTriggerStay2D(Collider2D other)

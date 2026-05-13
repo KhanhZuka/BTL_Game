@@ -3,7 +3,7 @@ using UnityEngine;
 public class FlyingBullet : MonoBehaviour
 {
     [Header("--- Bullet Settings ---")]
-    public float speed = 3f; // Tốc độ đạn 
+    public float speed = 2f; // Tốc độ đạn 
     public int damage = 15; // Sát thương
     public float lifetime = 3f;
 

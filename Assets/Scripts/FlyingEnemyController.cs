@@ -20,7 +20,7 @@ public class FlyingEnemyController : MonoBehaviour
     private Vector2 startPos; 
 
     [Header("--- Combat ---")]
-    public float attackRange = 4f;     // TẦM ĐÁNH XA LÊN
+    public float attackRange = 4f;     // TẦM ĐÁNH XA 
     public float attackCooldown = 2f; 
     private float attackTimer = 0f;
 
