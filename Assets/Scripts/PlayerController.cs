@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
+using System.Threading;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,6 +14,8 @@ public class PlayerController : MonoBehaviour
     // Movement 
     public float speed = 6f;
     public float jumpForce = 8f;
+    float facingDirection = 1f; // 1 = phải, -1 = trái
+    Vector2 attackDirection = Vector2.right;
 
     Rigidbody2D rigidbody2d;
     float moveX;
@@ -51,21 +55,40 @@ public class PlayerController : MonoBehaviour
 
     // Attack 
     [Header("Attack")]
+    public int baseDamage = 1;
     public Transform attackPoint;
     public float attackRadius = 0.5f;
     public LayerMask enemyLayer;
-
     bool isAttacking;
 
     // Dash
     [Header("Dash")]
-    public float dashForce = 12f;
+    public float dashForce = 13f;
     public float dashDuration = 0.2f;
-    public float dashCooldown = 1f;
-
+    public float dashCooldown = 0.5f;
     bool isDashing;
     float dashTime;
     float dashCooldownTimer;
+
+    //Item 
+    float damageMultiplier = 1f;
+    float originalSpeed;
+    int shieldHits = 0;
+    float originalJumpForce;
+
+    // Fireball
+    [Header("Fireball")]
+    public GameObject fireballPrefab;
+    public Transform firePoint;
+    public float fireCooldown = 5f;
+    float fireTimer;
+    public SkillCooldownUI skillUI;
+
+    [Header("Charge Attack")]
+    public float maxChargeTime = 2f;
+
+    [Header("Key")]
+    public bool hasKey = false;
 
     // EVENTS
     void Start()
@@ -79,8 +102,9 @@ public class PlayerController : MonoBehaviour
 
         currentHealth = maxHealth;
         respawnPoint = transform.position;
-    }
 
+        InventoryManager.Instance.items.Clear();
+    }
     void Update()
     {
         moveX = MoveAction.ReadValue<Vector2>().x;
@@ -108,7 +132,6 @@ public class PlayerController : MonoBehaviour
         if (jumpBufferCounter > 0 && coyoteTimeCounter > 0)
         {
             rigidbody2d.linearVelocity = new Vector2(rigidbody2d.linearVelocity.x, jumpForce);
-
             // reset để tránh double jump ngoài ý muốn
             jumpBufferCounter = 0;
             coyoteTimeCounter = 0;
@@ -119,15 +142,37 @@ public class PlayerController : MonoBehaviour
             dashCooldownTimer -= Time.deltaTime;
 
         if (isDashing) return;
-
         if (isAttacking)
         {
             var state = animator.GetCurrentAnimatorStateInfo(0);
-
             if (state.normalizedTime >= 1f)
             {
                 isAttacking = false;
             }
+        }
+
+        // nhấn E để tấn công
+        fireTimer -= Time.deltaTime;
+        if (Keyboard.current.eKey.wasPressedThisFrame && fireTimer <= 0)
+        {
+            FireAttack();
+            fireTimer = fireCooldown;
+        }
+
+        // flip FirePoint theo hướng player
+        Vector3 fpPos = firePoint.localPosition;
+
+        fpPos.x = Mathf.Abs(fpPos.x) * facingDirection;
+        firePoint.localPosition = fpPos;
+
+        // cập nhật hướng nhìn
+        if (moveX > 0)
+        {
+            facingDirection = 1f;
+        }
+        else if (moveX < 0)
+        {
+            facingDirection = -1f;
         }
 
         UpdateAnimator();
@@ -136,28 +181,23 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         rigidbody2d.linearVelocity = new Vector2(moveX * speed, rigidbody2d.linearVelocity.y);
-
         if (isDashing)
         {
             DashMovement();
             return; // chặn movement khác
         }
     }
-
     void OnEnable()
     {
         JumpAction.performed += OnJump;
-
         AttackAction.Enable();
         AttackAction.performed += OnAttack;
         DashAction.Enable();
         DashAction.performed += OnDash;
-
     }
     void OnDisable()
     {
         JumpAction.performed -= OnJump;
-
         AttackAction.performed -= OnAttack;
         AttackAction.Disable();
         DashAction.performed -= OnDash;
@@ -167,8 +207,7 @@ public class PlayerController : MonoBehaviour
     // METHODS
     void OnJump(InputAction.CallbackContext ctx)
     {
-        // Ghi nhận ý định nhảy
-        jumpBufferCounter = jumpBufferTime;
+        jumpBufferCounter = jumpBufferTime; // Ghi nhận ý định nhảy
     }
     void CheckGround()
     {
@@ -186,18 +225,12 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Speed", Mathf.Abs(moveX));
         animator.SetBool("IsGrounded", isGrounded);
         animator.SetFloat("VerticalVelocity", rigidbody2d.linearVelocity.y);
-        //animator.SetBool("IsMovingInput", Mathf.Abs(moveInputX) > 0.1f);
-        //if (Mathf.Abs(moveInputX) > 0.1f)
-        //{
-        //    animator.SetInteger("Facing", (int)Mathf.Sign(moveInputX));
-        //}
     }
 
     // Invincible
     void HandleInvincible()
     {
         if (!isInvincible) return;
-
         damageCooldown -= Time.deltaTime;
         if (damageCooldown < 0)
         {
@@ -210,12 +243,17 @@ public class PlayerController : MonoBehaviour
     {
         if (amount < 0)
         {
+            if (shieldHits > 0)
+            {
+                shieldHits--;
+                Debug.Log("Shield block");
+                return;
+            }
             if (isInvincible) return;
             isInvincible = true;
             damageCooldown = timeInvincible;
             animator.SetTrigger("Hit");
         }
-
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
         Debug.Log(currentHealth + "/" + maxHealth);
     }
@@ -246,26 +284,15 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetTrigger("Die");
         }
-
-        // Respawn sau 1 khoảng thời gian
-        Invoke(nameof(Respawn), 1.2f);
+        Invoke(nameof(Respawn), 1.2f); // Respawn sau 1 khoảng thời gian
     }
     void Respawn()
-    {
-        // Đưa player về điểm respawn
-        transform.position = respawnPoint;
-
-        // Bật lại physics
-        rigidbody2d.simulated = true;
-
-        // Reset trạng thái
-        isDead = false;
-
-        // Reset velocity
-        rigidbody2d.linearVelocity = Vector2.zero;
-
-        // Bật lại input
-        MoveAction.Enable();
+    { 
+        transform.position = respawnPoint; // Đưa player về điểm respawn
+        rigidbody2d.simulated = true; // Bật lại physics        
+        isDead = false; // Reset trạng thái
+        rigidbody2d.linearVelocity = Vector2.zero; // Reset velocity
+        MoveAction.Enable(); // Bật lại input
         JumpAction.Enable();
     }
     public void SetCheckpoint(Vector2 newRespawnPoint)
@@ -277,24 +304,35 @@ public class PlayerController : MonoBehaviour
     void OnAttack(InputAction.CallbackContext ctx)
     {
         if (isAttacking) return;
-
         Vector2 moveInput = MoveAction.ReadValue<Vector2>();
 
-        // đứng đất + nhấn W
+        // xác định hướng attack
+        if (moveInput.y > 0.5f)
+        {
+            attackDirection = Vector2.up;
+        }
+        else if (moveInput.y < -0.5f)
+        {
+            attackDirection = Vector2.down;
+        }
+        else
+        {
+            attackDirection = new Vector2(facingDirection, 0);
+        }
+
+        // cập nhật attackPoint 
+        attackPoint.localPosition = attackDirection * 0.5f;
+
+        // logic attack
         if (isGrounded && moveInput.y > 0.5f)
         {
             AttackUp();
         }
-
-
-        // đang trên không (có buff nhảy cao) + nhấn attack
-        if (!isGrounded && jumpForce >= 20)
+        else if (!isGrounded && jumpForce >= 20)
         {
             AttackDown();
         }
-
-        // Attack thường
-        if (isGrounded)
+        else
         {
             NormalAttack();
         }
@@ -327,7 +365,6 @@ public class PlayerController : MonoBehaviour
     }
     public void EndAttack()
     {
-        Debug.Log("EndAttack called");
         isAttacking = false;
     }
 
@@ -344,15 +381,15 @@ public class PlayerController : MonoBehaviour
 
         foreach (Collider2D hit in hits)
         {
-            EnemySystemController enemy = hit.GetComponent<EnemySystemController>();
+            EnemyPatrol enemy = hit.GetComponentInParent<EnemyPatrol>();
             if (enemy != null)
             {
-                enemy.Die();
+                int finalDamage = (int)(baseDamage * damageMultiplier);
+                enemy.TakeDamage(finalDamage);
             }
         }
     }
-
-    //
+    // Dash
     void OnDash(InputAction.CallbackContext ctx)
     {
         if (!ctx.performed) return;
@@ -362,7 +399,6 @@ public class PlayerController : MonoBehaviour
 
         StartDash();
     }
-
     void StartDash()
     {
         isDashing = true;
@@ -406,6 +442,66 @@ public class PlayerController : MonoBehaviour
         // bật lại gravity
         GetComponent<Rigidbody2D>().gravityScale = 3;
         isInvincible = false;
+    }
+
+    // Item Effects
+    public IEnumerator DamageBuff(float multiplier, float duration)
+    {
+        damageMultiplier = multiplier;
+
+        yield return new WaitForSeconds(duration);
+
+        damageMultiplier = 1f;
+    }
+    public IEnumerator SpeedBuff(float newSpeed, float duration)
+    {
+        originalSpeed = speed;
+        speed = newSpeed;
+
+        yield return new WaitForSeconds(duration);
+
+        speed = originalSpeed;
+    }
+    public void ActivateShield(int hits)
+    {
+        shieldHits = hits;
+    }
+    public IEnumerator HighJumpBuff(float newJump, float duration)
+    {
+        originalJumpForce = jumpForce;
+        jumpForce = newJump;
+
+        yield return new WaitForSeconds(duration);
+
+        jumpForce = originalJumpForce;
+    }
+    public IEnumerator FreezeEnemies(float duration)
+    {
+        EnemyPatrol[] enemies = FindObjectsOfType<EnemyPatrol>();
+
+        foreach (var e in enemies)
+            e.Freeze(true);
+
+        yield return new WaitForSeconds(duration);
+
+        foreach (var e in enemies)
+            e.Freeze(false);
+    }
+
+    // Fireball Attack
+    void FireAttack()
+    {
+        animator.SetTrigger("FireAttack");
+
+        GameObject fb = Instantiate(fireballPrefab, firePoint.position, Quaternion.identity);
+        Fireball fireball = fb.GetComponent<Fireball>();
+        if (fireball == null) return;
+        fireball.SetDirection(new Vector2(facingDirection, 0));  // hướng bay
+        fireball.SetDamageMultiplier(damageMultiplier); // truyền multiplier sang fireball
+        SpriteRenderer sr = fb.GetComponent<SpriteRenderer>(); // chỉnh sprite đúng hướng
+        sr.flipX = facingDirection > 0;
+
+        skillUI.StartCooldown(fireCooldown);
     }
 
     // DEBUG
