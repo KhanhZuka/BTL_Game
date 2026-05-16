@@ -381,7 +381,7 @@ public class PlayerController : MonoBehaviour
 
         foreach (Collider2D hit in hits)
         {
-            EnemyPatrol enemy = hit.GetComponentInParent<EnemyPatrol>();
+            EnemySystemController enemy = hit.GetComponent<EnemySystemController>();
             if (enemy != null)
             {
                 int finalDamage = (int)(baseDamage * damageMultiplier);
@@ -477,7 +477,7 @@ public class PlayerController : MonoBehaviour
     }
     public IEnumerator FreezeEnemies(float duration)
     {
-        EnemyPatrol[] enemies = FindObjectsOfType<EnemyPatrol>();
+        EnemySystemController[] enemies = Object.FindObjectsByType<EnemySystemController>(FindObjectsSortMode.None);
 
         foreach (var e in enemies)
             e.Freeze(true);
@@ -492,11 +492,15 @@ public class PlayerController : MonoBehaviour
     void FireAttack()
     {
         animator.SetTrigger("FireAttack");
-
+    }
+    public void SpawnFireball()
+    {
         GameObject fb = Instantiate(fireballPrefab, firePoint.position, Quaternion.identity);
+
         Fireball fireball = fb.GetComponent<Fireball>();
         if (fireball == null) return;
-        fireball.SetDirection(new Vector2(facingDirection, 0));  // hướng bay
+
+        fireball.SetDirection(new Vector2(facingDirection, 0));
         fireball.SetDamageMultiplier(damageMultiplier); // truyền multiplier sang fireball
         SpriteRenderer sr = fb.GetComponent<SpriteRenderer>(); // chỉnh sprite đúng hướng
         sr.flipX = facingDirection > 0;

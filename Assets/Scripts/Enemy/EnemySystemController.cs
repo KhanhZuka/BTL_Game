@@ -29,7 +29,10 @@ public abstract class EnemySystemController : MonoBehaviour
     protected bool isDead = false;
     protected bool isAlerted = false;
 
-    
+    protected bool isFrozen = false;
+    protected SpriteRenderer sprite;
+
+
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -44,11 +47,12 @@ public abstract class EnemySystemController : MonoBehaviour
             GameObject pObj = GameObject.FindGameObjectWithTag("Player");
             if (pObj != null) player = pObj.transform;
         }
+        sprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     protected virtual void Update()
     {
-        if (isDead || player == null) return;
+        if (isDead || player == null || isFrozen) return;
         attackTimer += Time.deltaTime;
 
         AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
@@ -102,6 +106,24 @@ public abstract class EnemySystemController : MonoBehaviour
     {
         // Theo logic lật hình: quái hướng sang phải thì localScale.x âm, trái thì dương
         return transform.localScale.x < 0 ? Vector2.right : Vector2.left;
+    }
+    public virtual void Freeze(bool value)
+    {
+        isFrozen = value;
+        if (isFrozen)
+        {
+            if (rb != null)
+                rb.linearVelocity = Vector2.zero;
+
+            // đổi màu cho dễ nhìn
+            if (sprite != null)
+                sprite.color = new Color(0.75f, 0.95f, 1f);
+        }
+        else
+        {
+            if (sprite != null)
+                sprite.color = Color.white;
+        }
     }
 
     protected virtual void OnDrawGizmosSelected()

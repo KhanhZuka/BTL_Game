@@ -53,7 +53,7 @@ public class InventoryManager : MonoBehaviour
 
     void ApplyItemEffect(ItemData item)
     {
-        PlayerController player = FindObjectOfType<PlayerController>();
+        PlayerController player = FindFirstObjectByType<PlayerController>();
         switch (item.itemType)
         {
             case ItemType.Damage:

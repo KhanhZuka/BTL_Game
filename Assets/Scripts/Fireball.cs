@@ -35,7 +35,7 @@ public class Fireball : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            EnemyPatrol enemy = other.gameObject.GetComponentInParent<EnemyPatrol>();
+            EnemySystemController enemy = other.gameObject.GetComponent<EnemySystemController>();
             if (enemy != null)
             {
                 int finalDamage = (int)(baseDamage * damageMultiplier);

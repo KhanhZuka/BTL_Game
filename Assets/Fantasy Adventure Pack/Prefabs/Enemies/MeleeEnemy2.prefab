@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 6092797605602194795}
   - component: {fileID: 6922933938724737515}
   - component: {fileID: 1207408289893779260}
-  - component: {fileID: 3498262734514531551}
   m_Layer: 0
   m_Name: MeleeEnemy2
   m_TagString: Untagged
@@ -190,25 +189,3 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.33410287, y: 0.38068113}
   m_EdgeRadius: 0
---- !u!114 &3498262734514531551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7715070052451558084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f87f82a178aa1874397af8c3cbd6ccc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MeleeEnemyController
-  player: {fileID: 0}
-  hp: 100
-  walkSpeed: 1.5
-  runSpeed: 4
-  detectionRange: 10
-  attackRange: 1.5
-  loseSightRange: 10
-  verticalDetectionLimit: 3
-  territoryRadius: 10
-  attackCooldown: 2

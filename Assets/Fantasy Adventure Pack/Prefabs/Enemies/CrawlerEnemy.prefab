@@ -44,11 +44,10 @@ GameObject:
   - component: {fileID: 1900813444538668844}
   - component: {fileID: 2238478113849408197}
   - component: {fileID: 8268833826921102809}
-  - component: {fileID: 3064909988833973283}
-  - component: {fileID: 301391594110583847}
+  - component: {fileID: 4195029142082231320}
   m_Layer: 8
   m_Name: CrawlerEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -63,7 +62,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.024895892, y: -0.008400541, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 0.5162}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4776617663620296999}
@@ -186,7 +185,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.006132506, y: -0.030022282}
+  m_Offset: {x: -0.0061325133, y: 0.0029982105}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -196,7 +195,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.34382087, y: 0.08432046}
+  m_Size: {x: 0.34382087, y: 0.15036143}
   m_EdgeRadius: 0
 --- !u!50 &8268833826921102809
 Rigidbody2D:
@@ -225,7 +224,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &3064909988833973283
+--- !u!114 &4195029142082231320
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -234,24 +233,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 2889701449202942340}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e7a8cc120e97da458acd96ac2eb5756, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d00ecdfacd593d42bfd799b674969ef, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyPatrol
-  moveSpeed: 1.5
-  patrolLeft: {fileID: 6677802560222574647}
-  patrolRight: {fileID: 3284293082929471917}
---- !u!114 &301391594110583847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2889701449202942340}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 320c32342d737244ca430c0e7cc79a05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyDamage
+  m_EditorClassIdentifier: Assembly-CSharp::GroundDashEnemy
+  maxHp: 100
+  moveSpeed: 1
+  chaseSpeed: 2
+  detectionRange: 10
+  attackRange: 4
+  territoryRadius: 5
+  attackCooldown: 2.5
+  player: {fileID: 0}
+  visionWidthX: 10
+  visionHeightY: 1.5
+  frontSensor: {fileID: 0}
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  wallCheckDistance: 0.5
+  cliffCheckDistance: 1
+  hasWalkAnim: 1
+  hasAttackAnim: 1
+  contactDamage: 30
+  dashSpeed: 7
+  bounceForce: 5
+  damageCooldown: 1
 --- !u!1 &3953311639922896585
 GameObject:
   m_ObjectHideFlags: 0

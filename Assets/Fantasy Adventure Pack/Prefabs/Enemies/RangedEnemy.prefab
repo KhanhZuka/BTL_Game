@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6466643869674961578}
   - component: {fileID: 6894434504892296547}
   - component: {fileID: 5713132025594091431}
-  - component: {fileID: 7080703704094398101}
   - component: {fileID: 3254882735868202659}
   - component: {fileID: 1689274865864350863}
   m_Layer: 0
@@ -117,29 +116,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7080703704094398101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3698325553627397548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e87d411852b4ff34ba47515d5643a2fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RangedEnemyController
-  player: {fileID: 0}
-  hp: 80
-  walkSpeed: 1.5
-  chaseSpeed: 2.5
-  detectionRange: 12
-  attackRange: 7
-  verticalDetectionLimit: 3
-  territoryRadius: 10
-  attackCooldown: 2.5
-  firePoint: {fileID: 6466643869674961578}
-  projectilePrefab: {fileID: 0}
 --- !u!50 &3254882735868202659
 Rigidbody2D:
   serializedVersion: 5
