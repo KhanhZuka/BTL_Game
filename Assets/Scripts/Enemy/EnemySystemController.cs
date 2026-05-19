@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Collider2D))]
 public abstract class EnemySystemController : MonoBehaviour
 {
     [Header("--- Base Stats ---")]
@@ -15,41 +15,34 @@ public abstract class EnemySystemController : MonoBehaviour
     public float attackRange = 4f;
     public float territoryRadius = 5f;
 
-    [Header("--- Combat ---")]
+    [Header("--- Combat & Contact Damage ---")]
     public float attackCooldown = 2.5f;
     protected float attackTimer = 0f;
-
-    [Header("--- References ---")]
-    public Transform player;
+    public int contactDamage = 15; // Sát thương gây ra khi Player chạm vào người quái
 
     protected Rigidbody2D rb;
     protected Animator anim;
     protected Vector2 startPos;
 
+    protected SpriteRenderer spriteRenderer;
+
     protected bool isDead = false;
     protected bool isAlerted = false;
 
-    
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        
+        spriteRenderer = GetComponent<SpriteRenderer>();
         currentHp = maxHp; 
         startPos = transform.position;
         attackTimer = attackCooldown;
 
-        if (player == null)
-        {
-            GameObject pObj = GameObject.FindGameObjectWithTag("Player2"); 
-            if (pObj == null) pObj = GameObject.FindGameObjectWithTag("Player");
-            if (pObj != null) player = pObj.transform;
-        }
     }
 
     protected virtual void Update()
     {
-        if (isDead || player == null) return;
+        if (isDead) return;
         attackTimer += Time.deltaTime;
 
         AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
@@ -90,28 +83,51 @@ public abstract class EnemySystemController : MonoBehaviour
     protected void FlipTowards(float targetPositionX)
     {
         float directionX = targetPositionX - transform.position.x;
-        Vector3 currentScale = transform.localScale;
-        
-        if (directionX > 0.1f) currentScale.x = -Mathf.Abs(currentScale.x);
-        else if (directionX < -0.1f) currentScale.x = Mathf.Abs(currentScale.x);
-        
-        transform.localScale = currentScale;
+        if (Mathf.Abs(directionX) > 0.1f)
+        {
+            spriteRenderer.flipX = directionX > 0;
+        }
     }
 
-    // --- MỚI: HÀM LẤY HƯỚNG MẶT CỦA QUÁI ---
     protected Vector2 GetFacingDirection()
     {
-        // Theo logic lật hình: quái hướng sang phải thì localScale.x âm, trái thì dương
-        return transform.localScale.x < 0 ? Vector2.right : Vector2.left;
+        return spriteRenderer.flipX ? Vector2.right : Vector2.left;
+    }
+
+    // Dùng cho trường hợp Collider của Quái và Player va chạm vật lý thông thường
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (isDead) return;
+
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            PlayerController playerStats = collision.gameObject.GetComponent<PlayerController>();
+            if (playerStats != null)
+            {
+                playerStats.ChangeHealth(-contactDamage);
+                Debug.Log($"[Va Chạm] Quái gây {contactDamage} sát thương va chạm lên Player.");
+            }
+        }
+    }
+
+    // Dùng cho trường hợp Collider của Quái hoặc Player được tích chọn "Is Trigger"
+    protected virtual void OnTriggerEnter2D(Collider2D other)
+    {
+        if (isDead) return;
+
+        if (other.CompareTag("Player"))
+        {
+            PlayerController playerStats = other.GetComponent<PlayerController>();
+            if (playerStats != null)
+            {
+                playerStats.ChangeHealth(-contactDamage);
+                Debug.Log($"[Trigger] Quái gây {contactDamage} sát thương va chạm lên Player.");
+            }
+        }
     }
 
     protected virtual void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(Application.isPlaying ? startPos : (Vector2)transform.position, territoryRadius);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        
     }
 }

@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1235367358837381818
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7153747311195069932}
+  m_Layer: 0
+  m_Name: rightShootPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7153747311195069932
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235367358837381818}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.96, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3328589850787703280}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3328589850787703283
 GameObject:
   m_ObjectHideFlags: 0
@@ -13,7 +44,8 @@ GameObject:
   - component: {fileID: 3328589850787703282}
   - component: {fileID: 3670257791707413535}
   - component: {fileID: 5211791300737097210}
-  - component: {fileID: 7692560215418526465}
+  - component: {fileID: 5684335582213190330}
+  - component: {fileID: 3347855984234166158}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -33,7 +65,9 @@ Transform:
   m_LocalPosition: {x: -0.04537469, y: -0.5009612, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6534436352971451105}
+  - {fileID: 7153747311195069932}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3328589850787703281
@@ -143,7 +177,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!70 &5211791300737097210
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -178,10 +212,10 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.02201962, y: -0.07549764}
-  m_Size: {x: 1.743381, y: 1.0198791}
+  m_Offset: {x: 0.01755809, y: -0.075497635}
+  m_Size: {x: 1.5381455, y: 1.0198822}
   m_Direction: 1
---- !u!114 &7692560215418526465
+--- !u!114 &5684335582213190330
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -190,18 +224,104 @@ MonoBehaviour:
   m_GameObject: {fileID: 3328589850787703283}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b929889c0f5b65479ec9caa99dea866, type: 3}
+  m_Script: {fileID: 11500000, guid: e4aaa36adca30e14cb3e7b6da96bdeeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossController
-  playerCollider: {fileID: 0}
-  hp: 1000
-  moveSpeed: 1
-  player: {fileID: 0}
-  chaseRange: 15
-  attackRange: 3
-  globalCooldown: 2.5
+  maxHp: 100
+  moveSpeed: 2
+  chaseSpeed: 4
+  detectionRange: 10
+  attackRange: 4
+  territoryRadius: 5
+  attackCooldown: 2.5
+  contactDamage: 30
+  playerColliders: []
   roarRange: 2.5
   rollRange: 5.5
-  rollSpeed: 20
+  rollSpeed: 12
   takeOffForceY: 8
-  takeOffSpeedX: 3
+  takeOffSpeedX: 6
+  minJumpDistance: 4
+  knockbackForceX: 1
+  knockbackForceY: 1
+  spikeBulletPrefab: {fileID: 8047999475138115499, guid: 58b5de9f6a80a2940893a5291a5953cf, type: 3}
+  leftShootPoint: {fileID: 6534436352971451105}
+  rightShootPoint: {fileID: 7153747311195069932}
+  spikeSpawnDelay: 0.4
+--- !u!61 &3347855984234166158
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3328589850787703283}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.0054183602, y: -0.05960381}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.8, y: 1.32}
+    newSize: {x: 1.8, y: 1.32}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.0305699, y: 0.8106588}
+  m_EdgeRadius: 0
+--- !u!1 &8305510629994700505
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6534436352971451105}
+  m_Layer: 0
+  m_Name: leftShootPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6534436352971451105
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8305510629994700505}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.93, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3328589850787703280}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

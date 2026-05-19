@@ -5,7 +5,10 @@ using UnityEngine;
 public class BossController : EnemySystemController
 {
     private Collider2D bossCollider;
-    public Collider2D playerCollider; 
+    
+    // Tự quản lý mục tiêu do class cha đã ẩn/xóa biến player
+    private Transform targetPlayer; 
+    public Collider2D[] playerColliders; 
     
     [Header("--- Boss Skill Ranges & Speeds ---")]
     public float roarRange = 2.5f;   
@@ -15,10 +18,9 @@ public class BossController : EnemySystemController
     [Header("--- Take Off (Jump) Settings ---")]
     public float takeOffForceY = 8f;  
     public float takeOffSpeedX = 6f; 
-    public float minJumpDistance = 4f; // KHOẢNG CÁCH TỐI THIỂU ĐỂ NHẢY
+    public float minJumpDistance = 4f; 
 
-    [Header("--- Contact & Knockback ---")]
-    public int contactDamage = 1;      // Sát thương khi chạm
+    [Header("--- Knockback ---")]
     public float knockbackForceX = 10f; 
     public float knockbackForceY = 3f;  
 
@@ -26,7 +28,7 @@ public class BossController : EnemySystemController
     public GameObject spikeBulletPrefab; 
     public Transform leftShootPoint;     
     public Transform rightShootPoint;
-    public float spikeSpawnDelay = 1.5f; // Thời gian chờ cho khớp Animation trước khi đạn vọt ra
+    public float spikeSpawnDelay = 1.5f; 
 
     private int lastAttack = -1; 
     private bool isJumping = false; 
@@ -36,30 +38,38 @@ public class BossController : EnemySystemController
         maxHp = 1000f;          
         attackCooldown = 2.5f;  
         detectionRange = 15f;   
-        attackRange = 8f;       
+        attackRange = 8f; 
+        
+        // Cài đặt sát thương khi Player vô tình chạm vào Boss
+        contactDamage = 1; 
 
         base.Start(); 
 
         bossCollider = GetComponent<Collider2D>();
 
-        if (playerCollider == null && player != null)
+        // Tự tìm Player qua Tag khi bắt đầu
+        GameObject pObj = GameObject.FindGameObjectWithTag("Player");
+        if (pObj != null)
         {
-            playerCollider = player.GetComponent<Collider2D>();
+            targetPlayer = pObj.transform;
+            playerColliders = pObj.GetComponentsInChildren<Collider2D>();
         }
-
     }
 
     protected override void Update()
     {
-        if (isDead || player == null) return;
+        if (isDead || targetPlayer == null) return;
         attackTimer += Time.deltaTime;
 
         AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
         bool isRolling = stateInfo.IsName("RollAttack");
         
-        if (bossCollider != null && playerCollider != null)
+        if (bossCollider != null && playerColliders != null)
         {
-            Physics2D.IgnoreCollision(bossCollider, playerCollider, isRolling || isJumping);
+            foreach (Collider2D pCol in playerColliders)
+            {
+                Physics2D.IgnoreCollision(bossCollider, pCol, isRolling || isJumping);
+            }
         }
 
         if (isRolling)
@@ -104,13 +114,13 @@ public class BossController : EnemySystemController
             return; 
         }
 
-        float distanceToPlayer = Vector2.Distance(player.position, transform.position);
-        float directionX = player.position.x - transform.position.x; 
+        float distanceToPlayer = Vector2.Distance(targetPlayer.position, transform.position);
+        float directionX = targetPlayer.position.x - transform.position.x; 
 
         if (distanceToPlayer <= attackRange)
         {
             StopMoving();
-            FlipTowards(player.position.x); 
+            FlipTowards(targetPlayer.position.x); 
 
             if (attackTimer >= attackCooldown)
             {
@@ -127,7 +137,7 @@ public class BossController : EnemySystemController
             float dirNormal = Mathf.Sign(directionX); 
             rb.linearVelocity = new Vector2(dirNormal * moveSpeed, rb.linearVelocity.y);
             anim.Play("Walk"); 
-            FlipTowards(player.position.x);
+            FlipTowards(targetPlayer.position.x);
         }
         else
         {
@@ -188,7 +198,7 @@ public class BossController : EnemySystemController
                 isJumping = true; 
                 anim.Play("TakeOff"); 
                 
-                float distanceX = player.position.x - transform.position.x;
+                float distanceX = targetPlayer.position.x - transform.position.x;
                 float gravity = Mathf.Abs(Physics2D.gravity.y * rb.gravityScale);
                 
                 if (gravity > 0.1f) 
@@ -218,10 +228,8 @@ public class BossController : EnemySystemController
             Vector3 trueLeftPos = transform.position + Vector3.left;
             Vector3 trueRightPos = transform.position + Vector3.right;
 
-            // Nếu đã kéo Point vào, ta sẽ so sánh tọa độ X của chúng trên thế giới
             if (leftShootPoint != null && rightShootPoint != null)
             {
-                // Điểm nào có tọa độ X nhỏ hơn thì chắc chắn nó đang nằm ở bên TRÁI màn hình
                 if (leftShootPoint.position.x < rightShootPoint.position.x)
                 {
                     trueLeftPos = leftShootPoint.position;
@@ -234,35 +242,35 @@ public class BossController : EnemySystemController
                 }
             }
 
-            // 1. VIÊN BẮN SANG TRÁI MÀN HÌNH
-            GameObject leftBullet = Instantiate(spikeBulletPrefab, trueLeftPos, Quaternion.identity);
+            // 1. VIÊN BẮN SANG TRÁI MÀN HÌNH (Góc xoay 180 độ)
+            GameObject leftBullet = Instantiate(spikeBulletPrefab, trueLeftPos, Quaternion.Euler(0, 0, 180f));
             
             FlyingBullet flyLeft = leftBullet.GetComponent<FlyingBullet>();
-            if (flyLeft != null) flyLeft.Setup(Vector2.left); // Ép bay sang Trái
+            if (flyLeft != null) flyLeft.Launch(); 
             else 
             {
                 SpearProjectile spearLeft = leftBullet.GetComponent<SpearProjectile>();
-                if (spearLeft != null) spearLeft.Setup(-1f); // Ép bay sang Trái
+                if (spearLeft != null) spearLeft.Setup(-1f); 
             }
 
-            // 2. VIÊN BẮN SANG PHẢI MÀN HÌNH
+            // 2. VIÊN BẮN SANG PHẢI MÀN HÌNH (Góc xoay 0 độ)
             GameObject rightBullet = Instantiate(spikeBulletPrefab, trueRightPos, Quaternion.identity);
             
             FlyingBullet flyRight = rightBullet.GetComponent<FlyingBullet>();
-            if (flyRight != null) flyRight.Setup(Vector2.right); // Ép bay sang Phải
+            if (flyRight != null) flyRight.Launch(); 
             else 
             {
                 SpearProjectile spearRight = rightBullet.GetComponent<SpearProjectile>();
-                if (spearRight != null) spearRight.Setup(1f); // Ép bay sang Phải
+                if (spearRight != null) spearRight.Setup(1f); 
             }
         }
     }
+    
     public override void TakeDamage(float damageAmount)
     {
         if (isDead) return;
         
         currentHp -= damageAmount;
-        attackTimer = 0f; 
         isAlerted = true; 
         
         if (currentHp <= 0) 
@@ -272,6 +280,18 @@ public class BossController : EnemySystemController
         }
         
         AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+        
+        bool isUsingHeavySkill = stateInfo.IsName("RollAttack") || 
+                                 stateInfo.IsName("RollAttackAnticipation") || 
+                                 stateInfo.IsName("RoarAnticipation") ||
+                                 stateInfo.IsName("SpikeAttackAnticipation");
+
+        if (isUsingHeavySkill)
+        {
+            return; 
+        }
+
+        attackTimer = 0f; 
         
         if (isJumping || stateInfo.IsName("TakeOff") || stateInfo.IsName("Fall"))
         {
@@ -284,37 +304,29 @@ public class BossController : EnemySystemController
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player") || other.CompareTag("Player2"))
-        {
-            PlayerController player = other.GetComponent<PlayerController>();
-            
-            if (player != null)
-            {
-                player.ChangeHealth(-contactDamage); 
-            }
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    // ĐÃ THÊM OVERRIDE: Trừ máu xong mới hất văng
+    protected override void OnCollisionEnter2D(Collision2D collision)
     {
         if (isDead) return;
 
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Player2"))
-        {
-            PlayerController playerStats = collision.gameObject.GetComponent<PlayerController>();
-            if (playerStats != null)
-            {
-                playerStats.ChangeHealth(-contactDamage);
-            }
+        // Gọi class cha để TRỪ MÁU trước (Class cha sẽ lo vụ Check "Player")
+        base.OnCollisionEnter2D(collision);
 
+        // HẤT VĂNG PLAYER NẾU BỊ ĐỤNG TRÚNG
+        if (collision.gameObject.CompareTag("Player"))
+        {
             Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
             if (playerRb != null)
             {
                 float knockbackDirX = Mathf.Sign(collision.transform.position.x - transform.position.x);
                 playerRb.linearVelocity = new Vector2(knockbackDirX * knockbackForceX, knockbackForceY);
-                rb.linearVelocity = Vector2.zero; 
+                
+                AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+                bool isRolling = stateInfo.IsName("RollAttack");
+                if (!isRolling && !isJumping)
+                {
+                    rb.linearVelocity = Vector2.zero; 
+                }
             }
         }
     }
