@@ -8,7 +8,8 @@ public class FlyingEnemy : EnemySystemController
     
     [Header("--- Flight Logic ---")]
     public float minHeightAbovePlayer = 2f; 
-
+    public float absoluteMinHeight = 1f;
+    
     private Vector2 nextWaypoint;
     private bool hasWaypoint = false;
     private float waitTimer = 0f;
@@ -37,6 +38,24 @@ public class FlyingEnemy : EnemySystemController
         {
             rb.linearVelocity = Vector2.zero; // Dừng hẳn cả X và Y
             return;
+        }
+
+        if (targetPlayer != null)
+        {
+            float limitY = targetPlayer.position.y + absoluteMinHeight;
+            
+            // Nếu lỡ bị tụt xuống thấp hơn mức cho phép (do đi tuần hoặc do Player nhảy lên)
+            if (transform.position.y < limitY)
+            {
+                // 1. Kéo vị trí Y của quái lên ngay lập tức
+                transform.position = new Vector3(transform.position.x, limitY, transform.position.z);
+                
+                // 2. Khóa lực rơi xuống (nếu có) để ảnh không bị giật
+                if (rb.linearVelocity.y < 0)
+                {
+                    rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
+                }
+            }
         }
 
         HandleAI(); 

@@ -11,6 +11,7 @@ public class FlyingShooterEnemy : FlyingEnemy
     protected override void PerformAttack()
     {
         base.PerformAttack();
+        ShootBullet();
     }
 
     public void ShootBullet()
