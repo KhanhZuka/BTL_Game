@@ -18,8 +18,7 @@ public abstract class EnemySystemController : MonoBehaviour
     [Header("--- Combat & Contact Damage ---")]
     public float attackCooldown = 2.5f;
     protected float attackTimer = 0f;
-    public int contactDamage = 15; // Sát thương gây ra khi Player chạm vào người quái
-
+    public int contactDamage = 15;
     protected Rigidbody2D rb;
     protected Animator anim;
     protected Vector2 startPos;

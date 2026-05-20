@@ -304,7 +304,6 @@ public class BossController : EnemySystemController
         }
     }
 
-    // ĐÃ THÊM OVERRIDE: Trừ máu xong mới hất văng
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
         if (isDead) return;

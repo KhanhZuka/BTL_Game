@@ -12,7 +12,7 @@ public class SpearProjectile : MonoBehaviour
     public float hitDestroyDelay = 0.5f; 
 
     private float moveDirection;
-    private bool hasHit = false; // Cờ đánh dấu xem lao đã va chạm chưa
+    private bool hasHit = false; //  đánh dấu xem lao đã va chạm chưa
     private Animator anim;
 
     void Start()
@@ -47,13 +47,12 @@ public class SpearProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        // Bỏ qua nếu: chạm vùng ảo, chạm Quái vật, hoặc cây lao ĐÃ trúng mục tiêu khác trước đó rồi
         if (hitInfo.isTrigger || hitInfo.CompareTag("Enemy") || hasHit) return; 
 
-        hasHit = true; // Kích hoạt cờ chặn di chuyển ở hàm Update
+        hasHit = true; 
 
         // Nếu trúng Player thì gây sát thương
-        if (hitInfo.CompareTag("Player") || hitInfo.CompareTag("Player2"))
+        if (hitInfo.CompareTag("Player") )
         {
             
             PlayerController playerStats = hitInfo.GetComponent<PlayerController>();

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using System.Threading;
@@ -510,13 +510,13 @@ public class PlayerController : MonoBehaviour
     {
         EnemySystemController[] enemies = Object.FindObjectsByType<EnemySystemController>(FindObjectsSortMode.None);
 
-        foreach (var e in enemies)
-            e.Freeze(true);
+        foreach (var e in enemies){}
+            //e.Freeze(true);
 
         yield return new WaitForSeconds(duration);
 
-        foreach (var e in enemies)
-            e.Freeze(false);
+        foreach (var e in enemies){}
+            //e.Freeze(false);
     }
 
     // Fireball Attack

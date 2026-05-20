@@ -30,16 +30,13 @@ public class GroundDashEnemy : GroundEnemy
     { 
     }
 
-    // ==========================================
-    // LOGIC SÁT THƯƠNG KHI CHẠM THÂN (COLLISION)
-    // ==========================================
     
     // 1. Gây sát thương ngay cú tông đầu tiên
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (isDead) return;
 
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Player2"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             DealDamage(collision.gameObject);
         }
@@ -50,7 +47,7 @@ public class GroundDashEnemy : GroundEnemy
     {
         if (isDead) return;
 
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Player2"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             damageTimer += Time.deltaTime;
             if (damageTimer >= damageCooldown)
@@ -63,14 +60,12 @@ public class GroundDashEnemy : GroundEnemy
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        // Reset timer khi người chơi thoát ra khỏi thân quái
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Player2"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             damageTimer = 0f; 
         }
     }
 
-    // Hàm xử lý trừ máu
     private void DealDamage(GameObject playerObj)
     {
         PlayerController playerStats = playerObj.GetComponent<PlayerController>();
@@ -78,13 +73,9 @@ public class GroundDashEnemy : GroundEnemy
         {
             playerStats.ChangeHealth(-contactDamage);
             
-            // (Tùy chọn) Làm con quái khựng lại và dội ngược ra sau một chút khi tông trúng tường thịt (Player)
-            // Giúp game có Game Feel tốt hơn
             float bounceDirection = transform.localScale.x < 0 ? -1f : 1f; 
             rb.linearVelocity = new Vector2(-bounceDirection * bounceForce, rb.linearVelocity.y);
-            
-            // Nếu bạn có animation "Hit" (bị dội), có thể bật ở đây:
-            // anim.SetTrigger("Hit"); 
+            anim.SetTrigger("Hit"); 
         }
     }
 }
