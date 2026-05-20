@@ -216,9 +216,6 @@ public class BossController : EnemySystemController
         }
     }
 
-    // ====================================================================
-    // XỬ LÝ ĐẠN BAY ĐÚNG HƯỚNG TRƯỚC MẶT VÀ SAU LƯNG
-    // ====================================================================
     private IEnumerator SpawnSpikesRoutine(float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
@@ -251,6 +248,7 @@ public class BossController : EnemySystemController
             {
                 SpearProjectile spearLeft = leftBullet.GetComponent<SpearProjectile>();
                 if (spearLeft != null) spearLeft.Setup(-1f); 
+                if (spearLeft != null) spearLeft.Setup(-1f); 
             }
 
             // 2. VIÊN BẮN SANG PHẢI MÀN HÌNH (Góc xoay 0 độ)
@@ -262,9 +260,11 @@ public class BossController : EnemySystemController
             {
                 SpearProjectile spearRight = rightBullet.GetComponent<SpearProjectile>();
                 if (spearRight != null) spearRight.Setup(1f); 
+                if (spearRight != null) spearRight.Setup(1f); 
             }
         }
     }
+    
     
     public override void TakeDamage(float damageAmount)
     {

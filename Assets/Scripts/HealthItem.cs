@@ -4,7 +4,6 @@ using UnityEngine;
 public class HealthItem : MonoBehaviour
 {
     public int healAmount = 1;
-
     AudioSource audioSource;
     bool picked;
     private void Awake()
@@ -19,8 +18,7 @@ public class HealthItem : MonoBehaviour
         if (player.health >= player.maxHealth)
             return;
 
-        // Phát âm thanh khi nhặt
-        if (picked) return;
+        if (picked) return; // Phát âm thanh khi nhặt
 
         picked = true;
         player.ChangeHealth(healAmount);
@@ -32,7 +30,6 @@ public class HealthItem : MonoBehaviour
 
         GetComponent<Collider2D>().enabled = false;
         GetComponent<SpriteRenderer>().enabled = false;
-
         Destroy(gameObject, audioSource.clip.length);
     }
 }

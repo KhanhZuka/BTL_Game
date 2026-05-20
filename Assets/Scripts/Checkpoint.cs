@@ -18,9 +18,7 @@ public class Checkpoint : MonoBehaviour
         if (player != null)
         {
             activated = true;
-
-            // Lưu checkpoint
-            player.SetCheckpoint(transform.position);
+            player.SetCheckpoint(transform.position); // Lưu checkpoint
 
             // Phát âm thanh
             if (audioSource != null)
@@ -28,8 +26,8 @@ public class Checkpoint : MonoBehaviour
                 audioSource.Play();
             }
 
-            // Debug
-            Debug.Log("Checkpoint activated");
+            NotificationUI.Instance.ShowMessage("Checkpoint đã được kích hoạt");
+            //Debug.Log("Checkpoint activated");
         }
     }
 }

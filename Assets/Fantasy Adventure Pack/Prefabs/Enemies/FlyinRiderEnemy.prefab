@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2833383284772698531}
   - component: {fileID: 1517022715626327487}
   - component: {fileID: 55449658630908605}
-  - component: {fileID: 5478810803227799470}
   m_Layer: 0
   m_Name: FlyinRiderEnemy
   m_TagString: Untagged
@@ -191,28 +190,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &5478810803227799470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4177612084850250945}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0835ea444d61f75439394ae33a642388, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FlyingEnemyController
-  player: {fileID: 0}
-  hp: 60
-  flySpeed: 2
-  chaseSpeed: 4
-  territoryRadius: 3
-  visionRadius: 3
-  attackRange: 3
-  attackCooldown: 2
-  firePoint: {fileID: 0}
-  projectilePrefab: {fileID: 0}
 --- !u!1 &7626350980359439292
 GameObject:
   m_ObjectHideFlags: 0
