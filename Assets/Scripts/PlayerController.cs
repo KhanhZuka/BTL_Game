@@ -36,7 +36,8 @@ public class PlayerController : MonoBehaviour
     bool isGrounded;
 
     // Health 
-    public int maxHealth = 10;
+    [Header("Health")]
+    public int maxHealth = 100;
     int currentHealth;
     public int health => currentHealth;
 
@@ -73,7 +74,7 @@ public class PlayerController : MonoBehaviour
     //Item 
     float damageMultiplier = 1f;
     float originalSpeed;
-    int shieldHits = 0;
+    bool isShieldActive = false;
     float originalJumpForce;
 
     // Fireball
@@ -243,19 +244,25 @@ public class PlayerController : MonoBehaviour
     {
         if (amount < 0)
         {
-            if (shieldHits > 0)
+            if (isShieldActive)
             {
-                shieldHits--;
                 Debug.Log("Shield block");
                 return;
             }
+
             if (isInvincible) return;
             isInvincible = true;
             damageCooldown = timeInvincible;
             animator.SetTrigger("Hit");
         }
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
-        Debug.Log(currentHealth + "/" + maxHealth);
+
+        HealthUIManager.Instance.UpdateHealth(currentHealth, maxHealth);
+        Debug.Log("Health: " + currentHealth + "/" + maxHealth);
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
     }
 
     // Death and Respawn
@@ -266,26 +273,30 @@ public class PlayerController : MonoBehaviour
             Die();
         }
     }
+
     void Die()
     {
         if (isDead) return;
         isDead = true;
 
-        // Dừng physics
+        // mất 1 mạng
+        HealthUIManager.Instance.LoseLife();
+
+    if (HealthUIManager.Instance.IsGameOver())
+        {
+            GameOver();
+            return;
+        }
+
+        // dừng physics
         rigidbody2d.linearVelocity = Vector2.zero;
         rigidbody2d.simulated = false;
 
-        // Tắt input
-        MoveAction.Disable();
-        JumpAction.Disable();
+        animator.SetTrigger("Die");
 
-        // Animation chết
-        if (animator != null)
-        {
-            animator.SetTrigger("Die");
-        }
-        Invoke(nameof(Respawn), 1.2f); // Respawn sau 1 khoảng thời gian
+        Invoke(nameof(Respawn), 1.2f);
     }
+
     void Respawn()
     { 
         transform.position = respawnPoint; // Đưa player về điểm respawn
@@ -294,10 +305,23 @@ public class PlayerController : MonoBehaviour
         rigidbody2d.linearVelocity = Vector2.zero; // Reset velocity
         MoveAction.Enable(); // Bật lại input
         JumpAction.Enable();
+        
+        // đầy máu khi sống lại
+        currentHealth = maxHealth;
+        HealthUIManager.Instance.UpdateHealth(currentHealth, maxHealth);
     }
     public void SetCheckpoint(Vector2 newRespawnPoint)
     {
         respawnPoint = newRespawnPoint;
+    }
+    void GameOver()
+    {
+        Debug.Log("GAME OVER");
+
+        // tắt player
+        rigidbody2d.simulated = false;
+
+        // SceneManager.LoadScene(SceneManager.GetActiveScene().name); // load scene lại
     }
 
     // ATTACK 
@@ -462,10 +486,15 @@ public class PlayerController : MonoBehaviour
 
         speed = originalSpeed;
     }
-    public void ActivateShield(int hits)
+    public IEnumerator ShieldBuff(float duration)
     {
-        shieldHits = hits;
+        isShieldActive = true;
+
+        yield return new WaitForSeconds(duration);
+
+        isShieldActive = false;
     }
+
     public IEnumerator HighJumpBuff(float newJump, float duration)
     {
         originalJumpForce = jumpForce;

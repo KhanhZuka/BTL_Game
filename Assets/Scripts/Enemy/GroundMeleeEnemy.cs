@@ -25,7 +25,7 @@ public class GroundMeleeEnemy : GroundEnemy
 
             foreach (Collider2D p in hitPlayers)
             {
-                if (p.CompareTag("Player") || p.CompareTag("Player2"))
+                if (p.CompareTag("Player") )
                 {
                     PlayerController stats = p.GetComponent<PlayerController>();
                     if (stats != null)

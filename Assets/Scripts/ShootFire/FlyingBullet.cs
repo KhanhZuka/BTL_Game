@@ -36,7 +36,7 @@ public class FlyingBullet : MonoBehaviour
         if (hitInfo.isTrigger || hitInfo.CompareTag("Enemy")) return; 
 
         // 2. Kiểm tra nếu chạm trúng Player
-        if (hitInfo.CompareTag("Player") || hitInfo.CompareTag("Player2"))
+        if (hitInfo.CompareTag("Player"))
         {
             PlayerController playerStats = hitInfo.GetComponent<PlayerController>();
             if (playerStats != null)
@@ -58,7 +58,7 @@ public class FlyingBullet : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy")) return;
 
         // Gây sát thương nếu va chạm Player
-        if (collision.gameObject.CompareTag("Player2"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             
             PlayerController playerStats = collision.gameObject.GetComponent<PlayerController>();

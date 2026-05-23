@@ -39,7 +39,7 @@ public class GroundDashEnemy : GroundEnemy
     {
         if (isDead) return;
 
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Player2"))
+        if (collision.gameObject.CompareTag("Player") )
         {
             DealDamage(collision.gameObject);
         }
@@ -50,7 +50,7 @@ public class GroundDashEnemy : GroundEnemy
     {
         if (isDead) return;
 
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Player2"))
+        if (collision.gameObject.CompareTag("Player") )
         {
             damageTimer += Time.deltaTime;
             if (damageTimer >= damageCooldown)
@@ -64,7 +64,7 @@ public class GroundDashEnemy : GroundEnemy
     private void OnCollisionExit2D(Collision2D collision)
     {
         // Reset timer khi người chơi thoát ra khỏi thân quái
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Player2"))
+        if (collision.gameObject.CompareTag("Player") )
         {
             damageTimer = 0f; 
         }
