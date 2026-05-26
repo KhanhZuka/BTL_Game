@@ -51,8 +51,8 @@ public class SpearProjectile : MonoBehaviour
 
         hasHit = true; 
 
-        // Nếu trúng Player thì gây sát thương
-        if (hitInfo.CompareTag("Player") )
+
+        if (hitInfo.CompareTag("Player"))
         {
             
             PlayerController playerStats = hitInfo.GetComponent<PlayerController>();

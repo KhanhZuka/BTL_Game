@@ -63,15 +63,15 @@ public class InventoryManager : MonoBehaviour
                 break;
 
             case ItemType.Speed:
-                Debug.Log("Buff Speed lên 10 trong 15s");
-                player.StartCoroutine(player.SpeedBuff(10f, 15f));
+                Debug.Log("Buff Speed x2 trong 15s");
+                player.StartCoroutine(player.SpeedBuff(12f, 15f));
                 BuffUIManager.Instance.AddBuff(item, 15f);
                 break;
 
             case ItemType.Shield:
-                Debug.Log("Kích hoạt Shield 5 hit");
-                player.ActivateShield(5);
-                BuffUIManager.Instance.AddBuff(item, 5);
+                Debug.Log("Kích hoạt Shield trong 15s");
+                player.StartCoroutine(player.ShieldBuff(15f));
+                BuffUIManager.Instance.AddBuff(item, 15f);
                 break;
 
             case ItemType.HighJump:

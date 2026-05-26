@@ -38,6 +38,7 @@ public class FlyingBullet : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy")) return;
 
+
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerController playerStats = collision.gameObject.GetComponent<PlayerController>();
