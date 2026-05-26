@@ -13,9 +13,11 @@ GameObject:
   - component: {fileID: 5713132025594091431}
   - component: {fileID: 3254882735868202659}
   - component: {fileID: 1689274865864350863}
+  - component: {fileID: 367447614193904155}
+  - component: {fileID: 8019719656382870488}
   m_Layer: 0
   m_Name: RangedEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30,9 +32,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.031199057, y: -0.120769806, z: 0}
-  m_LocalScale: {x: 2.6758473, y: 3.2326543, z: 1.8244}
+  m_LocalScale: {x: 2, y: 2.2, z: 1.2597482}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4890972630351919078}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6894434504892296547
@@ -82,7 +85,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_MaskInteraction: 0
   m_Sprite: {fileID: 6560118851622837573, guid: fcdaec5d79eaf224ba24828f251fd061, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -189,3 +192,83 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.4717953, y: 0.38788486}
   m_EdgeRadius: 0
+--- !u!111 &367447614193904155
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3698325553627397548}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
+--- !u!114 &8019719656382870488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3698325553627397548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8720b496be2a24b8519ee1c94f433e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GroundSpearEnemy
+  maxHp: 100
+  moveSpeed: 2
+  chaseSpeed: 4
+  detectionRange: 10
+  attackRange: 4
+  territoryRadius: 5
+  attackCooldown: 2.5
+  player: {fileID: 0}
+  visionWidthX: 10
+  visionHeightY: 1
+  frontSensor: {fileID: 0}
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  wallCheckDistance: 0.5
+  cliffCheckDistance: 1
+  hasWalkAnim: 1
+  hasAttackAnim: 1
+  throwRange: 7
+  firePoint: {fileID: 4890972630351919078}
+  spearPrefab: {fileID: 991299680461333334, guid: 605fb2c5d35dfdc4ea95a89210e20b45, type: 3}
+--- !u!1 &5350673016650912995
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4890972630351919078}
+  m_Layer: 0
+  m_Name: FirePoint_Pos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4890972630351919078
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5350673016650912995}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.185, y: 0.058, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6466643869674961578}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -53,7 +53,7 @@ public class SpearProjectile : MonoBehaviour
         hasHit = true; // Kích hoạt cờ chặn di chuyển ở hàm Update
 
         // Nếu trúng Player thì gây sát thương
-        if (hitInfo.CompareTag("Player") || hitInfo.CompareTag("Player2"))
+        if (hitInfo.CompareTag("Player"))
         {
             
             PlayerController playerStats = hitInfo.GetComponent<PlayerController>();
