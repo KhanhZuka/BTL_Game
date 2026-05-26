@@ -3,7 +3,6 @@ using UnityEngine;
 public class GroundDashEnemy : GroundEnemy
 {
     [Header("--- Dash & Contact Setup ---")]
-    public int contactDamage = 30; // Sát thương khi tông trúng
     public float dashSpeed = 7f;   // Tốc độ lao vào (Nên set cao hơn Chase Speed bình thường)
     
     [Tooltip("Lực dội ngược lại của con quái khi nó tông trúng bạn (tạo cảm giác va chạm mạnh)")]
@@ -15,6 +14,8 @@ public class GroundDashEnemy : GroundEnemy
     protected override void Start()
     {
         maxHp = 100f; // Máu trung bình
+        contactDamage = 30; // Sát thương khi tông trúng
+
         base.Start();
         
         chaseSpeed = dashSpeed; 
