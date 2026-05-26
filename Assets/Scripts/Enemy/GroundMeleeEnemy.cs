@@ -1,51 +1,88 @@
+using System.Collections; // Bắt buộc phải có dòng này để dùng Coroutine
 using UnityEngine;
 
 public class GroundMeleeEnemy : GroundEnemy
 {
-    [Header("--- Melee Setup ---")]
-    public Transform attackPoint;    // Điểm đánh (Tạo 1 object trống đặt ở trước mặt quái)
-    public float meleeHitRadius = 0.8f; // Bán kính đòn đánh
-    public int meleeDamage = 25;     // Sát thương cận chiến
-    public LayerMask playerLayer;    // Chọn Layer của Player để đánh không bị nhầm vào quái khác
+    [Header("--- Frontal Melee Setup ---")]
+    public Vector2 attackHitboxSize = new Vector2(1.5f, 2f); 
+    public Vector2 attackHitboxOffset = new Vector2(1f, 0f); 
+    public int meleeDamage = 25;     
+    
+    [Header("--- Hit Effects & Timing ---")]
+    public GameObject hitEffectPrefab; 
+    
+    
+    public float damageDelay = 0.05f; 
 
     protected override void Start()
     {
-        maxHp = 200f; // Quái cận chiến thường trâu bò hơn
+        maxHp = 200f; 
         base.Start();
+        contactDamage = 10; 
+
+        // Ép tầm đánh bằng khoảng cách Hitbox
+        attackRange = attackHitboxOffset.x + (attackHitboxSize.x / 2f) - 0.2f; 
     }
 
     protected override void PerformAttack()
     {
         base.PerformAttack();
         
-        if (attackPoint != null)
-        {
-            // Tạo một vòng tròn sát thương ở vị trí attackPoint
-            Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(attackPoint.position, meleeHitRadius, playerLayer);
+        // Khởi động luồng đếm thời gian song song với Animation
+        StartCoroutine(CalculateDamageDelay());
+    }
 
-            foreach (Collider2D p in hitPlayers)
+    // Coroutine: Chủ động tính toán thời gian chạy
+    private IEnumerator CalculateDamageDelay()
+    {
+        // 1. Đợi đúng 1 khoảng thời gian damageDelay
+        yield return new WaitForSeconds(damageDelay);
+
+        // 2. Gây sát thương sau khi đã đợi xong
+        DealDamage();
+    }
+
+    public void DealDamage()
+    {
+        if (isDead || targetPlayer == null || !targetPlayer.CompareTag("Player")) return;
+
+        float facingDirX = GetFacingDirection().x;
+        Vector2 hitboxCenter = (Vector2)transform.position + new Vector2(attackHitboxOffset.x * facingDirX, attackHitboxOffset.y);
+        Vector2 playerPos = targetPlayer.position;
+
+        bool isInHitboxX = Mathf.Abs(playerPos.x - hitboxCenter.x) <= (attackHitboxSize.x / 2f);
+        bool isInHitboxY = Mathf.Abs(playerPos.y - hitboxCenter.y) <= (attackHitboxSize.y / 2f);
+
+        if (isInHitboxX && isInHitboxY)
+        {
+            PlayerController stats = targetPlayer.GetComponent<PlayerController>();
+            if (stats != null)
             {
-                if (p.CompareTag("Player") )
+                stats.ChangeHealth(-meleeDamage);
+
+                if (hitEffectPrefab != null)
                 {
-                    PlayerController stats = p.GetComponent<PlayerController>();
-                    if (stats != null)
-                    {
-                        stats.ChangeHealth(-meleeDamage);
-                    }
+                    GameObject effect = Instantiate(hitEffectPrefab, targetPlayer.position, Quaternion.identity);
+                    Destroy(effect, 1f); 
                 }
             }
         }
     }
 
-    // Vẽ thêm vòng tròn đòn đánh cận chiến ra màn hình Editor để bạn dễ căn chỉnh độ to nhỏ
     protected override void OnDrawGizmosSelected()
     {
         base.OnDrawGizmosSelected();
 
-        if (attackPoint != null)
-        {
-            Gizmos.color = Color.white;
-            Gizmos.DrawWireSphere(attackPoint.position, meleeHitRadius);
-        }
+        float facingDirX = Application.isPlaying && spriteRenderer != null ? GetFacingDirection().x : (transform.localScale.x < 0 ? -1f : 1f);
+        Vector2 hitboxCenter = (Vector2)transform.position + new Vector2(attackHitboxOffset.x * facingDirX, attackHitboxOffset.y);
+
+        Gizmos.color = new Color(1f, 0.5f, 0f, 0.5f); 
+        Gizmos.DrawCube(hitboxCenter, attackHitboxSize);
+        Gizmos.color = Color.red; 
+        Gizmos.DrawWireCube(hitboxCenter, attackHitboxSize);
+
+        Gizmos.color = Color.blue;
+        float range = attackHitboxOffset.x + (attackHitboxSize.x / 2f) - 0.2f;
+        Gizmos.DrawWireSphere(transform.position, range);
     }
 }

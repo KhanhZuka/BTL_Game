@@ -129,9 +129,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0a6d5806f49c5446b37f65599331344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlyingBullet
-  speed: 1
+  speed: 2
   damage: 15
   lifetime: 3
+  offsetAngle: 180
 --- !u!50 &338177347619008689
 Rigidbody2D:
   serializedVersion: 5
@@ -189,7 +190,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

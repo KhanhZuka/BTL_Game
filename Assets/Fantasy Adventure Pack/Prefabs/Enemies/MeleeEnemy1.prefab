@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 3382691352273817378}
   - component: {fileID: 7933219980063819777}
   - component: {fileID: 8577103534526123161}
-  - component: {fileID: 7614063980015497735}
+  - component: {fileID: 4682912040497323894}
   m_Layer: 0
   m_Name: MeleeEnemy1
+  m_TagString: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,6 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.8069402, y: -0.19197798, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 2.4338193}
   m_LocalScale: {x: 1.5, y: 1.5, z: 2.4338193}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -144,6 +146,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+  m_Constraints: 4
 --- !u!61 &8577103534526123161
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -190,7 +193,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.33039993, y: 0.3640579}
   m_EdgeRadius: 0
---- !u!114 &7614063980015497735
+--- !u!114 &4682912040497323894
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -206,12 +209,12 @@ MonoBehaviour:
   moveSpeed: 2
   chaseSpeed: 4
   detectionRange: 10
-  attackRange: 1
+  attackRange: 4
   territoryRadius: 5
   attackCooldown: 2.5
-  player: {fileID: 0}
+  contactDamage: 15
   visionWidthX: 10
-  visionHeightY: 1
+  visionHeightY: 1.5
   frontSensor: {fileID: 0}
   obstacleLayer:
     serializedVersion: 2
@@ -220,9 +223,8 @@ MonoBehaviour:
   cliffCheckDistance: 1
   hasWalkAnim: 1
   hasAttackAnim: 1
-  attackPoint: {fileID: 0}
-  meleeHitRadius: 0.8
+  attackHitboxSize: {x: 1.5, y: 2}
+  attackHitboxOffset: {x: 1, y: 0}
   meleeDamage: 25
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 0
+  hitEffectPrefab: {fileID: 0}
+  damageDelay: 0.3
