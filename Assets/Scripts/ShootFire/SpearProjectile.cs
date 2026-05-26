@@ -57,14 +57,11 @@ public class SpearProjectile : MonoBehaviour
             
             PlayerController playerStats = hitInfo.GetComponent<PlayerController>();
             if (playerStats != null) playerStats.ChangeHealth(-damage);
+            Debug.Log("Spear hit the player for " + damage + " damage!");
             
+            anim.SetTrigger("Collider"); Destroy(gameObject); 
         }
 
-        // 1. Chạy Animation nổ/vỡ
-        if (anim != null) 
-        {
-            anim.SetTrigger("Collider"); 
-        }
 
         // 2. Tắt Collider2D ngay lập tức để cây lao không bị va chạm lặp đi lặp lại khi đang chạy Animation
         Collider2D col = GetComponent<Collider2D>();

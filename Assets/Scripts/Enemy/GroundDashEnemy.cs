@@ -38,6 +38,7 @@ public class GroundDashEnemy : GroundEnemy
         if (isDead) return;
 
         if (collision.gameObject.CompareTag("Player"))
+
         {
             DealDamage(collision.gameObject);
         }
@@ -48,7 +49,7 @@ public class GroundDashEnemy : GroundEnemy
     {
         if (isDead) return;
 
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") )
         {
             damageTimer += Time.deltaTime;
             if (damageTimer >= damageCooldown)
