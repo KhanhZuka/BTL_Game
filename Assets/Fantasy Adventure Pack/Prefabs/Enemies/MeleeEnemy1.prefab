@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 3382691352273817378}
   - component: {fileID: 7933219980063819777}
   - component: {fileID: 8577103534526123161}
+  - component: {fileID: 7614063980015497735}
   m_Layer: 0
   m_Name: MeleeEnemy1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.8069402, y: -0.19197798, z: 0}
-  m_LocalScale: {x: 2.4338193, y: 2.4338193, z: 2.4338193}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 2.4338193}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -82,7 +83,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_MaskInteraction: 0
   m_Sprite: {fileID: 2160576871936234061, guid: 3fb20808cf8c56448aa4658524d3208e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -142,7 +143,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &8577103534526123161
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -189,3 +190,39 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.33039993, y: 0.3640579}
   m_EdgeRadius: 0
+--- !u!114 &7614063980015497735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3382691352273817379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 436ad07a6af272b4c9b4caabce81d3e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GroundMeleeEnemy
+  maxHp: 100
+  moveSpeed: 2
+  chaseSpeed: 4
+  detectionRange: 10
+  attackRange: 1
+  territoryRadius: 5
+  attackCooldown: 2.5
+  player: {fileID: 0}
+  visionWidthX: 10
+  visionHeightY: 1
+  frontSensor: {fileID: 0}
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  wallCheckDistance: 0.5
+  cliffCheckDistance: 1
+  hasWalkAnim: 1
+  hasAttackAnim: 1
+  attackPoint: {fileID: 0}
+  meleeHitRadius: 0.8
+  meleeDamage: 25
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0

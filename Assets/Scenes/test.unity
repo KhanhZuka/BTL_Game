@@ -243,22 +243,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: RangedEnemy
       objectReference: {fileID: 0}
-    - target: {fileID: 3698325553627397548, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
-      propertyPath: m_TagString
-      value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 6466643869674961578, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6466643869674961578, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6466643869674961578, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.2597482
-      objectReference: {fileID: 0}
     - target: {fileID: 6466643869674961578, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.28
@@ -299,92 +283,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7080703704094398101, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7080703704094398101, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
-      propertyPath: firePoint
-      value: 
-      objectReference: {fileID: 1873588523}
-    - target: {fileID: 7080703704094398101, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
-      propertyPath: projectilePrefab
-      value: 
-      objectReference: {fileID: 991299680461333334, guid: 605fb2c5d35dfdc4ea95a89210e20b45, type: 3}
-    m_RemovedComponents:
-    - {fileID: 7080703704094398101, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 6466643869674961578, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1873588523}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3698325553627397548, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 217340695}
-    - targetCorrespondingSourceObject: {fileID: 3698325553627397548, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 217340701}
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
---- !u!1 &217340693 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3698325553627397548, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
-  m_PrefabInstance: {fileID: 217340692}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &217340694 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6466643869674961578, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
-  m_PrefabInstance: {fileID: 217340692}
-  m_PrefabAsset: {fileID: 0}
---- !u!111 &217340695
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 217340693}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_UpdateMode: 0
-  m_CullingType: 0
---- !u!114 &217340701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 217340693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc8720b496be2a24b8519ee1c94f433e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GroundSpearEnemy
-  maxHp: 100
-  moveSpeed: 2
-  chaseSpeed: 4
-  detectionRange: 10
-  attackRange: 4
-  territoryRadius: 5
-  attackCooldown: 2.5
-  player: {fileID: 0}
-  visionWidthX: 10
-  visionHeightY: 1
-  frontSensor: {fileID: 0}
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  wallCheckDistance: 0.5
-  cliffCheckDistance: 1
-  hasWalkAnim: 1
-  hasAttackAnim: 1
-  throwRange: 7
-  firePoint: {fileID: 1873588523}
-  spearPrefab: {fileID: 991299680461333334, guid: 605fb2c5d35dfdc4ea95a89210e20b45, type: 3}
 --- !u!1 &315639272 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3328589850787703283, guid: b27f59943b95baf47b94052f3bb8436a, type: 3}
@@ -536,47 +439,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efa3bc66faa334c45aac325e53bcc28b, type: 3}
---- !u!1 &446790194 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7715070052451558084, guid: d86a9b8076fda084aae6e1292581d76d, type: 3}
-  m_PrefabInstance: {fileID: 857710348}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &446790201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 446790194}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 436ad07a6af272b4c9b4caabce81d3e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GroundMeleeEnemy
-  maxHp: 100
-  moveSpeed: 2
-  chaseSpeed: 4
-  detectionRange: 10
-  attackRange: 4
-  territoryRadius: 5
-  attackCooldown: 2.5
-  player: {fileID: 0}
-  visionWidthX: 10
-  visionHeightY: 1
-  frontSensor: {fileID: 0}
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  wallCheckDistance: 0.5
-  cliffCheckDistance: 1
-  hasWalkAnim: 1
-  hasAttackAnim: 1
-  attackPoint: {fileID: 0}
-  meleeHitRadius: 0.8
-  meleeDamage: 25
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!1001 &473304424
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1084,29 +946,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3498262734514531551, guid: d86a9b8076fda084aae6e1292581d76d, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3498262734514531551, guid: d86a9b8076fda084aae6e1292581d76d, type: 3}
-      propertyPath: attackRange
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3498262734514531551, guid: d86a9b8076fda084aae6e1292581d76d, type: 3}
-      propertyPath: detectionRange
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 7715070052451558084, guid: d86a9b8076fda084aae6e1292581d76d, type: 3}
       propertyPath: m_Name
       value: MeleeEnemy2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8862870405380880225, guid: d86a9b8076fda084aae6e1292581d76d, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8862870405380880225, guid: d86a9b8076fda084aae6e1292581d76d, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8862870405380880225, guid: d86a9b8076fda084aae6e1292581d76d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1148,14 +990,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3498262734514531551, guid: d86a9b8076fda084aae6e1292581d76d, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7715070052451558084, guid: d86a9b8076fda084aae6e1292581d76d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 446790201}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d86a9b8076fda084aae6e1292581d76d, type: 3}
 --- !u!1001 &887669317
 PrefabInstance:
@@ -1165,42 +1003,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 51974541074658516, guid: 9ca2c7637ab52184c975f6f474ddd905, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 51974541074658516, guid: 9ca2c7637ab52184c975f6f474ddd905, type: 3}
-      propertyPath: runSpeed
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 51974541074658516, guid: 9ca2c7637ab52184c975f6f474ddd905, type: 3}
-      propertyPath: attackRange
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 51974541074658516, guid: 9ca2c7637ab52184c975f6f474ddd905, type: 3}
-      propertyPath: detectionRange
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 51974541074658516, guid: 9ca2c7637ab52184c975f6f474ddd905, type: 3}
-      propertyPath: loseSightRange
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 51974541074658516, guid: 9ca2c7637ab52184c975f6f474ddd905, type: 3}
-      propertyPath: territoryRadius
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 51974541074658516, guid: 9ca2c7637ab52184c975f6f474ddd905, type: 3}
-      propertyPath: verticalDetectionLimit
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3382691352273817376, guid: 9ca2c7637ab52184c975f6f474ddd905, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3382691352273817376, guid: 9ca2c7637ab52184c975f6f474ddd905, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.5
-      objectReference: {fileID: 0}
     - target: {fileID: 3382691352273817376, guid: 9ca2c7637ab52184c975f6f474ddd905, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.83
@@ -1241,72 +1043,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3382691352273817377, guid: 9ca2c7637ab52184c975f6f474ddd905, type: 3}
-      propertyPath: m_FlipX
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3382691352273817377, guid: 9ca2c7637ab52184c975f6f474ddd905, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3382691352273817379, guid: 9ca2c7637ab52184c975f6f474ddd905, type: 3}
       propertyPath: m_Name
       value: MeleeEnemy1
       objectReference: {fileID: 0}
-    - target: {fileID: 7933219980063819777, guid: 9ca2c7637ab52184c975f6f474ddd905, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 51974541074658516, guid: 9ca2c7637ab52184c975f6f474ddd905, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3382691352273817379, guid: 9ca2c7637ab52184c975f6f474ddd905, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 954247901}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ca2c7637ab52184c975f6f474ddd905, type: 3}
---- !u!1 &954247888 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3382691352273817379, guid: 9ca2c7637ab52184c975f6f474ddd905, type: 3}
-  m_PrefabInstance: {fileID: 887669317}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &954247901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 954247888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 436ad07a6af272b4c9b4caabce81d3e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GroundMeleeEnemy
-  maxHp: 100
-  moveSpeed: 2
-  chaseSpeed: 4
-  detectionRange: 10
-  attackRange: 1
-  territoryRadius: 5
-  attackCooldown: 2.5
-  player: {fileID: 0}
-  visionWidthX: 10
-  visionHeightY: 1
-  frontSensor: {fileID: 0}
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  wallCheckDistance: 0.5
-  cliffCheckDistance: 1
-  hasWalkAnim: 1
-  hasAttackAnim: 1
-  attackPoint: {fileID: 0}
-  meleeHitRadius: 0.8
-  meleeDamage: 25
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!1001 &1222307105
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2737,37 +2482,6 @@ MonoBehaviour:
   triggerRangeY: 2
   triggerWidthX: 1
   attackCooldown: 2
---- !u!1 &1873588522
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1873588523}
-  m_Layer: 0
-  m_Name: FirePoint_Pos
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1873588523
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1873588522}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.185, y: 0.058, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 217340694}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1886359490 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7364167800095414055, guid: b86ae87faa8697a41885ef7bcd9022d3, type: 3}
@@ -2904,6 +2618,7 @@ MonoBehaviour:
     m_Bits: 64
   maxHealth: 5
   timeInvincible: 1
+  baseDamage: 1
   attackPoint: {fileID: 203523767}
   attackRadius: 0.5
   enemyLayer:
@@ -2912,6 +2627,12 @@ MonoBehaviour:
   dashForce: 12
   dashDuration: 0.2
   dashCooldown: 1
+  fireballPrefab: {fileID: 0}
+  firePoint: {fileID: 0}
+  fireCooldown: 5
+  skillUI: {fileID: 0}
+  maxChargeTime: 2
+  hasKey: 0
 --- !u!70 &1886359492
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
