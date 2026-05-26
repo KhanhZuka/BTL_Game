@@ -246,38 +246,30 @@ MonoBehaviour:
     m_Flags: 0
   speed: 6
   jumpForce: 20
-  rigidbody2d: {fileID: 0}
-  moveX: 0
-  moveInputX: 0
   coyoteTime: 0.15
   jumpBufferTime: 0.15
-  coyoteTimeCounter: 0
-  jumpBufferCounter: 0
   groundCheck: {fileID: 665944261}
   groundCheckRadius: 0.2
   groundLayer:
+    serializedVersion: 2
     m_Bits: 64
-  isGrounded: 0
   maxHealth: 5
-  currentHealth: 0
   timeInvincible: 1
-  isInvincible: 0
-  damageCooldown: 0
-  animator: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  isDead: 0
-  respawnPoint: {x: 0, y: 0}
+  baseDamage: 1
   attackPoint: {fileID: 429959942}
   attackRadius: 0.5
   enemyLayer:
+    serializedVersion: 2
     m_Bits: 256
-  isAttacking: 0
   dashForce: 12
   dashDuration: 0.2
   dashCooldown: 1
-  isDashing: 0
-  dashTime: 0
-  dashCooldownTimer: 0
+  fireballPrefab: {fileID: 2126981077023142667, guid: 080c845e00ed2bb438d04650b541adee, type: 3}
+  firePoint: {fileID: 1212044440}
+  fireCooldown: 5
+  skillUI: {fileID: 0}
+  maxChargeTime: 2
+  hasKey: 0
 --- !u!70 &41562718
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -461,8 +453,6 @@ MonoBehaviour:
   clampY: 1
   minY: -2
   maxY: 5
-  velocity: {x: 0, y: 0, z: 0}
-  currentLookAhead: 0
 --- !u!114 &382639523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,7 +858,7 @@ SpriteRenderer:
   m_Size: {x: 7.99, y: 8.69}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!4 &721703511
 Transform:
@@ -899,7 +889,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Portal
   sceneName: Level_1
-  playerInRange: 0
+  teleportPoint: {fileID: 0}
 --- !u!61 &721703513
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1101,6 +1091,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aee6d1868044e5d40a5e61b24f3b521f, type: 3}
+--- !u!4 &1212044440 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6442591835577700929, guid: b86ae87faa8697a41885ef7bcd9022d3, type: 3}
+  m_PrefabInstance: {fileID: 529823641}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1232195815
 GameObject:
   m_ObjectHideFlags: 0
@@ -1489,7 +1484,7 @@ SpriteRenderer:
   m_Size: {x: 2.92, y: 4.55}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!1 &1832457114 stripped
 GameObject:
@@ -1554,8 +1549,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c49e671f169b9848848951696dc4a05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  activated: 0
-  audioSource: {fileID: 0}
 --- !u!82 &1832457119
 AudioSource:
   m_ObjectHideFlags: 0
