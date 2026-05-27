@@ -1595,14 +1595,6 @@ PrefabInstance:
       value: FR_Breath_0
       objectReference: {fileID: 0}
     - target: {fileID: 2095207251768464404, guid: bf29e80fd1c64c84c8526436fa24c106, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 3.4203222
-      objectReference: {fileID: 0}
-    - target: {fileID: 2095207251768464404, guid: bf29e80fd1c64c84c8526436fa24c106, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 3.6728745
-      objectReference: {fileID: 0}
-    - target: {fileID: 2095207251768464404, guid: bf29e80fd1c64c84c8526436fa24c106, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.9488
       objectReference: {fileID: 0}
