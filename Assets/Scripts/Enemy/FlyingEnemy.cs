@@ -10,6 +10,10 @@ public class FlyingEnemy : EnemySystemController
     public float minHeightAbovePlayer = 2f; 
     public float absoluteMinHeight = 1f;
     
+    // --- CÁC BIẾN MỚI CHO LOGIC BAY LÊN MƯỢT MÀ ---
+    public float heightReactionTime = 3.5f; // Thời gian mất bao lâu để bay lên (giây)
+    private float currentVelocityY = 0f;    // Biến tham chiếu nội bộ cho SmoothDamp
+    
     private Vector2 nextWaypoint;
     private bool hasWaypoint = false;
     private float waitTimer = 0f;
@@ -47,8 +51,9 @@ public class FlyingEnemy : EnemySystemController
             // Nếu lỡ bị tụt xuống thấp hơn mức cho phép (do đi tuần hoặc do Player nhảy lên)
             if (transform.position.y < limitY)
             {
-                // 1. Kéo vị trí Y của quái lên ngay lập tức
-                transform.position = new Vector3(transform.position.x, limitY, transform.position.z);
+                // 1. Kéo vị trí Y của quái lên từ từ và mượt mà bằng SmoothDamp
+                float smoothY = Mathf.SmoothDamp(transform.position.y, limitY, ref currentVelocityY, heightReactionTime);
+                transform.position = new Vector3(transform.position.x, smoothY, transform.position.z);
                 
                 // 2. Khóa lực rơi xuống (nếu có) để ảnh không bị giật
                 if (rb.linearVelocity.y < 0)

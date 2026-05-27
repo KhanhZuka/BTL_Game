@@ -59,10 +59,22 @@ public abstract class EnemySystemController : MonoBehaviour
     public virtual void TakeDamage(float amount)
     {
         if (isDead) return;
-        currentHp -= amount;
+
+        currentHp = Mathf.Clamp(currentHp - amount, 0, maxHp);
+
         isAlerted = true; 
-        if (currentHp <= 0) Die();
-        else anim.Play("Hit");
+        
+        
+
+        if (currentHp <= 0)
+        {
+            Die();
+        }
+        else
+        {
+            Debug.Log($"[{gameObject.name}] Bị chém mất {amount} máu! Máu còn: {currentHp}/{maxHp}");
+            anim.Play("Hit");
+        }
     }
 
     public virtual void Die()
@@ -107,6 +119,12 @@ public abstract class EnemySystemController : MonoBehaviour
                 Debug.Log($"[Va Chạm] Quái gây {contactDamage} sát thương va chạm lên Player.");
             }
         }
+
+        if (collision.gameObject.CompareTag("Fireball"))
+        {
+            TakeDamage(20f); 
+            anim.Play("Hit");
+        }
     }
 
     // Dùng cho trường hợp Collider của Quái hoặc Player được tích chọn "Is Trigger"
@@ -124,6 +142,8 @@ public abstract class EnemySystemController : MonoBehaviour
             }
         }
     }
+
+ 
 
     protected virtual void OnDrawGizmosSelected()
     {

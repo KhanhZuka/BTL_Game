@@ -8,6 +8,8 @@ TagManager:
   - Checkpoint
   - Enemy
   - Ground
+  - Fireball
+  - AttackPoint
   layers:
   - Default
   - TransparentFX

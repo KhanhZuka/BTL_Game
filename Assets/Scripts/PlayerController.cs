@@ -421,6 +421,7 @@ public class PlayerController : MonoBehaviour
     public void DealDamage()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, enemyLayer);
+        
 
         foreach (Collider2D hit in hits)
         {
