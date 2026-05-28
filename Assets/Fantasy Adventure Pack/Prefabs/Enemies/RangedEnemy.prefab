@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1689274865864350863}
   - component: {fileID: 367447614193904155}
   - component: {fileID: 8019719656382870488}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RangedEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.031199057, y: -0.120769806, z: 0}
-  m_LocalScale: {x: 2, y: 2.2, z: 1.2597482}
+  m_LocalScale: {x: 2.5142, y: 2.7629802, z: 1.2597482}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4890972630351919078}
@@ -227,7 +227,7 @@ MonoBehaviour:
   attackRange: 4
   territoryRadius: 5
   attackCooldown: 2.5
-  player: {fileID: 0}
+  contactDamage: 15
   visionWidthX: 10
   visionHeightY: 1
   frontSensor: {fileID: 0}
@@ -250,7 +250,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4890972630351919078}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FirePoint_Pos
   m_TagString: Untagged
   m_Icon: {fileID: 0}

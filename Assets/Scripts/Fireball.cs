@@ -55,5 +55,7 @@ public class Fireball : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        Destroy (gameObject);
     }
 }

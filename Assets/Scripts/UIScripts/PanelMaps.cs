@@ -25,7 +25,7 @@ public class PanelMaps : MonoBehaviour
 
     void OpenMapOne()
     {
-        SceneManager.LoadScene("Map1_Scene");
+        SceneManager.LoadScene("Map");
     }
 
     void OpenMapTwo()

@@ -14,9 +14,8 @@ GameObject:
   - component: {fileID: 7933219980063819777}
   - component: {fileID: 8577103534526123161}
   - component: {fileID: 4682912040497323894}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MeleeEnemy1
-  m_TagString: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,8 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.8069402, y: -0.19197798, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 2.4338193}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 2.4338193}
+  m_LocalScale: {x: 2.405577, y: 2.748756, z: 2.4338193}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -145,7 +143,6 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
   m_Constraints: 4
 --- !u!61 &8577103534526123161
 BoxCollider2D:
