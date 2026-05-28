@@ -34,8 +34,8 @@ public class Portal : MonoBehaviour
             }
             else
             {
-                Debug.Log("Cần key để dùng portal");
-                NotificationUI.Instance.ShowMessage("Cần key để dùng portal");
+                Debug.Log("Cần chìa khóa để dùng cổng");
+                NotificationUI.Instance.ShowMessage("Cần chìa khóa để dùng cổng");
             }
         }
     }
