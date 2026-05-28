@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 public class BatEnemy : MonoBehaviour
 {
@@ -24,6 +25,9 @@ public class BatEnemy : MonoBehaviour
     Animator animator;
 
     bool isAttacking = false;
+    bool canDamage = true;
+    bool playerInAttackRange = false;
+    PlayerOne playerTarget;
     private void Awake()
     {
         instance = this;
@@ -126,15 +130,57 @@ public class BatEnemy : MonoBehaviour
         if (!isAttacking)
         {
             isAttacking = true;
+            canDamage = true;
 
             animator.SetTrigger("Attack");
 
-            Invoke(nameof(ResetAttack), 0.5f);
+            // Đợi animation đánh chạy một đoạn rồi mới trừ máu
+            Invoke(nameof(DamagePlayer), 1f);
+
+            Invoke(nameof(ResetAttack), 1f);
         }
     }
 
     void ResetAttack()
     {
         isAttacking = false;
+        canDamage = true;
+    }
+
+    void DamagePlayer()
+    {
+        if (playerTarget != null && playerTarget.health > 0 && playerInAttackRange && canDamage)
+        {
+            playerTarget.ChangeHealth(-5);
+            canDamage = false;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        PlayerOne player = collision.GetComponent<PlayerOne>();
+
+        if (player != null)
+        {
+            playerInAttackRange = false;
+            playerTarget = null;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        PlayerOne player = collision.GetComponent<PlayerOne>();
+
+        if (player != null)
+        {
+            playerTarget = player;
+            playerInAttackRange = true;
+        }
+    }
+
+    void ResetDamage()
+    {
+        canDamage = true;
     }
 }
+    

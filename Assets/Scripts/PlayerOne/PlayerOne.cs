@@ -21,14 +21,22 @@ public class PlayerOne : MonoBehaviour
     public LayerMask enemyLayer;
     public int damage = 1;
 
+    public int maxHealth = 30;
+    private int currentHealth;
+    public int health { get { return currentHealth; } }
+    public GameObject FirePrefabs;
+    public InputAction FireAction;
     void Start()
     {
         MoveAction.Enable();
         JumpAction.Enable();
         AttackAction.Enable();
+        FireAction.Enable();
 
         rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        currentHealth = maxHealth;
     }
 
     void Update()
@@ -58,14 +66,17 @@ public class PlayerOne : MonoBehaviour
         {
             AttackPlayer();
         }
+
+        if (FireAction.WasPressedThisFrame())
+        {
+            LaunchFire();
+        }
     }
 
     private void AttackPlayer()
     {
         animator.SetTrigger("Attack");
-
-        Collider2D[] hitEnemies =
-            Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
 
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -88,6 +99,26 @@ public class PlayerOne : MonoBehaviour
             new Vector2(rigidbody2D.linearVelocity.x, jumpForce);
     }
 
+    public void LaunchFire()
+    {
+        animator.SetTrigger("AttackFire");
 
- 
+        Vector2 direction;
+
+        if (transform.localScale.x > 0)
+            direction = Vector2.right;
+        else
+            direction = Vector2.left;
+
+        GameObject fire = Instantiate(FirePrefabs,rigidbody2D.position + direction * 0.6f - Vector2.up * 0.5f, Quaternion.identity);
+        Fire fireObject = fire.GetComponent<Fire>();
+        fireObject.AddForce(direction, 300f);
+    }
+
+    public void ChangeHealth(int amount)
+    {
+        currentHealth = Mathf.Clamp(currentHealth+amount, 0, maxHealth);
+        if (currentHealth <= 0) animator.SetTrigger("Die");
+        HealthUIManager.Instance.UpdateHealth(currentHealth, maxHealth);
+    }
 }
