@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 4451265849190698142}
   - component: {fileID: 1683359995439387296}
   - component: {fileID: 156745606066700952}
+  - component: {fileID: 2525828163495504601}
   m_Layer: 0
   m_Name: FlyingEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -190,6 +191,34 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &2525828163495504601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4451265849190698141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d3fc1b2e38072b47aeb0da6e17b3256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlyingShooterEnemy
+  maxHp: 100
+  moveSpeed: 2
+  chaseSpeed: 4
+  detectionRange: 10
+  attackRange: 4
+  territoryRadius: 5
+  attackCooldown: 2.5
+  contactDamage: 15
+  attackAngle: 90
+  tiltDownAngle: 45
+  minHeightAbovePlayer: 2
+  absoluteMinHeight: 1
+  heightReactionTime: 3.5
+  firePoint: {fileID: 6768946062085536192}
+  bulletPrefab: {fileID: 3801641785686037934, guid: efa3bc66faa334c45aac325e53bcc28b, type: 3}
+  offsetAngle: 0
 --- !u!1 &5805295153317180647
 GameObject:
   m_ObjectHideFlags: 0
