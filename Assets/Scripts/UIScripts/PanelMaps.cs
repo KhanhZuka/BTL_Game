@@ -35,7 +35,7 @@ public class PanelMaps : MonoBehaviour
 
     void OpenMapThree()
     {
-        SceneManager.LoadScene("Map3_Scene");
+        SceneManager.LoadScene("Map3");
     }
 
     void OpenMapFour()
