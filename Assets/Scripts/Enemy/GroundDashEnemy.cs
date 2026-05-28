@@ -3,7 +3,6 @@ using UnityEngine;
 public class GroundDashEnemy : GroundEnemy
 {
     [Header("--- Contact Setup ---")]
-    [Tooltip("Lực dội ngược lại của con quái khi nó tông trúng bạn (tạo cảm giác va chạm mạnh)")]
     public float bounceForce = 5f; 
 
     private float damageTimer = 0f;
@@ -29,7 +28,7 @@ public class GroundDashEnemy : GroundEnemy
     }
     
     // 1. Gây sát thương ngay cú chạm đầu tiên
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected override void OnCollisionEnter2D(Collision2D collision)
     {
         if (isDead) return;
 

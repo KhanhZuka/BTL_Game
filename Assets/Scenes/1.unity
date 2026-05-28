@@ -272,6 +272,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1235367358837381818, guid: b27f59943b95baf47b94052f3bb8436a, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3328589850787703280, guid: b27f59943b95baf47b94052f3bb8436a, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.5698
@@ -327,6 +331,18 @@ PrefabInstance:
     - target: {fileID: 3328589850787703283, guid: b27f59943b95baf47b94052f3bb8436a, type: 3}
       propertyPath: m_Name
       value: Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328589850787703283, guid: b27f59943b95baf47b94052f3bb8436a, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328589850787703283, guid: b27f59943b95baf47b94052f3bb8436a, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8305510629994700505, guid: b27f59943b95baf47b94052f3bb8436a, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1081,7 +1097,7 @@ GameObject:
   - component: {fileID: 1749475552}
   - component: {fileID: 1749475555}
   - component: {fileID: 1749475554}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1268,7 +1284,7 @@ GameObject:
   - component: {fileID: 1880222842}
   - component: {fileID: 1880222845}
   - component: {fileID: 1880222844}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

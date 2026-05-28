@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
         JumpAction.Enable();
 
         rigidbody2d = GetComponent<Rigidbody2D>();
-        defaultGravity = rigidbody2d.gravityScale;
+        defaultGravity = rigidbody2d.gravityScale; // Lưu trọng lực gốc
 
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
