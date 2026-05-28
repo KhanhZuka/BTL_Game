@@ -102,6 +102,8 @@ public class PlayerController : MonoBehaviour
         JumpAction.Enable();
 
         rigidbody2d = GetComponent<Rigidbody2D>();
+        defaultGravity = rigidbody2d.gravityScale;
+
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
@@ -159,7 +161,7 @@ public class PlayerController : MonoBehaviour
 
         // nhấn E để tấn công
         fireTimer -= Time.deltaTime;
-        if (Keyboard.current.eKey.wasPressedThisFrame && fireTimer <= 0)
+        if (Keyboard.current.eKey.wasPressedThisFrame && fireTimer <= 0 && !isAttacking)
         {
             FireAttack();
             fireTimer = fireCooldown;
@@ -183,11 +185,11 @@ public class PlayerController : MonoBehaviour
 
         UpdateAnimator();
         HandleInvincible();
+
     }
 
     void FixedUpdate()
     {
-        rigidbody2d.linearVelocity = new Vector2(moveX * speed, rigidbody2d.linearVelocity.y);
         if (isDashing)
         {
             DashMovement();
@@ -196,24 +198,33 @@ public class PlayerController : MonoBehaviour
 
         rigidbody2d.linearVelocity = new Vector2(moveX * speed, rigidbody2d.linearVelocity.y);
     }
-    void OnEnable()
-    {
-        JumpAction.performed += OnJump;
-        AttackAction.Enable();
-        AttackAction.performed += OnAttack;
-        DashAction.Enable();
-        DashAction.performed += OnDash;
-    }
+   void OnEnable()
+{
+    MoveAction.Enable(); 
+    
+    JumpAction.Enable();
+    JumpAction.performed += OnJump;
+    
+    AttackAction.Enable();
+    AttackAction.performed += OnAttack;
+    
+    DashAction.Enable();
+    DashAction.performed += OnDash;
+}
 
-    void OnDisable()
-    {
-        JumpAction.performed -= OnJump;
-        AttackAction.performed -= OnAttack;
-        AttackAction.Disable();
-        DashAction.performed -= OnDash;
-        DashAction.Disable();
-    }
-
+void OnDisable()
+{
+    MoveAction.Disable(); 
+    
+    JumpAction.performed -= OnJump;
+    JumpAction.Disable(); 
+    
+    AttackAction.performed -= OnAttack;
+    AttackAction.Disable();
+    
+    DashAction.performed -= OnDash;
+    DashAction.Disable();
+}
     // METHODS
     void OnJump(InputAction.CallbackContext ctx)
     {
@@ -362,18 +373,17 @@ public class PlayerController : MonoBehaviour
         // cập nhật attackPoint 
         attackPoint.localPosition = attackDirection * 0.5f;
 
-        // logic attack
-        if (isGrounded && moveInput.y > 0.5f)
+        if (moveInput.y > 0.5f)
         {
-            AttackUp();
+            AttackUp(); 
         }
-        else if (!isGrounded && jumpForce >= 20)
+        else if (moveInput.y < -0.5f && !isGrounded)
         {
-            AttackDown();
+            AttackDown(); 
         }
         else
         {
-            NormalAttack();
+            NormalAttack(); 
         }
     }
 

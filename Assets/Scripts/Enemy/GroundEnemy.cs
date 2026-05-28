@@ -31,7 +31,7 @@ public class GroundEnemy : EnemySystemController
 
     protected override void HandleAI()
     {
-        // TỰ ĐỘNG ĐẢO VỊ TRÍ CẢM BIẾN THEO FLIPX ĐỂ KHÔNG BỊ LỖI VẬT LÝ
+       
         if (frontSensor != null)
         {
             float facingX = GetFacingDirection().x;

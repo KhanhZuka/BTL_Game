@@ -2,9 +2,7 @@ using UnityEngine;
 
 public class GroundDashEnemy : GroundEnemy
 {
-    [Header("--- Dash & Contact Setup ---")]
-    public float dashSpeed = 7f;   // Tốc độ lao vào (Nên set cao hơn Chase Speed bình thường)
-    
+    [Header("--- Contact Setup ---")]
     [Tooltip("Lực dội ngược lại của con quái khi nó tông trúng bạn (tạo cảm giác va chạm mạnh)")]
     public float bounceForce = 5f; 
 
@@ -18,11 +16,10 @@ public class GroundDashEnemy : GroundEnemy
 
         base.Start();
         
-        chaseSpeed = dashSpeed; 
-        attackRange = 0f; 
+        // CỐT LÕI NẰM Ở ĐÂY: Xóa nhận diện người chơi để AI tự động chuyển vĩnh viễn sang trạng thái Patrol (Đi tuần)
+        targetPlayer = null; 
 
-        // GroundDashEnemy sẽ không dùng animation "Attack" hay sinh ra vũ khí, nên mình để PerformAttack() trống
-        hasAttackAnim = false;
+        attackRange = 0f; 
         hasAttackAnim = false;
     }
 
@@ -30,26 +27,24 @@ public class GroundDashEnemy : GroundEnemy
     protected override void PerformAttack() 
     { 
     }
-
     
-    // 1. Gây sát thương ngay cú tông đầu tiên
+    // 1. Gây sát thương ngay cú chạm đầu tiên
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (isDead) return;
 
         if (collision.gameObject.CompareTag("Player"))
-
         {
             DealDamage(collision.gameObject);
         }
     }
 
-    // 2. Gây sát thương nếu Player bị dồn vào góc tường và kẹt chung với quái
+    // 2. Gây sát thương nếu Player bị dồn vào góc tường và kẹt chung với quái
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (isDead) return;
 
-        if (collision.gameObject.CompareTag("Player") )
+        if (collision.gameObject.CompareTag("Player"))
         {
             damageTimer += Time.deltaTime;
             if (damageTimer >= damageCooldown)
@@ -77,7 +72,8 @@ public class GroundDashEnemy : GroundEnemy
             
             float bounceDirection = transform.localScale.x < 0 ? -1f : 1f; 
             rb.linearVelocity = new Vector2(-bounceDirection * bounceForce, rb.linearVelocity.y);
-            anim.SetTrigger("Hit"); 
+            
+            if(anim != null) anim.SetTrigger("Hit"); 
         }
     }
 }
