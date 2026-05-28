@@ -1,25 +1,27 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+
 public class BtnPause : MonoBehaviour
 {
     [SerializeField] private Button btnPause;
     [SerializeField] private GameObject panelPause;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    void Awake()
     {
-        
+        if (btnPause == null)
+        {
+            btnPause = GetComponent<Button>();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
         btnPause.onClick.AddListener(OpenPanelPause);
     }
 
     void OpenPanelPause()
     {
+        Time.timeScale = 0f;
         panelPause.SetActive(true);
     }
-
-
 }
