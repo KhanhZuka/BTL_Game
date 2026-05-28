@@ -28,7 +28,7 @@ public class GroundDashEnemy : GroundEnemy
     }
     
     // 1. Gây sát thương ngay cú chạm đầu tiên
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected override void OnCollisionEnter2D(Collision2D collision)
     {
         if (isDead) return;
 

@@ -272,6 +272,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1235367358837381818, guid: b27f59943b95baf47b94052f3bb8436a, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3328589850787703280, guid: b27f59943b95baf47b94052f3bb8436a, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.5698
@@ -327,6 +331,18 @@ PrefabInstance:
     - target: {fileID: 3328589850787703283, guid: b27f59943b95baf47b94052f3bb8436a, type: 3}
       propertyPath: m_Name
       value: Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328589850787703283, guid: b27f59943b95baf47b94052f3bb8436a, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328589850787703283, guid: b27f59943b95baf47b94052f3bb8436a, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8305510629994700505, guid: b27f59943b95baf47b94052f3bb8436a, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -655,6 +671,7 @@ MonoBehaviour:
   tiltDownAngle: 45
   minHeightAbovePlayer: 2
   absoluteMinHeight: 1
+  heightReactionTime: 3.5
   firePoint: {fileID: 945340847}
   bulletPrefab: {fileID: 3801641785686037934, guid: efa3bc66faa334c45aac325e53bcc28b, type: 3}
   offsetAngle: 0
@@ -1080,7 +1097,7 @@ GameObject:
   - component: {fileID: 1749475552}
   - component: {fileID: 1749475555}
   - component: {fileID: 1749475554}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1267,7 +1284,7 @@ GameObject:
   - component: {fileID: 1880222842}
   - component: {fileID: 1880222845}
   - component: {fileID: 1880222844}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1507,6 +1524,7 @@ MonoBehaviour:
   tiltDownAngle: 45
   minHeightAbovePlayer: 2
   absoluteMinHeight: 1
+  heightReactionTime: 3.5
   mouthPoint: {fileID: 1949243702}
   fireBreathPrefab: {fileID: 1309492822241614633, guid: bf29e80fd1c64c84c8526436fa24c106, type: 3}
   fireDuration: 1.5
