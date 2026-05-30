@@ -20,14 +20,14 @@ public class HealthUIManager : MonoBehaviour
         currentHearts = maxHearts;
     }
 
-    // ✅ cập nhật thanh máu
+    // cập nhật thanh máu
     public void UpdateHealth(int current, int max)
     {
         float percent = (float)current / max;
         healthBar.fillAmount = percent;
     }
 
-    // ✅ mất 1 mạng
+    // mất 1 mạng
     public void LoseLife()
     {
         if (currentHearts <= 0) return;

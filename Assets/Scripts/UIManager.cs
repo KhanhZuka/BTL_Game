@@ -18,6 +18,13 @@ public class UIManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
+
+        foreach (var icon in slotIcons)
+        {
+            if (icon != null)
+                icon.enabled = false;
+        }
+
     }
 
     private void Start()

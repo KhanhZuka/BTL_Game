@@ -27,6 +27,7 @@ public class HealthItem : MonoBehaviour
         {
             audioSource.Play();
         }
+        NotificationUI.Instance.ShowMessage("Đã nhặt vật phẩm hồi máu");
 
         GetComponent<Collider2D>().enabled = false;
         GetComponent<SpriteRenderer>().enabled = false;

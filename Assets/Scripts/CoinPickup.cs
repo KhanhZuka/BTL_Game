@@ -23,6 +23,7 @@ public class CoinPickup : MonoBehaviour
 
         // cập nhật UI
         CoinUIManager.Instance.AddCoin();
+        NotificationUI.Instance.ShowMessage("Đã nhặt coin");
 
         GetComponent<Collider2D>().enabled = false;
         GetComponent<SpriteRenderer>().enabled = false;
