@@ -28,7 +28,6 @@ public class Portal : MonoBehaviour
 
         if (hasKey)
         {
-<<<<<<< HEAD
             playerInRange = true;
 
             if (openButton != null)
@@ -43,20 +42,6 @@ public class Portal : MonoBehaviour
 
             if (NotificationUI.Instance != null)
                 NotificationUI.Instance.ShowMessage("Bạn cần nhặt chìa khóa để mở");
-=======
-            if (player != null && player.hasKey)
-            {
-                // Debug.Log("Load scene");
-                KeyUIManager.Instance.HideKey();
-                SceneManager.LoadScene(sceneName);
-                NotificationUI.Instance.ShowMessage("Đã mở cổng");
-            }
-            else
-            {
-                Debug.Log("Cần chìa khóa để dùng cổng");
-                NotificationUI.Instance.ShowMessage("Cần chìa khóa để dùng cổng");
-            }
->>>>>>> 333f6453454ecdfa985be8c73369af82039b9300
         }
     }
 
