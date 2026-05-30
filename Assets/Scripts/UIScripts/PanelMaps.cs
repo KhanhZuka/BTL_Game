@@ -25,12 +25,12 @@ public class PanelMaps : MonoBehaviour
 
     void OpenMapOne()
     {
-        SceneManager.LoadScene("Map");
+        SceneManager.LoadScene("Map1");
     }
 
     void OpenMapTwo()
     {
-        SceneManager.LoadScene("Map2_Scene");
+        SceneManager.LoadScene("Map2");
     }
 
     void OpenMapThree()
@@ -40,7 +40,7 @@ public class PanelMaps : MonoBehaviour
 
     void OpenMapFour()
     {
-        SceneManager.LoadScene("Map4_Scene");
+        SceneManager.LoadScene("Map4");
     }
 
     void OpenMainScreen()

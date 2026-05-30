@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 
 public class PlayerOne : MonoBehaviour
 {
+    public static PlayerOne instance;   
     public InputAction MoveAction;
     public InputAction JumpAction;
     public InputAction AttackAction;
@@ -26,6 +27,14 @@ public class PlayerOne : MonoBehaviour
     public int health { get { return currentHealth; } }
     public GameObject FirePrefabs;
     public InputAction FireAction;
+
+    public bool hasKey = false;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     void Start()
     {
         MoveAction.Enable();

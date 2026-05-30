@@ -5,6 +5,7 @@ using System.Threading;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
     // Input
     public InputAction MoveAction;
     public InputAction JumpAction;
@@ -94,6 +95,11 @@ public class PlayerController : MonoBehaviour
 
     [Header("Key")]
     public bool hasKey = false;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     // EVENTS
     void Start()
