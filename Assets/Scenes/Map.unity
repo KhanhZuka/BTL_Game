@@ -7306,18 +7306,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1710951753741002301, guid: b86ae87faa8697a41885ef7bcd9022d3, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
-    - target: {fileID: 3938993225422898569, guid: b86ae87faa8697a41885ef7bcd9022d3, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
-    - target: {fileID: 4543682684288304904, guid: b86ae87faa8697a41885ef7bcd9022d3, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.337
-      objectReference: {fileID: 0}
     - target: {fileID: 5826863310786367124, guid: b86ae87faa8697a41885ef7bcd9022d3, type: 3}
       propertyPath: hasKey
       value: 0
@@ -7326,38 +7314,6 @@ PrefabInstance:
       propertyPath: skillUI
       value: 
       objectReference: {fileID: 137509070}
-    - target: {fileID: 5826863310786367124, guid: b86ae87faa8697a41885ef7bcd9022d3, type: 3}
-      propertyPath: attackRadius
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826863310786367124, guid: b86ae87faa8697a41885ef7bcd9022d3, type: 3}
-      propertyPath: enemyLayer.m_Bits
-      value: 256
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826863310786367124, guid: b86ae87faa8697a41885ef7bcd9022d3, type: 3}
-      propertyPath: AttackAction.m_SingletonActionBindings.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826863310786367124, guid: b86ae87faa8697a41885ef7bcd9022d3, type: 3}
-      propertyPath: AttackAction.m_SingletonActionBindings.Array.data[1].m_Id
-      value: 038a8164-959e-4b44-ae5e-f9930d4e663c
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826863310786367124, guid: b86ae87faa8697a41885ef7bcd9022d3, type: 3}
-      propertyPath: AttackAction.m_SingletonActionBindings.Array.data[0].m_Path
-      value: <Keyboard>/j
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826863310786367124, guid: b86ae87faa8697a41885ef7bcd9022d3, type: 3}
-      propertyPath: AttackAction.m_SingletonActionBindings.Array.data[1].m_Path
-      value: <Mouse>/leftButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826863310786367124, guid: b86ae87faa8697a41885ef7bcd9022d3, type: 3}
-      propertyPath: AttackAction.m_SingletonActionBindings.Array.data[1].m_Action
-      value: Attack
-      objectReference: {fileID: 0}
-    - target: {fileID: 6426998319105273295, guid: b86ae87faa8697a41885ef7bcd9022d3, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
     - target: {fileID: 6629172840928111992, guid: b86ae87faa8697a41885ef7bcd9022d3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.92
@@ -7401,14 +7357,6 @@ PrefabInstance:
     - target: {fileID: 7364167800095414055, guid: b86ae87faa8697a41885ef7bcd9022d3, type: 3}
       propertyPath: m_Name
       value: PLayer3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7364167800095414055, guid: b86ae87faa8697a41885ef7bcd9022d3, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7639341980632343282, guid: b86ae87faa8697a41885ef7bcd9022d3, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.078
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10232,5 +10180,5 @@ SceneRoots:
   - {fileID: 1471629426}
   - {fileID: 1105951972}
   - {fileID: 2105193073}
-  - {fileID: 1094383883}
-  - {fileID: 284492454}
+  - {fileID: 1182705153}
+  - {fileID: 1066854877}

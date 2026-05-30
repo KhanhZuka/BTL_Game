@@ -354,7 +354,7 @@ MonoBehaviour:
     m_SingletonActionBindings:
     - m_Name: 
       m_Id: 5138a55a-5c94-4e48-a4e4-3331e0bb36d2
-      m_Path: <Keyboard>/j
+      m_Path: <Mouse>/leftButton
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -367,7 +367,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   damage: 1
-  FirePrefabs: {fileID: 0}
+  maxHealth: 20
+  FirePrefabs: {fileID: 8032956180742899123, guid: c7dc4947cf17dd340b53149600edc439, type: 3}
   FireAction:
     m_Name: Fire
     m_Type: 0
@@ -375,5 +376,13 @@ MonoBehaviour:
     m_Id: 29de3898-6e27-49a0-bd79-e87d9e82071c
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings: []
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 5a203d4c-7239-489d-8401-fe0fa920d138
+      m_Path: <Keyboard>/c
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Fire
+      m_Flags: 0
     m_Flags: 0
