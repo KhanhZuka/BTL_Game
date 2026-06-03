@@ -332,6 +332,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!114 &458561630 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1339584684454511894, guid: acd875a4abacd554989d03d198a15b65, type: 3}
+  m_PrefabInstance: {fileID: 5994269086037140821}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1 &624950141
 GameObject:
   m_ObjectHideFlags: 0
@@ -1215,6 +1226,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1943726970}
   m_CullTransparentMesh: 1
+--- !u!114 &2008776710 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 473806468094551624, guid: acd875a4abacd554989d03d198a15b65, type: 3}
+  m_PrefabInstance: {fileID: 5994269086037140821}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1 &2137744436
 GameObject:
   m_ObjectHideFlags: 0
@@ -1761,20 +1783,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7031966083403724564, guid: acd875a4abacd554989d03d198a15b65, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7945615199779068758, guid: acd875a4abacd554989d03d198a15b65, type: 3}
       propertyPath: m_Name
       value: PanelLose
       objectReference: {fileID: 0}
+    - target: {fileID: 7945615199779068758, guid: acd875a4abacd554989d03d198a15b65, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7945615199779068758, guid: acd875a4abacd554989d03d198a15b65, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5994269086037140823}
   m_SourcePrefab: {fileID: 100100000, guid: acd875a4abacd554989d03d198a15b65, type: 3}
 --- !u!1 &5994269086037140822 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7945615199779068758, guid: acd875a4abacd554989d03d198a15b65, type: 3}
   m_PrefabInstance: {fileID: 5994269086037140821}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5994269086037140823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5994269086037140822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bc676aa605cb5b48b1138a76f9a374f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PanelLose
+  BtnPlayAgain: {fileID: 2008776710}
+  BtnQuit: {fileID: 458561630}
 --- !u!1001 &9028013279453460604
 PrefabInstance:
   m_ObjectHideFlags: 0
