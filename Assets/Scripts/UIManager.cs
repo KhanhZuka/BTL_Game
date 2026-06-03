@@ -39,6 +39,11 @@ public class UIManager : MonoBehaviour
             OpenPanelWin();
             GameData.backToWinPanel = false;
         }
+        else if (GameData.backToLosePanel)
+        {
+            OpenPanelLose();
+            GameData.backToLosePanel = false;
+        }
         else
         {
             OpenPanelMain();
@@ -62,6 +67,15 @@ public class UIManager : MonoBehaviour
         panelLose.SetActive(false);
         panelMaps.SetActive(false);
         panelWin.SetActive(true); 
+    }
+
+    public void OpenPanelLose()
+    {
+        panelMain.SetActive(false);
+        panelInstruct.SetActive(false);       
+        panelMaps.SetActive(false);
+        panelWin.SetActive(false);
+        panelLose.SetActive(true);
     }
 
     public void OpenPanelMain()

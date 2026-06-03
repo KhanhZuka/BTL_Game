@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using UnityEngine.InputSystem;
-using System.Collections;
+﻿using System.Collections;
 using System.Threading;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -352,7 +353,11 @@ void OnDisable()
 
         // tắt player
         rigidbody2d.simulated = false;
-
+        Debug.Log("Game Over");
+        Time.timeScale = 1f;
+        GameData.lastMap = SceneManager.GetActiveScene().name;
+        GameData.backToLosePanel = true;
+        SceneManager.LoadScene("UIScene");
         // SceneManager.LoadScene(SceneManager.GetActiveScene().name); // load scene lại
     }
 
