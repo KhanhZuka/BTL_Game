@@ -177,10 +177,5 @@ public class BatEnemy : MonoBehaviour
             playerInAttackRange = true;
         }
     }
-
-    void ResetDamage()
-    {
-        canDamage = true;
-    }
 }
     
