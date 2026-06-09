@@ -18,7 +18,7 @@ public class BatEnemy : MonoBehaviour
 
     bool isChasing = false;
 
-    private int health = 20;
+    private int healthBat = 20;
     public static BatEnemy instance;
     public float attackDistance = 1.2f;
 
@@ -117,10 +117,20 @@ public class BatEnemy : MonoBehaviour
         }
     }
 
-    public void ChangeHealth(int amout)
+    public void ChangeHealthBat(int amount)
     {
-        health -= amout;
-        if(health <= 0) Destroy(gameObject);
+        animator.SetTrigger("Hurt");
+        healthBat -= amount;
+
+        if (healthBat <= 0)
+        {
+            animator.SetTrigger("Dead");
+        }
+    }
+
+    void DestroyEnemyBat()
+    {
+        Destroy(gameObject);
     }
 
     void AttackPlayer()

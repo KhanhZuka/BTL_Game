@@ -29,8 +29,14 @@ public class Fire : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
           BatEnemy batEnemy = collision.GetComponent<BatEnemy>();
+        BerserkEnemy berserk = collision.GetComponent<BerserkEnemy>();
         if (batEnemy != null) {
-            batEnemy.ChangeHealth(10);
+            batEnemy.ChangeHealthBat(10);
+            Destroy(gameObject);
+        }
+        if (berserk != null)
+        {
+            berserk.ChangeHealthBerserk(10);
             Destroy(gameObject);
         }
     }
