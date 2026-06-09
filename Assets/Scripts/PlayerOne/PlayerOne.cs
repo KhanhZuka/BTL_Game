@@ -117,10 +117,14 @@ public class PlayerOne : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies)
         {
             BatEnemy bat = enemy.GetComponent<BatEnemy>();
-
+            BerserkEnemy berserk = enemy.GetComponent<BerserkEnemy>();
             if (bat != null)
             {
-                bat.ChangeHealth(5);
+                bat.ChangeHealthBat(5);
+            }
+            if (berserk != null)
+            {
+                berserk.ChangeHealthBerserk(5);
             }
         }
     }

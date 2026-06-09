@@ -2,87 +2,97 @@
 
 public class BerserkEnemy : MonoBehaviour
 {
+    [Header("Patrol")]
     public Transform pointC;
     public Transform pointD;
+    public float speed = 2f;
 
+    [Header("Player")]
     public Transform player;
+    public float chaseDistance = 4f;
+    private bool isAttacking = false;
+    public float attackCooldown = 1.2f;
+    private float nextAttackTime = 0f;
+    public int damage = 5;
 
-    public float speed = 2.0f;
-
-    public float chaseDistance = 5.0f;
-
-    Rigidbody2D rigidbody2D;
-
-    Transform target;
-
-    bool isChasing = false;
-
+    [Header("Jump Wall")]
     public float jumpForce = 10f;
     public float jumpForwardForce = 7f;
-    bool isJumpingWall = false;
     public Transform wallCheck;
     public Transform groundCheck;
     public float checkRadius = 0.35f;
     public LayerMask groundLayer;
 
-    bool isGrounded;
+    [Header("Health")]
+    public int healthBerserk = 20;
 
-    private int health = 20;
-    public static BerserkEnemy instance;
-    public float attackDistance = 1.2f;
+    private Rigidbody2D rigidbody2D;
+    private Animator animator;
+    private Transform target;
 
-    Animator animator;
+    private bool isChasing;
+    private bool isGrounded;
+    private bool isJumpingWall;
 
-    bool isAttacking = false;
-    bool canDamage = true;
-    bool playerInAttackRange = false;
-    PlayerOne playerTarget;
-    private void Awake()
-    {
-        instance = this;
-    }
+    public Transform attackPoint;
+    public float attackRadius = 0.2f;
+    public LayerMask playerLayer;
 
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
         target = pointD;
     }
 
     void FixedUpdate()
     {
-        isGrounded = Physics2D.OverlapCircle(
-        groundCheck.position,
-        checkRadius,
-        groundLayer
+        if (player == null) return;
+
+        CheckGround();
+
+        float distanceToPlayer = Mathf.Abs(player.position.x - transform.position.x);
+
+        isChasing = distanceToPlayer < chaseDistance && PlayerInPatrolArea();
+
+        bool playerInAttackRange = Physics2D.OverlapCircle(
+           attackPoint.position,
+           attackRadius,
+           playerLayer
         );
 
-        Patrol();
+        if (playerInAttackRange)
+        {
+            AttackPlayer();
+            return;
+        }
+
+        if (isAttacking)
+        {
+            rigidbody2D.linearVelocity = new Vector2(0, rigidbody2D.linearVelocity.y);
+            return;
+        }
+
+        if (isChasing)
+        {
+            ChasePlayer();
+        }
+        else
+        {
+            Patrol();
+        }
+
         CheckWallAndJump();
+    }
 
-        //// Nếu player vào vùng phát hiện
-        //if (distanceToPlayer < chaseDistance)
-        //{
-        //    isChasing = true;
-        //}
-        //else
-        //{
-        //    isChasing = false;
-        //}
-
-        // Nếu đủ gần thì attack
-        //if (distanceToPlayer < attackDistance)
-        //{
-        //   // AttackPlayer();
-        //}
-        //else if (isChasing)
-        //{
-        //    //ChasePlayer();
-        //}
-        //else
-        //{
-        //    Patrol();
-        //}
+    void CheckGround()
+    {
+        isGrounded = Physics2D.OverlapCircle(
+            groundCheck.position,
+            checkRadius,
+            groundLayer
+        );
     }
 
     void Patrol()
@@ -91,35 +101,57 @@ public class BerserkEnemy : MonoBehaviour
 
         if (directionX > 0)
         {
-            rigidbody2D.linearVelocity =
-                new Vector2(speed, rigidbody2D.linearVelocity.y);
-
-            Flip(1);
+            Move(1);
         }
         else if (directionX < 0)
         {
-            rigidbody2D.linearVelocity =
-                new Vector2(-speed, rigidbody2D.linearVelocity.y);
-
-            Flip(-1);
+            Move(-1);
         }
 
         if (Mathf.Abs(transform.position.x - target.position.x) < 0.2f)
         {
             if (target == pointC)
+            {
                 target = pointD;
+            }
             else
+            {
                 target = pointC;
+            }
         }
     }
 
-    void Flip(float directionX)
+    void ChasePlayer()
     {
-        if (directionX < 0)
+        float directionX = player.position.x - transform.position.x;
+
+        if (directionX > 0)
+        {
+            Move(1);
+        }
+        else if (directionX < 0)
+        {
+            Move(-1);
+        }
+    }
+
+    void Move(float direction)
+    {
+        rigidbody2D.linearVelocity = new Vector2(
+            direction * speed,
+            rigidbody2D.linearVelocity.y
+        );
+
+        Flip(direction);
+    }
+
+    void Flip(float direction)
+    {
+        if (direction < 0)
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
-        else if (directionX > 0)
+        else if (direction > 0)
         {
             transform.localScale = new Vector3(1, 1, 1);
         }
@@ -127,12 +159,21 @@ public class BerserkEnemy : MonoBehaviour
 
     void CheckWallAndJump()
     {
-        float direction = target.position.x > transform.position.x ? 1f : -1f;
+        float direction;
+
+        if (isChasing)
+        {
+            direction = player.position.x > transform.position.x ? 1f : -1f;
+        }
+        else
+        {
+            direction = target.position.x > transform.position.x ? 1f : -1f;
+        }
 
         RaycastHit2D hit = Physics2D.Raycast(
             wallCheck.position,
             Vector2.right * direction,
-            1.0f,
+            1f,
             groundLayer
         );
 
@@ -145,84 +186,85 @@ public class BerserkEnemy : MonoBehaviour
                 jumpForce
             );
         }
-
+        
         if (isGrounded && hit.collider == null)
         {
             isJumpingWall = false;
         }
     }
 
-    //void ChasePlayer()
-    //{
-    //    Vector2 direction =
-    //        (player.position - transform.position).normalized;
+    bool PlayerInPatrolArea()
+    {
+        float minX = Mathf.Min(pointC.position.x, pointD.position.x);
+        float maxX = Mathf.Max(pointC.position.x, pointD.position.x);
 
-    //    rigidbody2D.linearVelocity =
-    //        direction * speed;
+        return player.position.x >= minX && player.position.x <= maxX;
+    }
 
-    //    Flip(direction.x);
-    //}
+    void AttackPlayer()
+    {
+        rigidbody2D.linearVelocity = new Vector2(0, rigidbody2D.linearVelocity.y);
 
+        float directionX = player.position.x - transform.position.x;
 
+        if (directionX > 0)
+        {
+            Flip(1);
+        }
+        else if (directionX < 0)
+        {
+            Flip(-1);
+        }
 
-    //public void ChangeHealth(int amout)
-    //{
-    //    health -= amout;
-    //    if (health <= 0) Destroy(gameObject);
-    //}
+        if (isAttacking) return;
+        if (Time.time < nextAttackTime) return;
 
-    //void AttackPlayer()
-    //{
-    //    rigidbody2D.linearVelocity = Vector2.zero;
+        isAttacking = true;
+        nextAttackTime = Time.time + attackCooldown;
 
-    //    if (!isAttacking)
-    //    {
-    //        isAttacking = true;
-    //        canDamage = true;
+        animator.ResetTrigger("Attack");
+        animator.SetTrigger("Attack");
 
-    //        animator.SetTrigger("Attack");
+        Invoke(nameof(DamagePlayer), 0.4f);
+        Invoke(nameof(ResetAttack), 1f);
+    }
 
-    //        // Đợi animation đánh chạy một đoạn rồi mới trừ máu
-    //        Invoke(nameof(DamagePlayer), 1f);
+    void DamagePlayer()
+    {
+        Collider2D hitPlayer = Physics2D.OverlapCircle(
+            attackPoint.position,
+            attackRadius,
+            playerLayer
+        );
 
-    //        Invoke(nameof(ResetAttack), 1f);
-    //    }
-    //}
+        if (hitPlayer != null)
+        {
+            PlayerOne playerOne = hitPlayer.GetComponent<PlayerOne>();
 
-    //void ResetAttack()
-    //{
-    //    isAttacking = false;
-    //    canDamage = true;
-    //}
+            if (playerOne != null && playerOne.health > 0)
+            {
+                playerOne.ChangeHealth(-damage);
+            }
+        }
+    }
 
-    //void DamagePlayer()
-    //{
-    //    if (playerTarget != null && playerTarget.health > 0 && playerInAttackRange && canDamage)
-    //    {
-    //        playerTarget.ChangeHealth(-5);
-    //        canDamage = false;
-    //    }
-    //}
+    void ResetAttack()
+    {
+        isAttacking = false;
+    }
 
-    //private void OnTriggerExit2D(Collider2D collision)
-    //{
-    //    PlayerOne player = collision.GetComponent<PlayerOne>();
+    public void ChangeHealthBerserk(int amount)
+    {
+        healthBerserk -= amount;
 
-    //    if (player != null)
-    //    {
-    //        playerInAttackRange = false;
-    //        playerTarget = null;
-    //    }
-    //}
+        if (healthBerserk <= 0)
+        {
+            animator.SetTrigger("Dead");
+        }
+    }
 
-    //private void OnTriggerStay2D(Collider2D collision)
-    //{
-    //    PlayerOne player = collision.GetComponent<PlayerOne>();
-
-    //    if (player != null)
-    //    {
-    //        playerTarget = player;
-    //        playerInAttackRange = true;
-    //    }
-    //}
+    void DestroyEnemyBerserk()
+    {
+        Destroy(gameObject);
+    }
 }
