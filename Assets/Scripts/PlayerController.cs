@@ -97,10 +97,8 @@ public class PlayerController : MonoBehaviour
     [Header("Key")]
     public bool hasKey = false;
 
-    private void Awake()
-    {
-        instance = this;
-    }
+    [Header("Moving Platform")]
+    public Vector2 platformVelocity;
 
     // EVENTS
     void Start()
@@ -203,7 +201,7 @@ public class PlayerController : MonoBehaviour
             return; // chặn movement khác
         }
 
-        rigidbody2d.linearVelocity = new Vector2(moveX * speed, rigidbody2d.linearVelocity.y);
+       rigidbody2d.linearVelocity = new Vector2((moveX * speed) + platformVelocity.x, rigidbody2d.linearVelocity.y);
     }
    void OnEnable()
 {
