@@ -182,6 +182,8 @@ public class FlyingEnemy : EnemySystemController
     {
         base.Die();
         rb.gravityScale = 2f; 
+
+        Destroy(gameObject, 1f);
     }
 
     protected virtual void OnDrawGizmosSelected()
