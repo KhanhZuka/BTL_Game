@@ -10,6 +10,8 @@ public class PanelPause : MonoBehaviour
     void Start()
     {
         btnQuit.onClick.AddListener(OpenUIScene);
+        btnResume.onClick.AddListener(ResumePlay);
+        btnPlayAgain.onClick.AddListener(PlayAgain);
     }
 
     // Update is called once per frame
@@ -20,7 +22,23 @@ public class PanelPause : MonoBehaviour
 
     void OpenUIScene()
     {
+        Time.timeScale = 1f;
         GameData.backToMapPanel = true;
         SceneManager.LoadScene("UIScene");
+    }
+    
+    void ResumePlay()
+    {
+        Time.timeScale = 1f;
+        gameObject.SetActive(false);
+    }
+
+    void PlayAgain()
+    {
+        Time.timeScale = 1f;
+
+        Scene currentScene = SceneManager.GetActiveScene();
+
+        SceneManager.LoadScene(currentScene.name);
     }
 }

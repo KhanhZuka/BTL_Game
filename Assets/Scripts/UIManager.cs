@@ -9,9 +9,83 @@ public class UIManager : MonoBehaviour
 
     public Image[] slotIcons;
 
+    public GameObject panelMain;
+    public GameObject panelMaps;
+    public GameObject panelInstruct;
+    public GameObject panelLose;
+    public GameObject panelWin;
+
     void Awake()
     {
         Instance = this;
+
+        foreach (var icon in slotIcons)
+        {
+            if (icon != null)
+                icon.enabled = false;
+        }
+
+    }
+
+    private void Start()
+    {
+        if (GameData.backToMapPanel)
+        {
+            OpenPanelMaps();
+            GameData.backToMapPanel = false;
+        }
+        else if (GameData.backToWinPanel)
+        {
+            OpenPanelWin();
+            GameData.backToWinPanel = false;
+        }
+        else if (GameData.backToLosePanel)
+        {
+            OpenPanelLose();
+            GameData.backToLosePanel = false;
+        }
+        else
+        {
+            OpenPanelMain();
+        }
+    }
+
+    public void OpenPanelMaps()
+    {
+        panelMain.SetActive(false);
+        panelInstruct.SetActive(false);
+        panelLose.SetActive(false);
+        panelWin.SetActive(false);
+
+        panelMaps.SetActive(true);
+    }
+
+    public void OpenPanelWin()
+    {
+        panelMain.SetActive(false);
+        panelInstruct.SetActive(false);
+        panelLose.SetActive(false);
+        panelMaps.SetActive(false);
+        panelWin.SetActive(true); 
+    }
+
+    public void OpenPanelLose()
+    {
+        panelMain.SetActive(false);
+        panelInstruct.SetActive(false);       
+        panelMaps.SetActive(false);
+        panelWin.SetActive(false);
+        panelLose.SetActive(true);
+    }
+
+    public void OpenPanelMain()
+    {
+        panelMaps.SetActive(false);
+        panelInstruct.SetActive(false);
+        panelLose.SetActive(false);
+        panelWin.SetActive(false);
+
+        panelMain.SetActive(true);
     }
 
     public void UpdateInventory(List<ItemData> items)

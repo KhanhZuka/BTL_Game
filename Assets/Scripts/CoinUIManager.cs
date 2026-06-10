@@ -5,7 +5,7 @@ public class CoinUIManager : MonoBehaviour
 {
     public static CoinUIManager Instance;
 
-    public Image[] coinSlots; // kéo 6 image vào đây
+    public Image[] coinSlots; 
 
     int currentCoins = 0;
 
