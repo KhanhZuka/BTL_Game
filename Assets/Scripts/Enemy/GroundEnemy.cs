@@ -16,12 +16,9 @@ public class GroundEnemy : EnemySystemController
 
     [Header("--- Animation Settings ---")]
     public bool hasWalkAnim = true;   
-    public bool hasRunAnim = true;    
     public bool hasAttackAnim = true; 
-    public bool hasAlertAnim = true;  
 
     protected Transform targetPlayer;
-    private bool wasAlerted = false;  
 
     protected override void Start()
     {
@@ -34,6 +31,7 @@ public class GroundEnemy : EnemySystemController
 
     protected override void HandleAI()
     {
+       
         if (frontSensor != null)
         {
             float facingX = GetFacingDirection().x;
@@ -55,7 +53,7 @@ public class GroundEnemy : EnemySystemController
         // 1. Kiểm tra độ cao
         bool isAtSameLevel = Mathf.Abs(diffY) <= visionHeightY;
 
-        // 2. Kiểm tra hướng nhìn
+        // 2. Kiểm tra hướng nhìn (CHỈ PHÁT HIỆN KHI Ở TRƯỚC MẶT)
         bool isFacingRight = GetFacingDirection().x > 0;
         bool isPlayerInFront = (isFacingRight && diffX > 0 && diffX <= visionWidthX) || 
                                (!isFacingRight && diffX < 0 && diffX >= -visionWidthX);
@@ -65,22 +63,15 @@ public class GroundEnemy : EnemySystemController
         // Tầm nhìn: Cùng độ cao + Ở trước mặt
         bool canSeePlayer = isAtSameLevel && isPlayerInFront;
 
-        // TÍNH NĂNG THÔNG MINH
+        // TÍNH NĂNG THÔNG MINH: Nếu bị đánh lén từ sau lưng -> Lập tức quay ngoắt mặt lại
         if (isAlerted && !canSeePlayer && isPlayerInTerritory)
         {
             FlipTowards(targetPlayer.position.x);
-            canSeePlayer = true; 
+            canSeePlayer = true; // Ép nó "nhìn thấy" để vào trạng thái chiến đấu
         }
 
         if (canSeePlayer)
         {
-            // Kích hoạt animation Alert (giật mình/cảnh báo) khi vừa phát hiện
-            if (!wasAlerted && hasAlertAnim)
-            {
-                anim.SetTrigger("alert");
-            }
-            wasAlerted = true;
-
             if (Mathf.Abs(diffX) <= attackRange)
             {
                 isAlerted = true;
@@ -91,7 +82,6 @@ public class GroundEnemy : EnemySystemController
                 {
                     if (hasAttackAnim) anim.SetTrigger("Attack");
                     if (hasWalkAnim) anim.SetBool("isWalk", false);
-                    if (hasRunAnim) anim.SetBool("isRun", false); // Dừng chạy khi đánh
                     PerformAttack(); 
                     attackTimer = 0f;
                 }
@@ -104,14 +94,12 @@ public class GroundEnemy : EnemySystemController
             else
             {
                 isAlerted = false;
-                wasAlerted = false; // Reset lại trạng thái alert
                 Patrol();
             }
         }
         else
         {
             isAlerted = false;
-            wasAlerted = false; // Reset lại trạng thái alert
             Patrol();
         }
     }
@@ -122,9 +110,7 @@ public class GroundEnemy : EnemySystemController
 
     private void ChasePlayer()
     {
-        if (hasWalkAnim) anim.SetBool("isWalk", false); // Tắt animation đi bộ
-        if (hasRunAnim) anim.SetBool("isRun", true);    // Kích hoạt animation chạy
-
+        if (hasWalkAnim) anim.SetBool("isWalk", true);
         float dirNormal = Mathf.Sign(targetPlayer.position.x - transform.position.x);
         rb.linearVelocity = new Vector2(dirNormal * chaseSpeed, rb.linearVelocity.y);
         FlipTowards(targetPlayer.position.x);
@@ -136,11 +122,11 @@ public class GroundEnemy : EnemySystemController
         {
             waitTimer -= Time.deltaTime;
             if (hasWalkAnim) anim.SetBool("isWalk", false);
-            if (hasRunAnim) anim.SetBool("isRun", false); 
             StopMoving();
             return;
         }
 
+        // Lấy hướng từ FlipX
         float currentFacingDirX = GetFacingDirection().x;
 
         bool isHittingWall = false;
@@ -159,14 +145,14 @@ public class GroundEnemy : EnemySystemController
 
         if (isHittingWall || isNearCliff || isOutOfTerritory)
         {
+            // Quay đầu bằng flipX
             FlipTowards(transform.position.x - currentFacingDirX); 
             waitTimer = Random.Range(1f, 2.5f);
             StopMoving();
             return; 
         }
         
-        if (hasRunAnim) anim.SetBool("isRun", false);  // Tắt chạy khi tuần tra
-        if (hasWalkAnim) anim.SetBool("isWalk", true); // Bật đi bộ
+        if (hasWalkAnim) anim.SetBool("isWalk", true);
         rb.linearVelocity = new Vector2(currentFacingDirX * moveSpeed, rb.linearVelocity.y);
     }
 

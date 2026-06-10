@@ -5411,6 +5411,11 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!4 &878678404 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6768946062085536192, guid: 9c84334d3e5a7de4295edb095ac8f23b, type: 3}
+  m_PrefabInstance: {fileID: 1738281187}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &886678088
 GameObject:
   m_ObjectHideFlags: 0
@@ -7455,6 +7460,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1387891574}
   m_CullTransparentMesh: 1
+--- !u!1 &1399410770 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4451265849190698141, guid: 9c84334d3e5a7de4295edb095ac8f23b, type: 3}
+  m_PrefabInstance: {fileID: 1738281187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1399410776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399410770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d3fc1b2e38072b47aeb0da6e17b3256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlyingShooterEnemy
+  maxHp: 100
+  moveSpeed: 2
+  chaseSpeed: 4
+  detectionRange: 10
+  attackRange: 4
+  territoryRadius: 5
+  attackCooldown: 2.5
+  contactDamage: 15
+  attackAngle: 90
+  tiltDownAngle: 45
+  minHeightAbovePlayer: 2
+  absoluteMinHeight: 1
+  heightReactionTime: 3.5
+  firePoint: {fileID: 878678404}
+  bulletPrefab: {fileID: 3801641785686037934, guid: efa3bc66faa334c45aac325e53bcc28b, type: 3}
+  offsetAngle: 0
 --- !u!1 &1418802346
 GameObject:
   m_ObjectHideFlags: 0
@@ -8481,10 +8519,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlyingEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 4451265849190698141, guid: 9c84334d3e5a7de4295edb095ac8f23b, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4451265849190698143, guid: 9c84334d3e5a7de4295edb095ac8f23b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4451265849190698141, guid: 9c84334d3e5a7de4295edb095ac8f23b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1399410776}
   m_SourcePrefab: {fileID: 100100000, guid: 9c84334d3e5a7de4295edb095ac8f23b, type: 3}
 --- !u!1 &1771646628
 GameObject:
@@ -9525,13 +9574,29 @@ PrefabInstance:
       propertyPath: m_Name
       value: RangedEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 3698325553627397548, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5350673016650912995, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6466643869674961578, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.5142
+      objectReference: {fileID: 0}
+    - target: {fileID: 6466643869674961578, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.7629802
+      objectReference: {fileID: 0}
     - target: {fileID: 6466643869674961578, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.6065
+      value: 15.79
       objectReference: {fileID: 0}
     - target: {fileID: 6466643869674961578, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.1983
+      value: -1.4
       objectReference: {fileID: 0}
     - target: {fileID: 6466643869674961578, guid: d44921d6e3ecbae499bb6358d7739526, type: 3}
       propertyPath: m_LocalPosition.z

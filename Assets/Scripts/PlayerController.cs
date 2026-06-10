@@ -26,8 +26,6 @@ public class PlayerController : MonoBehaviour
     public float coyoteTime = 0.15f;
     public float jumpBufferTime = 0.15f;
 
-    [HideInInspector] public Vector2 platformVelocity;
-
     float coyoteTimeCounter;
     float jumpBufferCounter;
 
@@ -198,12 +196,7 @@ public class PlayerController : MonoBehaviour
             return; // chặn movement khác
         }
 
-        if (!isGrounded && platformVelocity.x != 0)
-        {
-            platformVelocity.x = Mathf.MoveTowards(platformVelocity.x, 0, Time.fixedDeltaTime * 12f);
-        }
-
-        rigidbody2d.linearVelocity = new Vector2((moveX * speed) + platformVelocity.x, rigidbody2d.linearVelocity.y);
+        rigidbody2d.linearVelocity = new Vector2(moveX * speed, rigidbody2d.linearVelocity.y);
     }
    void OnEnable()
 {

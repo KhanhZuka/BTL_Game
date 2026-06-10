@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4451265849190698142}
   - component: {fileID: 1683359995439387296}
   - component: {fileID: 156745606066700952}
-  - component: {fileID: 8771799860771771706}
+  - component: {fileID: 2525828163495504601}
   m_Layer: 0
   m_Name: FlyingEnemy
   m_TagString: Enemy
@@ -191,7 +191,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &8771799860771771706
+--- !u!114 &2525828163495504601
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

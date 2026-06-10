@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c824400474e50d45bcd246e485645be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpearProjectile
-  speed: 3
+  speed: 2
   damage: 20
   lifetime: 3
   hitDestroyDelay: 0.5
