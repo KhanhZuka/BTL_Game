@@ -104,6 +104,15 @@ public class GroundEnemy : EnemySystemController
         }
     }
 
+    public override void Die()
+    {
+        base.Die();
+
+        Destroy(gameObject, 1f);
+
+    }
+
+
     protected virtual void PerformAttack() 
     {
     }

@@ -79,11 +79,12 @@ public abstract class EnemySystemController : MonoBehaviour
 
     public virtual void Die()
     {
+        isDead = true;
         if (currentHp <= 0) isDead = true;
         anim.Play("Dead");
         StopMoving();
         Collider2D col = GetComponent<Collider2D>();
-        if (col != null) col.enabled = false;
+        if (col != null) col.isTrigger = true;
     }
 
     protected void StopMoving()
