@@ -30,6 +30,7 @@ public class Fire : MonoBehaviour
     {
           BatEnemy batEnemy = collision.GetComponent<BatEnemy>();
         BerserkEnemy berserk = collision.GetComponent<BerserkEnemy>();
+        WarriorEnemy warrior = collision.GetComponent<WarriorEnemy>();
         if (batEnemy != null) {
             batEnemy.ChangeHealthBat(10);
             Destroy(gameObject);
@@ -37,6 +38,10 @@ public class Fire : MonoBehaviour
         if (berserk != null)
         {
             berserk.ChangeHealthBerserk(10);
+            Destroy(gameObject);
+        }
+        if (warrior != null) {
+            warrior.ChangeHealthWarrior(10);
             Destroy(gameObject);
         }
     }

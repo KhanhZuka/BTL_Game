@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public class BerserkEnemy : MonoBehaviour
+public class WarriorEnemy : MonoBehaviour
 {
     [Header("Patrol")]
-    public Transform pointC;
-    public Transform pointD;
+    public Transform pointI;
+    public Transform pointK;
     public float speed = 2f;
 
     [Header("Player")]
@@ -13,18 +13,10 @@ public class BerserkEnemy : MonoBehaviour
     private bool isAttacking = false;
     public float attackCooldown = 1.2f;
     private float nextAttackTime = 0f;
-    public int damage = 15;
-
-    [Header("Jump Wall")]
-    public float jumpForce = 10f;
-    public float jumpForwardForce = 7f;
-    public Transform wallCheck;
-    public Transform groundCheck;
-    public float checkRadius = 0.35f;
-    public LayerMask groundLayer;
+    public int damage = 25;
 
     [Header("Health")]
-    public int healthBerserk = 20;
+    public int healthWarrior = 20;
 
     private Rigidbody2D rigidbody2D;
     private Animator animator;
@@ -43,14 +35,12 @@ public class BerserkEnemy : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
-        target = pointD;
+        target = pointK;
     }
 
     void FixedUpdate()
     {
         if (player == null) return;
-
-        CheckGround();
 
         float distanceToPlayer = Mathf.Abs(player.position.x - transform.position.x);
 
@@ -82,17 +72,6 @@ public class BerserkEnemy : MonoBehaviour
         {
             Patrol();
         }
-
-        CheckWallAndJump();
-    }
-
-    void CheckGround()
-    {
-        isGrounded = Physics2D.OverlapCircle(
-            groundCheck.position,
-            checkRadius,
-            groundLayer
-        );
     }
 
     void Patrol()
@@ -110,13 +89,13 @@ public class BerserkEnemy : MonoBehaviour
 
         if (Mathf.Abs(transform.position.x - target.position.x) < 0.2f)
         {
-            if (target == pointC)
+            if (target == pointI)
             {
-                target = pointD;
+                target = pointK;
             }
             else
             {
-                target = pointC;
+                target = pointI;
             }
         }
     }
@@ -157,46 +136,11 @@ public class BerserkEnemy : MonoBehaviour
         }
     }
 
-    void CheckWallAndJump()
-    {
-        float direction;
-
-        if (isChasing)
-        {
-            direction = player.position.x > transform.position.x ? 1f : -1f;
-        }
-        else
-        {
-            direction = target.position.x > transform.position.x ? 1f : -1f;
-        }
-
-        RaycastHit2D hit = Physics2D.Raycast(
-            wallCheck.position,
-            Vector2.right * direction,
-            1f,
-            groundLayer
-        );
-
-        if (hit.collider != null && isGrounded && !isJumpingWall)
-        {
-            isJumpingWall = true;
-
-            rigidbody2D.linearVelocity = new Vector2(
-                direction * jumpForwardForce,
-                jumpForce
-            );
-        }
-        
-        if (isGrounded && hit.collider == null)
-        {
-            isJumpingWall = false;
-        }
-    }
 
     bool PlayerInPatrolArea()
     {
-        float minX = Mathf.Min(pointC.position.x, pointD.position.x);
-        float maxX = Mathf.Max(pointC.position.x, pointD.position.x);
+        float minX = Mathf.Min(pointI.position.x, pointK.position.x);
+        float maxX = Mathf.Max(pointI.position.x, pointK.position.x);
 
         return player.position.x >= minX && player.position.x <= maxX;
     }
@@ -222,8 +166,8 @@ public class BerserkEnemy : MonoBehaviour
         isAttacking = true;
         nextAttackTime = Time.time + attackCooldown;
 
-        animator.ResetTrigger("Attack");
-        animator.SetTrigger("Attack");
+        animator.ResetTrigger("AttackWarrior");
+        animator.SetTrigger("AttackWarrior");
 
         Invoke(nameof(DamagePlayer), 0.4f);
         Invoke(nameof(ResetAttack), 1f);
@@ -253,17 +197,16 @@ public class BerserkEnemy : MonoBehaviour
         isAttacking = false;
     }
 
-    public void ChangeHealthBerserk(int amount)
+    public void ChangeHealthWarrior(int amount)
     {
-        healthBerserk -= amount;
-
-        if (healthBerserk <= 0)
+        healthWarrior -= amount;
+        if (healthWarrior <= 0)
         {
-            animator.SetTrigger("Dead");
+            animator.SetTrigger("DeadWarrior");
         }
     }
 
-    void DestroyEnemyBerserk()
+    void DestroyEnemyWarrior()
     {
         Destroy(gameObject);
     }
