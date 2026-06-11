@@ -29,7 +29,7 @@ public class PlayerOne : MonoBehaviour
     public LayerMask enemyLayer;
     public int damage = 1;
 
-    public int maxHealth = 30;
+    public int maxHealth = 100;
     private int currentHealth;
     public int health { get { return currentHealth; } }
     public float dieAnimationTime = 1.0f;
@@ -118,6 +118,7 @@ public class PlayerOne : MonoBehaviour
         {
             BatEnemy bat = enemy.GetComponent<BatEnemy>();
             BerserkEnemy berserk = enemy.GetComponent<BerserkEnemy>();
+            WarriorEnemy warrior = enemy.GetComponent<WarriorEnemy>();
             if (bat != null)
             {
                 bat.ChangeHealthBat(5);
@@ -125,6 +126,10 @@ public class PlayerOne : MonoBehaviour
             if (berserk != null)
             {
                 berserk.ChangeHealthBerserk(5);
+            }
+            if(warrior != null)
+            {
+                warrior.ChangeHealthWarrior(5);
             }
         }
     }
@@ -191,7 +196,6 @@ public class PlayerOne : MonoBehaviour
 
         isDead = false;
         isGrounded = true;
-
         animator.Play("Idle");
     }
 

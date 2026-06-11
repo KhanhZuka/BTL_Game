@@ -24,7 +24,7 @@ public class BatEnemy : MonoBehaviour
 
     Animator animator;
 
-    bool isAttacking = false;
+    public bool isAttacking = false;
     bool canDamage = true;
     bool playerInAttackRange = false;
     PlayerOne playerTarget;
@@ -161,7 +161,7 @@ public class BatEnemy : MonoBehaviour
     {
         if (playerTarget != null && playerTarget.health > 0 && playerInAttackRange && canDamage)
         {
-            playerTarget.ChangeHealth(-5);
+            playerTarget.ChangeHealth(-20);
             canDamage = false;
         }
     }
