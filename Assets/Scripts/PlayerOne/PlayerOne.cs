@@ -40,6 +40,8 @@ public class PlayerOne : MonoBehaviour
     private Vector3 startPosition;
     private bool isDead = false;
 
+    public int soXu = 0;
+    public int soQuaiDead = 0;
     private void Awake()
     {
         instance = this;

@@ -14,8 +14,11 @@ public class CoinPickup : MonoBehaviour
 
         if (!other.CompareTag("Player")) return; // chỉ player mới nhặt
 
-        picked = true;
-
+        picked = true;      
+        PlayerOne playerone = other.GetComponent<PlayerOne>();
+        if(playerone != null) PlayerOne.instance.soXu++;
+        PlayerController playercontroller = other.GetComponent<PlayerController>();
+        if (playercontroller != null) PlayerController.instance.soXu++;
         if (audioSource != null)
         {
             audioSource.Play();

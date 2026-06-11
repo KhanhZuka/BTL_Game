@@ -69,6 +69,7 @@ public abstract class EnemySystemController : MonoBehaviour
         if (currentHp <= 0)
         {
             Die();
+            PlayerController.instance.soQuaiDead++;
         }
         else
         {

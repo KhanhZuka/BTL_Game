@@ -125,6 +125,7 @@ public class BatEnemy : MonoBehaviour
         if (healthBat <= 0)
         {
             animator.SetTrigger("Dead");
+            PlayerOne.instance.soQuaiDead++;
         }
     }
 

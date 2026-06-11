@@ -6,11 +6,33 @@ public class PanelLose : MonoBehaviour
 {
     public Button BtnPlayAgain;
     public Button BtnQuit;
+    public GameObject[] ImgStars;
+    private int soSao;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        soSao = 0;
+        for (int i = 0; i < ImgStars.Length; i++)
+        {
+            ImgStars[i].gameObject.SetActive(false);
+        }
         BtnPlayAgain.onClick.AddListener(PlayAgain);
         BtnQuit.onClick.AddListener(OpenUIScene);
+        if (PlayerOne.instance.soXu == 6) soSao++;
+        if (PlayerOne.instance.soQuaiDead >= 3) soSao++;
+        for (int i = 0; i < soSao; i++)
+        {
+            ImgStars[i].gameObject.SetActive(true);
+        }
+        PlayerOne.instance.soXu = 0;
+        PlayerOne.instance.soQuaiDead = 0;
+
+        if (PlayerController.instance.soXu == 6) soSao++;
+        if (PlayerController.instance.soQuaiDead >= 3) soSao++;
+        for (int i = 0; i < soSao; i++)
+        {
+            ImgStars[i].gameObject.SetActive(true);
+        }
     }
 
     // Update is called once per frame

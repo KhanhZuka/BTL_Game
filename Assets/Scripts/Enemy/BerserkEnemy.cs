@@ -260,6 +260,7 @@ public class BerserkEnemy : MonoBehaviour
         if (healthBerserk <= 0)
         {
             animator.SetTrigger("Dead");
+            PlayerOne.instance.soQuaiDead++;
         }
     }
 

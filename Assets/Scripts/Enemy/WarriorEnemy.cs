@@ -203,6 +203,7 @@ public class WarriorEnemy : MonoBehaviour
         if (healthWarrior <= 0)
         {
             animator.SetTrigger("DeadWarrior");
+            PlayerOne.instance.soQuaiDead++;
         }
     }
 
