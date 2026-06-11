@@ -100,6 +100,13 @@ public class PlayerController : MonoBehaviour
     [Header("Moving Platform")]
     public Vector2 platformVelocity;
 
+    public int soXu = 0;
+    public int soQuaiDead = 0;
+
+    private void Awake()
+    {
+        instance = this;
+    }
     // EVENTS
     void Start()
     {
