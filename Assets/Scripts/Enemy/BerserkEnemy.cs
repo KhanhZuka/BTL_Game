@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class BerserkEnemy : MonoBehaviour
 {
@@ -24,7 +25,10 @@ public class BerserkEnemy : MonoBehaviour
     public LayerMask groundLayer;
 
     [Header("Health")]
-    public int healthBerserk = 20;
+    public Image fillHealth;
+    public Image frameHealth;
+    private int maxHealthBerserk = 30;
+    private int healthBerserk = 30;
 
     private Rigidbody2D rigidbody2D;
     private Animator animator;
@@ -38,12 +42,20 @@ public class BerserkEnemy : MonoBehaviour
     public float attackRadius = 0.2f;
     public LayerMask playerLayer;
 
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip berserkSound;
+
+    private float nextSoundTime;
+    public float SoundInterval = 3f;
+
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-
         target = pointD;
+        healthBerserk = maxHealthBerserk;
+        UpdateHealthBar();
     }
 
     void FixedUpdate()
@@ -93,6 +105,19 @@ public class BerserkEnemy : MonoBehaviour
             checkRadius,
             groundLayer
         );
+    }
+
+    void PlayBerserkSoundWhenNear()
+    {
+        if (Time.time >= nextSoundTime)
+        {
+            if (audioSource != null && berserkSound != null)
+            {
+                audioSource.PlayOneShot(berserkSound);
+            }
+
+            nextSoundTime = Time.time + SoundInterval;
+        }
     }
 
     void Patrol()
@@ -215,7 +240,7 @@ public class BerserkEnemy : MonoBehaviour
         {
             Flip(-1);
         }
-
+        PlayBerserkSoundWhenNear();
         if (isAttacking) return;
         if (Time.time < nextAttackTime) return;
 
@@ -255,12 +280,23 @@ public class BerserkEnemy : MonoBehaviour
 
     public void ChangeHealthBerserk(int amount)
     {
+        
         healthBerserk -= amount;
+        healthBerserk = Mathf.Clamp(healthBerserk, 0, maxHealthBerserk);
+        UpdateHealthBar();
 
         if (healthBerserk <= 0)
         {
             animator.SetTrigger("Dead");
             PlayerOne.instance.soQuaiDead++;
+        }
+    }
+
+    void UpdateHealthBar()
+    {
+        if (fillHealth != null)
+        {
+            fillHealth.fillAmount = (float)healthBerserk / maxHealthBerserk;
         }
     }
 

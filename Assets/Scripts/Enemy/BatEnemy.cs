@@ -1,5 +1,6 @@
 ﻿using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BatEnemy : MonoBehaviour
 {
@@ -18,6 +19,10 @@ public class BatEnemy : MonoBehaviour
 
     bool isChasing = false;
 
+    public Image fillHealth;
+    public Image frameHealth;
+
+    private int maxHealthBat = 20;
     private int healthBat = 20;
     public static BatEnemy instance;
     public float attackDistance = 1.2f;
@@ -28,6 +33,14 @@ public class BatEnemy : MonoBehaviour
     bool canDamage = true;
     bool playerInAttackRange = false;
     PlayerOne playerTarget;
+
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip batSound;
+
+    private float nextSoundTime;
+    public float SoundInterval = 3f;
+
     private void Awake()
     {
         instance = this;
@@ -38,6 +51,9 @@ public class BatEnemy : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         target = pointB;
+
+        healthBat = maxHealthBat;
+        UpdateHealthBar();
     }
 
     void FixedUpdate()
@@ -58,10 +74,12 @@ public class BatEnemy : MonoBehaviour
         // Nếu đủ gần thì attack
         if (distanceToPlayer < attackDistance)
         {
+            PlayBatSoundWhenNear();
             AttackPlayer();
         }
         else if (isChasing)
         {
+            PlayBatSoundWhenNear();
             ChasePlayer();
         }
         else
@@ -105,6 +123,19 @@ public class BatEnemy : MonoBehaviour
         Flip(direction.x);
     }
 
+    void PlayBatSoundWhenNear()
+    {
+        if (Time.time >= nextSoundTime)
+        {
+            if (audioSource != null && batSound != null)
+            {
+                audioSource.PlayOneShot(batSound);
+            }
+
+            nextSoundTime = Time.time + SoundInterval;
+        }
+    }
+
     void Flip(float directionX)
     {
         if (directionX < 0)
@@ -120,7 +151,11 @@ public class BatEnemy : MonoBehaviour
     public void ChangeHealthBat(int amount)
     {
         animator.SetTrigger("Hurt");
+
         healthBat -= amount;
+        healthBat = Mathf.Clamp(healthBat, 0, maxHealthBat);
+
+        UpdateHealthBar();
 
         if (healthBat <= 0)
         {
@@ -129,9 +164,17 @@ public class BatEnemy : MonoBehaviour
         }
     }
 
-    void DestroyEnemyBat()
+    void UpdateHealthBar()
     {
-        Destroy(gameObject);
+        if (fillHealth != null)
+        {
+            fillHealth.fillAmount = (float)healthBat / maxHealthBat;
+        }
+    }
+
+    void DestroyEnemyBat()
+    {     
+        Destroy(gameObject);  
     }
 
     void AttackPlayer()

@@ -42,6 +42,9 @@ public class PlayerOne : MonoBehaviour
 
     public int soXu = 0;
     public int soQuaiDead = 0;
+    public SkillCooldownUI skillUI;
+    bool canFire = true;
+    float fireCooldown = 5f;
     private void Awake()
     {
         instance = this;
@@ -138,6 +141,10 @@ public class PlayerOne : MonoBehaviour
 
     public void LaunchFire()
     {
+        if (!canFire) return;
+
+        canFire = false;
+
         animator.SetTrigger("AttackFire");
 
         Vector2 direction = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
@@ -150,6 +157,16 @@ public class PlayerOne : MonoBehaviour
 
         Fire fireObject = fire.GetComponent<Fire>();
         fireObject.AddForce(direction, 300f);
+
+        skillUI.StartCooldown(fireCooldown);
+
+        StartCoroutine(FireCooldown());
+    }
+
+    IEnumerator FireCooldown()
+    {
+        yield return new WaitForSeconds(fireCooldown);
+        canFire = true;
     }
 
     public void ChangeHealth(int amount)
