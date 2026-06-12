@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WarriorEnemy : MonoBehaviour
 {
@@ -16,7 +17,10 @@ public class WarriorEnemy : MonoBehaviour
     public int damage = 25;
 
     [Header("Health")]
-    public int healthWarrior = 20;
+    public Image fillHealth;
+    public Image frameHealth;
+    private int maxHealthWarrior = 40;
+    private int healthWarrior = 40;
 
     private Rigidbody2D rigidbody2D;
     private Animator animator;
@@ -30,12 +34,20 @@ public class WarriorEnemy : MonoBehaviour
     public float attackRadius = 0.2f;
     public LayerMask playerLayer;
 
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip berserkSound;
+
+    private float nextSoundTime;
+    public float SoundInterval = 3f;
+
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-
         target = pointK;
+        healthWarrior = maxHealthWarrior;
+        UpdateHealthBar();
     }
 
     void FixedUpdate()
@@ -71,6 +83,19 @@ public class WarriorEnemy : MonoBehaviour
         else
         {
             Patrol();
+        }
+    }
+
+    void PlayBerserkSoundWhenNear()
+    {
+        if (Time.time >= nextSoundTime)
+        {
+            if (audioSource != null && berserkSound != null)
+            {
+                audioSource.PlayOneShot(berserkSound);
+            }
+
+            nextSoundTime = Time.time + SoundInterval;
         }
     }
 
@@ -159,7 +184,7 @@ public class WarriorEnemy : MonoBehaviour
         {
             Flip(-1);
         }
-
+        PlayBerserkSoundWhenNear();
         if (isAttacking) return;
         if (Time.time < nextAttackTime) return;
 
@@ -200,10 +225,20 @@ public class WarriorEnemy : MonoBehaviour
     public void ChangeHealthWarrior(int amount)
     {
         healthWarrior -= amount;
+        healthWarrior = Mathf.Clamp(healthWarrior, 0, maxHealthWarrior);
+        UpdateHealthBar();
         if (healthWarrior <= 0)
         {
             animator.SetTrigger("DeadWarrior");
             PlayerOne.instance.soQuaiDead++;
+        }
+    }
+
+    void UpdateHealthBar()
+    {
+        if (fillHealth != null)
+        {
+            fillHealth.fillAmount = (float)healthWarrior / maxHealthWarrior;
         }
     }
 
