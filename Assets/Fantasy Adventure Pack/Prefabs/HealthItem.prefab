@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3d595554b20d984985e32e6d6e269f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthItem
-  healAmount: 1
+  healAmount: 30
 --- !u!82 &4992865864266646284
 AudioSource:
   m_ObjectHideFlags: 0
