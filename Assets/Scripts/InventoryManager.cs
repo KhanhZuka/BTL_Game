@@ -9,6 +9,9 @@ public class InventoryManager : MonoBehaviour
     public List<ItemData> items = new List<ItemData>();
     public int maxSlots = 5;
 
+    [Header("Sound")]
+    public AudioClip useItemSound;
+
     void Awake()
     {
         Instance = this;
@@ -46,6 +49,13 @@ public class InventoryManager : MonoBehaviour
     {
         if (index >= items.Count) return;
         ItemData item = items[index];
+
+        // phát sound
+        if (PlayerController.instance != null && useItemSound != null)
+        {
+            PlayerController.instance.audioSource.PlayOneShot(useItemSound);
+        }
+
         ApplyItemEffect(item);
         items.RemoveAt(index);
         UIManager.Instance.UpdateInventory(items);

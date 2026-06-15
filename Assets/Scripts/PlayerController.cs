@@ -103,6 +103,35 @@ public class PlayerController : MonoBehaviour
     public int soXu = 0;
     public int soQuaiDead = 0;
 
+    [Header("Sound")]
+    public AudioSource audioSource;
+    public AudioClip appearSound;
+
+    // Sound_Attack
+    public AudioClip[] attackSounds;
+    public AudioClip attackUpSound;
+    public AudioClip attackDownSound;
+
+    // Sound_Movement
+    public AudioClip[] footstepSounds;
+
+    // Sound_Jump
+    public AudioClip jumpSound;
+    public AudioClip[] landingSounds;
+
+    // Sound_Others
+    public AudioClip dashSound;
+    public AudioClip hitSound;
+    public AudioClip fireSound;
+    public AudioClip deadSound;
+
+    // footstep timer
+    float stepTimer;
+    public float stepInterval = 0.4f;
+
+    // landing check
+    bool wasGrounded;
+
     private void Awake()
     {
         instance = this;
@@ -110,6 +139,7 @@ public class PlayerController : MonoBehaviour
     // EVENTS
     void Start()
     {
+        audioSource.PlayOneShot(appearSound);
         MoveAction.Enable();
         JumpAction.Enable();
 
@@ -133,6 +163,14 @@ public class PlayerController : MonoBehaviour
         CheckGround();
         Flip();
 
+        //LANDING 
+        if (!wasGrounded && isGrounded)
+        {
+            audioSource.PlayOneShot(GetRandomClip(landingSounds));
+        }
+        wasGrounded = isGrounded;
+
+
         // Cho phép nhảy trong một khoảng thời gian ngắn sau khi rời đất (Coyote Time)
         if (isGrounded)
         {
@@ -151,6 +189,7 @@ public class PlayerController : MonoBehaviour
 
         if (jumpBufferCounter > 0 && coyoteTimeCounter > 0)
         {
+            audioSource.PlayOneShot(jumpSound);
             rigidbody2d.linearVelocity = new Vector2(rigidbody2d.linearVelocity.x, jumpForce);
             // reset để tránh double jump ngoài ý muốn
             jumpBufferCounter = 0;
@@ -195,9 +234,24 @@ public class PlayerController : MonoBehaviour
             facingDirection = -1f;
         }
 
+        // FOOTSTEP 
+        if (isGrounded && Mathf.Abs(moveX) > 0.1f)
+        {
+            stepTimer -= Time.deltaTime;
+
+            if (stepTimer <= 0)
+            {
+                audioSource.PlayOneShot(GetRandomClip(footstepSounds));
+                stepTimer = stepInterval;
+            }
+        }
+        else
+        {
+            stepTimer = 0;
+        }
+
         UpdateAnimator();
         HandleInvincible();
-
     }
 
     void FixedUpdate()
@@ -290,6 +344,7 @@ void OnDisable()
             if (isInvincible) return;
             isInvincible = true;
             damageCooldown = timeInvincible;
+            audioSource.PlayOneShot(hitSound);
             animator.SetTrigger("Hit");
         }
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
@@ -319,16 +374,17 @@ void OnDisable()
         // mất 1 mạng
         HealthUIManager.Instance.LoseLife();
 
-    if (HealthUIManager.Instance.IsGameOver())
-        {
-            GameOver();
-            return;
-        }
+        if (HealthUIManager.Instance.IsGameOver())
+            {
+                GameOver();
+                return;
+            }
 
         // dừng physics
         rigidbody2d.linearVelocity = Vector2.zero;
         rigidbody2d.simulated = false;
 
+        audioSource.PlayOneShot(deadSound);
         animator.SetTrigger("Die");
 
         Invoke(nameof(Respawn), 1.2f);
@@ -337,6 +393,7 @@ void OnDisable()
     void Respawn()
     { 
         transform.position = respawnPoint; // Đưa player về điểm respawn
+        audioSource.PlayOneShot(appearSound);
         rigidbody2d.simulated = true; // Bật lại physics        
         isDead = false; // Reset trạng thái
         rigidbody2d.linearVelocity = Vector2.zero; // Reset velocity
@@ -407,6 +464,7 @@ void OnDisable()
     {
         if (isAttacking) return;
         isAttacking = true;
+        audioSource.PlayOneShot(GetRandomClip(attackSounds));
 
         animator.ResetTrigger("Attack");
         animator.SetTrigger("Attack");
@@ -416,6 +474,7 @@ void OnDisable()
     {
         if (isAttacking) return;
         isAttacking = true;
+        audioSource.PlayOneShot(attackUpSound);
 
         animator.ResetTrigger("AttackUp");
         animator.SetTrigger("AttackUp");
@@ -425,6 +484,7 @@ void OnDisable()
     {
         if (isAttacking) return;
         isAttacking = true;
+        audioSource.PlayOneShot(attackDownSound);
 
         animator.ResetTrigger("AttackDown");
         animator.SetTrigger("AttackDown");
@@ -479,6 +539,7 @@ void OnDisable()
         rigidbody2d.gravityScale = 0;
 
         isInvincible = true;
+        audioSource.PlayOneShot(dashSound);
 
         animator.SetTrigger("Dash");
     }
@@ -570,6 +631,7 @@ void OnDisable()
     // Fireball Attack
     void FireAttack()
     {
+        audioSource.PlayOneShot(fireSound);
         animator.SetTrigger("FireAttack");
     }
     public void SpawnFireball()
@@ -585,6 +647,11 @@ void OnDisable()
         sr.flipX = facingDirection > 0;
 
         skillUI.StartCooldown(fireCooldown);
+    }
+
+    AudioClip GetRandomClip(AudioClip[] clips)
+    {
+        return clips[Random.Range(0, clips.Length)];
     }
 
     // DEBUG

@@ -207,6 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4e923f02fa6d234b98245c3c8108fec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KeyPickup
+  keyPickupSound: {fileID: 8300000, guid: 9d821004b1ab3dd42b1ee7b33e7cd883, type: 3}
 --- !u!95 &8463322211268082040
 Animator:
   serializedVersion: 7

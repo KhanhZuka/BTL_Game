@@ -765,6 +765,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7a9c0aca44554c04ca5ff57cdd3ebb91, type: 2}
   - {fileID: 11400000, guid: 52816fea3ab0f2b419696e68d59aa954, type: 2}
   maxSlots: 5
+  useItemSound: {fileID: 8300000, guid: 124a0a1518df8274e9bd6ad2da6de865, type: 3}
 --- !u!1 &1232183761642312646
 GameObject:
   m_ObjectHideFlags: 0
