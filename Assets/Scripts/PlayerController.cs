@@ -153,6 +153,7 @@ public class PlayerController : MonoBehaviour
         respawnPoint = transform.position;
 
         InventoryManager.Instance.items.Clear();
+       
     }
     void Update()
     {
@@ -416,6 +417,8 @@ void OnDisable()
         // tắt player
         rigidbody2d.simulated = false;
         Debug.Log("Game Over");
+        GameData.lastCoins = soXu;
+        GameData.lastEnemyDead = soQuaiDead;
         Time.timeScale = 1f;
         GameData.lastMap = SceneManager.GetActiveScene().name;
         GameData.backToLosePanel = true;

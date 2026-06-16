@@ -18,7 +18,6 @@ public class KeyPickup : MonoBehaviour
             {
                 player.audioSource.PlayOneShot(keyPickupSound);
             }
-
             Destroy(gameObject);
         }
 
@@ -28,6 +27,11 @@ public class KeyPickup : MonoBehaviour
             playerOne.hasKey = true;
             KeyUIManager.Instance.ShowKey(); // Hiển thị keyUI
             NotificationUI.Instance.ShowMessage("Đã nhặt chìa khóa");
+
+            if (playerOne.audioSource != null && keyPickupSound != null)
+            {
+                playerOne.audioSource.PlayOneShot(keyPickupSound);
+            }
 
             Destroy(gameObject);
         }

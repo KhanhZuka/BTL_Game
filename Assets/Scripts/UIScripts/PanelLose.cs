@@ -7,32 +7,34 @@ public class PanelLose : MonoBehaviour
     public Button BtnPlayAgain;
     public Button BtnQuit;
     public GameObject[] ImgStars;
+    public Text TxtCoins;
     private int soSao;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         soSao = 0;
+
+
         for (int i = 0; i < ImgStars.Length; i++)
-        {
-            ImgStars[i].gameObject.SetActive(false);
-        }
+            ImgStars[i].SetActive(false);
+
         BtnPlayAgain.onClick.AddListener(PlayAgain);
         BtnQuit.onClick.AddListener(OpenUIScene);
-        if (PlayerOne.instance.soXu == 6) soSao++;
-        if (PlayerOne.instance.soQuaiDead >= 3) soSao++;
-        for (int i = 0; i < soSao; i++)
-        {
-            ImgStars[i].gameObject.SetActive(true);
-        }
-        PlayerOne.instance.soXu = 0;
-        PlayerOne.instance.soQuaiDead = 0;
 
-        if (PlayerController.instance.soXu == 6) soSao++;
-        if (PlayerController.instance.soQuaiDead >= 3) soSao++;
-        for (int i = 0; i < soSao; i++)
-        {
-            ImgStars[i].gameObject.SetActive(true);
-        }
+            int coins = GameData.lastCoins;
+            int enemyDead = GameData.lastEnemyDead;
+
+            TxtCoins.text = coins.ToString();
+            if (coins == 6) soSao++;
+            if (enemyDead >= 3) soSao++;
+
+        GameData.lastEnemyDead = 0;
+        GameData.lastCoins = 0;
+
+
+        for (int i = 0; i < soSao && i < ImgStars.Length; i++)
+            ImgStars[i].SetActive(true);
+
     }
 
     // Update is called once per frame

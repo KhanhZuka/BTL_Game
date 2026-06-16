@@ -65,10 +65,21 @@ public class Portal : MonoBehaviour
             GameData.backToWinPanel = true;
 
             if (PlayerOne.instance != null)
+            {
                 PlayerOne.instance.hasKey = false;
+                GameData.lastCoins = PlayerOne.instance.soXu;
+                GameData.lastEnemyDead = PlayerOne.instance.soQuaiDead;
+                Debug.Log("coint: " +  GameData.lastCoins);
+            }
+                
 
-            if (PlayerController.instance != null)
+            else if (PlayerController.instance != null)
+            {
                 PlayerController.instance.hasKey = false;
+                GameData.lastCoins = PlayerController.instance.soXu;
+                GameData.lastEnemyDead = PlayerController.instance.soQuaiDead;
+            }
+                
 
             SceneManager.LoadScene("UIScene");
         }
