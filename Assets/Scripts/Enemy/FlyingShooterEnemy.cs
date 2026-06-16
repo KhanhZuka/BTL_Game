@@ -8,9 +8,13 @@ public class FlyingShooterEnemy : FlyingEnemy
     
     public float offsetAngle = 0f; 
 
+    [Header("--- Sounds ---")]
+    public AudioClip attackSound;
+
     protected override void PerformAttack()
     {
         base.PerformAttack();
+        if (attackSound != null) PlaySound(attackSound);
         ShootBullet();
     }
 

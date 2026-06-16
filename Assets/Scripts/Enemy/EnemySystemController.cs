@@ -23,6 +23,13 @@ public abstract class EnemySystemController : MonoBehaviour
     protected Animator anim;
     protected Vector2 startPos;
 
+    [Header("--- Audio ---")]
+    [Tooltip("Khoảng cách tối đa người chơi có thể nghe thấy âm thanh của quái")]
+    public float soundRange = 15f; 
+    public AudioClip hitSound;
+    public AudioClip deadSound;
+    protected AudioSource audioSource;
+
     protected SpriteRenderer spriteRenderer;
 
     protected bool isDead = false;
@@ -37,6 +44,14 @@ public abstract class EnemySystemController : MonoBehaviour
         startPos = transform.position;
         attackTimer = attackCooldown;
 
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        
+        // Đưa âm thanh về 2D (đồng đều 2 bên tai, âm lượng không bị giảm theo khoảng cách khi đã lọt vào tầm)
+        audioSource.spatialBlend = 0f; 
     }
 
     protected virtual void Update()
@@ -75,6 +90,7 @@ public abstract class EnemySystemController : MonoBehaviour
         {
             Debug.Log($"[{gameObject.name}] Bị chém mất {amount} máu! Máu còn: {currentHp}/{maxHp}");
             anim.Play("Hit");
+            PlaySound(hitSound);
         }
     }
 
@@ -83,9 +99,33 @@ public abstract class EnemySystemController : MonoBehaviour
         isDead = true;
         if (currentHp <= 0) isDead = true;
         anim.Play("Dead");
+        PlaySound(deadSound);
         StopMoving();
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.isTrigger = true;
+    }
+
+    protected void PlaySound(AudioClip clip)
+    {
+        if (audioSource != null && clip != null)
+        {
+            if (PlayerController.instance != null)
+            {
+                // Kiểm tra khoảng cách thực tế tới Player
+                float distance = Vector2.Distance(transform.position, PlayerController.instance.transform.position);
+                
+                // Chỉ phát âm thanh (2D, 100% Volume) nếu lọt vào trong tầm nghe
+                if (distance <= soundRange)
+                {
+                    audioSource.PlayOneShot(clip);
+                }
+            }
+            else
+            {
+                // Fallback nếu vì lý do nào đó không tìm thấy Player
+                audioSource.PlayOneShot(clip);
+            }
+        }
     }
 
     protected void StopMoving()

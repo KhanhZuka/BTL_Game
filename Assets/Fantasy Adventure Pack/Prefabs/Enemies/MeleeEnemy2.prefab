@@ -210,6 +210,9 @@ MonoBehaviour:
   territoryRadius: 5
   attackCooldown: 2.5
   contactDamage: 15
+  soundRange: 10
+  hitSound: {fileID: 8300000, guid: 65b27a709ea8ab242b0cc2a5b1c92100, type: 3}
+  deadSound: {fileID: 8300000, guid: 97e3a7379168ccc40ad3eabef8775828, type: 3}
   visionWidthX: 10
   visionHeightY: 1.5
   frontSensor: {fileID: 0}
@@ -225,3 +228,4 @@ MonoBehaviour:
   meleeDamage: 25
   hitEffectPrefab: {fileID: 0}
   damageDelay: 0.3
+  attackSound: {fileID: 8300000, guid: ee4bbbd54b84b2242bf6d3f8c57c7fe7, type: 3}

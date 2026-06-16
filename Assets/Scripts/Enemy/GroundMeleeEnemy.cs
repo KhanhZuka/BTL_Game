@@ -14,6 +14,9 @@ public class GroundMeleeEnemy : GroundEnemy
     
     public float damageDelay = 0.05f; 
 
+    [Header("--- Sounds ---")]
+    public AudioClip attackSound;
+
     protected override void Start()
     {
         maxHp = 200f; 
@@ -27,6 +30,7 @@ public class GroundMeleeEnemy : GroundEnemy
     protected override void PerformAttack()
     {
         base.PerformAttack();
+        if (attackSound != null) PlaySound(attackSound);
         
         // Khởi động luồng đếm thời gian song song với Animation
         StartCoroutine(CalculateDamageDelay());

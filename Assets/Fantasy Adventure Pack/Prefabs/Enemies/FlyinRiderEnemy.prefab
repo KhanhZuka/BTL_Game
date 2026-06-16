@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2833383284772698531}
   - component: {fileID: 1517022715626327487}
   - component: {fileID: 55449658630908605}
+  - component: {fileID: -7930244318378334804}
   m_Layer: 0
   m_Name: FlyinRiderEnemy
   m_TagString: Untagged
@@ -190,6 +191,39 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &-7930244318378334804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4177612084850250945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c92efccb594856d48afbd2240b0f7c4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlyingBlazeEnemy
+  maxHp: 100
+  moveSpeed: 2
+  chaseSpeed: 4
+  detectionRange: 10
+  attackRange: 4
+  territoryRadius: 5
+  attackCooldown: 2.5
+  contactDamage: 15
+  soundRange: 15
+  hitSound: {fileID: 8300000, guid: 65b27a709ea8ab242b0cc2a5b1c92100, type: 3}
+  deadSound: {fileID: 8300000, guid: 97e3a7379168ccc40ad3eabef8775828, type: 3}
+  attackAngle: 90
+  tiltDownAngle: 45
+  minHeightAbovePlayer: 2
+  absoluteMinHeight: 1
+  heightReactionTime: 3.5
+  mouthPoint: {fileID: 0}
+  fireBreathPrefab: {fileID: 0}
+  fireDuration: 1.5
+  offsetAngle: 0
+  attackSound: {fileID: 8300000, guid: 4499db369baa4a84aaa29621fa216bb6, type: 3}
 --- !u!1 &7626350980359439292
 GameObject:
   m_ObjectHideFlags: 0
