@@ -27,16 +27,19 @@ public class PanelMain : MonoBehaviour
             panelMain.SetActive(true);
             panelMaps.SetActive(false);
         }
+        AudioManager.Instance.PlayBGM(AudioManager.Instance.menuMusic);
     }
 
     void OpenInstruction()
     {
+        AudioManager.Instance.PlaySFX();
         panelMain.SetActive(false);
         panelInstruct.SetActive(true);
     }
 
     void OpenMaps()
     {
+        AudioManager.Instance.PlaySFX();
         panelMain.SetActive(false);
         panelMaps.SetActive(true);
     }

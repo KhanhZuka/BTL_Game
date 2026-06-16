@@ -22,6 +22,7 @@ public class PanelPause : MonoBehaviour
 
     void OpenUIScene()
     {
+        AudioManager.Instance.PlaySFX();
         Time.timeScale = 1f;
         GameData.backToMapPanel = true;
         SceneManager.LoadScene("UIScene");
@@ -29,12 +30,14 @@ public class PanelPause : MonoBehaviour
     
     void ResumePlay()
     {
+        AudioManager.Instance.PlaySFX();
         Time.timeScale = 1f;
         gameObject.SetActive(false);
     }
 
     void PlayAgain()
     {
+        AudioManager.Instance.PlaySFX();
         Time.timeScale = 1f;
 
         Scene currentScene = SceneManager.GetActiveScene();
