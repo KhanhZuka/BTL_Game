@@ -45,6 +45,18 @@ public class PlayerOne : MonoBehaviour
     public SkillCooldownUI skillUI;
     bool canFire = true;
     float fireCooldown = 5f;
+
+    [Header("Sound")]
+    public AudioSource audioSource;
+    // Sound_Movement
+    public AudioClip footstepSounds;
+    public float footstepInterval = 0.35f;
+    private float nextFootstepTime = 0f;
+
+    public AudioClip attackSounds;
+    // Sound_Jump
+    public AudioClip jumpSound;
+    public AudioClip fireSound;
     private void Awake()
     {
         instance = this;
@@ -64,6 +76,7 @@ public class PlayerOne : MonoBehaviour
 
         currentHealth = maxHealth;
         HealthUIManager.Instance.UpdateHealth(currentHealth, maxHealth);
+        
     }
 
     void Update()
@@ -79,15 +92,25 @@ public class PlayerOne : MonoBehaviour
             transform.localScale = new Vector3(1, 1, 1);
 
         animator.SetFloat("Speed", Mathf.Abs(move.x));
+        if (Mathf.Abs(move.x) > 0.1f && isGrounded)
+        {
+            if (Time.time >= nextFootstepTime)
+            {
+                audioSource.PlayOneShot(footstepSounds);
+                nextFootstepTime = Time.time + footstepInterval;
+            }
+        }
 
         if (JumpAction.WasPressedThisFrame() && isGrounded)
         {
             JumpPlayer();
+            audioSource.PlayOneShot(jumpSound);
         }
 
         if (AttackAction.WasPressedThisFrame() && isGrounded)
         {
             AttackPlayer();
+            audioSource.PlayOneShot(attackSounds);
         }
 
         if (FireAction.WasPressedThisFrame() && isGrounded)
@@ -141,7 +164,7 @@ public class PlayerOne : MonoBehaviour
         canFire = false;
 
         animator.SetTrigger("AttackFire");
-
+        audioSource.PlayOneShot(fireSound);
         Vector2 direction = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
 
         GameObject fire = Instantiate(
@@ -219,6 +242,8 @@ public class PlayerOne : MonoBehaviour
         move = Vector2.zero;
         rigidbody2D.linearVelocity = Vector2.zero;
         Debug.Log("Game Over");
+        GameData.lastCoins = soXu;
+        GameData.lastEnemyDead = soQuaiDead;
         Time.timeScale = 1f;
         GameData.lastMap = SceneManager.GetActiveScene().name;
         GameData.backToLosePanel = true;
