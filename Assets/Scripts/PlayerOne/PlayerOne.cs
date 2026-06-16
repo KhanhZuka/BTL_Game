@@ -85,12 +85,12 @@ public class PlayerOne : MonoBehaviour
             JumpPlayer();
         }
 
-        if (AttackAction.WasPressedThisFrame())
+        if (AttackAction.WasPressedThisFrame() && isGrounded)
         {
             AttackPlayer();
         }
 
-        if (FireAction.WasPressedThisFrame())
+        if (FireAction.WasPressedThisFrame() && isGrounded)
         {
             LaunchFire();
         }
@@ -114,6 +114,8 @@ public class PlayerOne : MonoBehaviour
 
     private void AttackPlayer()
     {
+        if (!isGrounded) return;
+
         animator.SetTrigger("Attack");
 
         Collider2D[] hitEnemies =
@@ -124,23 +126,16 @@ public class PlayerOne : MonoBehaviour
             BatEnemy bat = enemy.GetComponent<BatEnemy>();
             BerserkEnemy berserk = enemy.GetComponent<BerserkEnemy>();
             WarriorEnemy warrior = enemy.GetComponent<WarriorEnemy>();
-            if (bat != null)
-            {
-                bat.ChangeHealthBat(5);
-            }
-            if (berserk != null)
-            {
-                berserk.ChangeHealthBerserk(5);
-            }
-            if(warrior != null)
-            {
-                warrior.ChangeHealthWarrior(5);
-            }
+
+            if (bat != null) bat.ChangeHealthBat(5);
+            if (berserk != null) berserk.ChangeHealthBerserk(5);
+            if (warrior != null) warrior.ChangeHealthWarrior(5);
         }
     }
 
     public void LaunchFire()
     {
+        if (!isGrounded) return;
         if (!canFire) return;
 
         canFire = false;

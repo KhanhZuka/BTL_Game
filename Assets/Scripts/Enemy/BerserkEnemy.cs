@@ -211,7 +211,7 @@ public class BerserkEnemy : MonoBehaviour
                 jumpForce
             );
         }
-        
+
         if (isGrounded && hit.collider == null)
         {
             isJumpingWall = false;
@@ -280,7 +280,7 @@ public class BerserkEnemy : MonoBehaviour
 
     public void ChangeHealthBerserk(int amount)
     {
-        
+
         healthBerserk -= amount;
         healthBerserk = Mathf.Clamp(healthBerserk, 0, maxHealthBerserk);
         UpdateHealthBar();
@@ -305,3 +305,4 @@ public class BerserkEnemy : MonoBehaviour
         Destroy(gameObject);
     }
 }
+
