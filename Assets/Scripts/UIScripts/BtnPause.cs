@@ -21,6 +21,7 @@ public class BtnPause : MonoBehaviour
 
     void OpenPanelPause()
     {
+        Debug.Log("Pause Click");
         Time.timeScale = 0f;
         panelPause.SetActive(true);
     }

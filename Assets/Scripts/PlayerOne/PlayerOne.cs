@@ -45,6 +45,10 @@ public class PlayerOne : MonoBehaviour
     public SkillCooldownUI skillUI;
     bool canFire = true;
     float fireCooldown = 5f;
+
+    [Header("Sound")]
+    public AudioSource audioSource;
+    public AudioClip[] footstepSounds;
     private void Awake()
     {
         instance = this;
