@@ -11,9 +11,13 @@ public class FlyingBlazeEnemy : FlyingEnemy
     [Tooltip("Nếu luồng lửa bị ngược, hãy nhập 180, 90 hoặc -90")]
     public float offsetAngle = 0f;
 
+    [Header("--- Sounds ---")]
+    public AudioClip attackSound;
+
     protected override void PerformAttack()
     {
         base.PerformAttack();
+        if (attackSound != null) PlaySound(attackSound);
         
         if (fireBreathPrefab != null && mouthPoint != null && targetPlayer != null)
         {

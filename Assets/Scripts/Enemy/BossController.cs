@@ -10,6 +10,13 @@ public class BossController : EnemySystemController
     private Transform targetPlayer; 
     public Collider2D[] playerColliders; 
     
+    [Header("--- Boss Sounds ---")]
+    public AudioClip roarSound;
+    public AudioClip rollAnticipationSound;
+    public AudioClip jumpSound;
+    public AudioClip landingSound;
+    public AudioClip spikeAttackSound;
+    
     [Header("--- Boss Skill Ranges & Speeds ---")]
     public float roarRange = 2.5f;   
     public float rollRange = 5.5f;   
@@ -92,6 +99,7 @@ public class BossController : EnemySystemController
             else if (Mathf.Abs(rb.linearVelocity.y) < 0.05f && stateInfo.IsName("Fall"))
             {
                 anim.Play("Landing");
+                PlaySound(landingSound);
                 StopMoving(); 
                 isJumping = false; 
             }
@@ -186,17 +194,21 @@ public class BossController : EnemySystemController
         {
             case 0:
                 anim.Play("RoarAnticipation"); 
+                PlaySound(roarSound);
                 break;
             case 1:
                 anim.Play("RollAttackAnticipation"); 
+                PlaySound(rollAnticipationSound);
                 break;
             case 2:
                 anim.Play("SpikeAttackAnticipation"); 
+                PlaySound(spikeAttackSound);
                 StartCoroutine(SpawnSpikesRoutine(spikeSpawnDelay));
                 break;
             case 3:
                 isJumping = true; 
                 anim.Play("TakeOff"); 
+                PlaySound(jumpSound);
                 
                 float distanceX = targetPlayer.position.x - transform.position.x;
                 float gravity = Mathf.Abs(Physics2D.gravity.y * rb.gravityScale);
@@ -297,10 +309,12 @@ public class BossController : EnemySystemController
         {
             anim.Play("HitAir");
             isJumping = false; 
+            PlaySound(hitSound);
         }
         else 
         {
             anim.Play("HitGround"); 
+            PlaySound(hitSound);
         }
     }
 
@@ -337,6 +351,7 @@ public class BossController : EnemySystemController
         isJumping = false; 
         
         anim.Play("Dead"); 
+        PlaySound(deadSound);
         StopMoving();
         rb.gravityScale = 0; 
         
@@ -345,4 +360,4 @@ public class BossController : EnemySystemController
             bossCollider.enabled = false;
         }
     }
-}
+} 

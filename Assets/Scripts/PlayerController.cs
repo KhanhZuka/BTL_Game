@@ -467,7 +467,7 @@ void OnDisable()
     {
         if (isAttacking) return;
         isAttacking = true;
-        audioSource.PlayOneShot(GetRandomClip(attackSounds));
+        // audioSource.PlayOneShot(GetRandomClip(attackSounds));
 
         animator.ResetTrigger("Attack");
         animator.SetTrigger("Attack");
@@ -655,6 +655,14 @@ void OnDisable()
     AudioClip GetRandomClip(AudioClip[] clips)
     {
         return clips[Random.Range(0, clips.Length)];
+    }
+    public void PlayAttackSound()
+    {
+        if (audioSource != null && attackSounds.Length > 0)
+        {
+            audioSource.pitch = Random.Range(0.95f, 1.1f);
+            audioSource.PlayOneShot(GetRandomClip(attackSounds));
+        }
     }
 
     // DEBUG

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6922933938724737515}
   - component: {fileID: 1207408289893779260}
   - component: {fileID: 1270448474987416952}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MeleeEnemy2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -31,8 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.043, y: -0.141, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 2.4242406}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 2.4242406}
+  m_LocalScale: {x: 1, y: 1, z: 2.4242406}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -179,7 +178,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.00332693, y: 0.000000014901161}
+  m_Offset: {x: -0.0033269227, y: 0.015858851}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -189,7 +188,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.33410287, y: 0.38068113}
+  m_Size: {x: 0.33410287, y: 0.34896344}
   m_EdgeRadius: 0
 --- !u!114 &1270448474987416952
 MonoBehaviour:
@@ -211,12 +210,15 @@ MonoBehaviour:
   territoryRadius: 5
   attackCooldown: 2.5
   contactDamage: 15
+  soundRange: 10
+  hitSound: {fileID: 8300000, guid: 65b27a709ea8ab242b0cc2a5b1c92100, type: 3}
+  deadSound: {fileID: 8300000, guid: 97e3a7379168ccc40ad3eabef8775828, type: 3}
   visionWidthX: 10
   visionHeightY: 1.5
   frontSensor: {fileID: 0}
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   wallCheckDistance: 0.5
   cliffCheckDistance: 1
   hasWalkAnim: 1
@@ -224,7 +226,6 @@ MonoBehaviour:
   attackHitboxSize: {x: 1.5, y: 2}
   attackHitboxOffset: {x: 1, y: 0}
   meleeDamage: 25
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 0
   hitEffectPrefab: {fileID: 0}
+  damageDelay: 0.3
+  attackSound: {fileID: 8300000, guid: ee4bbbd54b84b2242bf6d3f8c57c7fe7, type: 3}

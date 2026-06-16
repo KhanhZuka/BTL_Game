@@ -7,6 +7,9 @@ public class GroundSpearEnemy : GroundEnemy
     public Transform firePoint;
     public GameObject spearPrefab;
 
+    [Header("--- Sounds ---")]
+    public AudioClip attackSound;
+
     protected override void Start()
     {
         maxHp = 120f; 
@@ -19,6 +22,7 @@ public class GroundSpearEnemy : GroundEnemy
     protected override void PerformAttack()
     {
         base.PerformAttack();
+        if (attackSound != null) PlaySound(attackSound);
         
         if (spearPrefab != null && firePoint != null)
         {
