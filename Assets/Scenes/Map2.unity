@@ -37490,8 +37490,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Notification
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6e4f48b93f012ce4fa25cb1558bb1121, type: 2}
+  m_sharedMaterial: {fileID: 6946825611077149098, guid: 6e4f48b93f012ce4fa25cb1558bb1121, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -40553,6 +40553,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
   items: []
   maxSlots: 5
+  useItemSound: {fileID: 0}
 --- !u!114 &2074040443
 MonoBehaviour:
   m_ObjectHideFlags: 0

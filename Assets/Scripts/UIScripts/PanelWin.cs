@@ -44,6 +44,7 @@ public class PanelWin : MonoBehaviour
 
     void PlayAgain()
     {
+        AudioManager.Instance.PlaySFX();
         Time.timeScale = 1f;
 
         switch (GameData.lastMap)
@@ -68,6 +69,7 @@ public class PanelWin : MonoBehaviour
 
     void ContinueMap()
     {
+        AudioManager.Instance.PlaySFX();
         UIManager.Instance.OpenPanelMaps();
     }
 }

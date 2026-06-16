@@ -25,26 +25,31 @@ public class PanelMaps : MonoBehaviour
 
     void OpenMapOne()
     {
+        AudioManager.Instance.PlaySFX();
         SceneManager.LoadScene("Map1");
     }
 
     void OpenMapTwo()
     {
+        AudioManager.Instance.PlaySFX();
         SceneManager.LoadScene("Map2");
     }
 
     void OpenMapThree()
     {
+        AudioManager.Instance.PlaySFX();
         SceneManager.LoadScene("Map3");
     }
 
     void OpenMapFour()
     {
+        AudioManager.Instance.PlaySFX();
         SceneManager.LoadScene("Map4");
     }
 
     void OpenMainScreen()
     {
+        AudioManager.Instance.PlaySFX();
         panelMap.SetActive(false);
         panelMain.SetActive(true);
     }

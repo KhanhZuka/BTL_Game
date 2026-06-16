@@ -44,7 +44,7 @@ public class PanelLose : MonoBehaviour
     void PlayAgain()
     {
         Time.timeScale = 1f;
-
+        AudioManager.Instance.PlaySFX();
         Time.timeScale = 1f;
 
         switch (GameData.lastMap)
@@ -69,6 +69,7 @@ public class PanelLose : MonoBehaviour
 
     void OpenUIScene()
     {
+        AudioManager.Instance.PlaySFX();
         Time.timeScale = 1f;
         GameData.backToMapPanel = true;
         SceneManager.LoadScene("UIScene");
