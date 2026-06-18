@@ -165,10 +165,10 @@ public class PlayerOne : MonoBehaviour
 
         animator.SetTrigger("AttackFire");
         audioSource.PlayOneShot(fireSound);
+
         Vector2 direction = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
 
-        GameObject fire = Instantiate(
-            FirePrefabs,
+        GameObject fire = FirePool.Instance.GetFire(
             rigidbody2D.position + direction * 0.6f - Vector2.up * 0.5f,
             Quaternion.identity
         );

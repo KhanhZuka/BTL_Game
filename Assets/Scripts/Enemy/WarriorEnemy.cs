@@ -39,7 +39,7 @@ public class WarriorEnemy : MonoBehaviour
     public AudioClip berserkSound;
 
     private float nextSoundTime;
-    public float SoundInterval = 3f;
+    public float SoundInterval = 2f;
 
     void Start()
     {

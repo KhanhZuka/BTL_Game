@@ -238,7 +238,7 @@ MonoBehaviour:
     m_Bits: 4096
   audioSource: {fileID: 372052253675368129}
   berserkSound: {fileID: 8300000, guid: 2cfc8306521e7f940b0b825596a9b752, type: 3}
-  SoundInterval: 3
+  SoundInterval: 1
 --- !u!50 &426642856603184612
 Rigidbody2D:
   serializedVersion: 5
