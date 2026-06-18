@@ -21,7 +21,7 @@ EditorBuildSettings:
     path: Assets/Scenes/UIScene.unity
     guid: 77233d596d4b0364b847eff561d2974c
   - enabled: 1
-    path: Assets/Scenes/Map3.unity
+    path: Assets/Scenes/Map5.unity
     guid: fd3c2a551439fc541bfc46c4ceca77c8
   - enabled: 1
     path: Assets/Scenes/Map4.unity
@@ -29,6 +29,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Map2.unity
     guid: 225092a78823bf14491461cafb246482
+  - enabled: 1
+    path: Assets/Scenes/Map3.unity
+    guid: 3ffcef321a0ee134d9b061ede79a82ab
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
