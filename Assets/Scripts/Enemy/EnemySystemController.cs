@@ -35,6 +35,11 @@ public abstract class EnemySystemController : MonoBehaviour
     protected bool isDead = false;
     protected bool isAlerted = false;
 
+    // Freeze system
+    protected bool isFrozen = false;
+    protected float freezeTimer = 0f;
+
+
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -57,6 +62,22 @@ public abstract class EnemySystemController : MonoBehaviour
     protected virtual void Update()
     {
         if (isDead) return;
+
+        // xử lý freeze trước
+        if (isFrozen)
+        {
+            freezeTimer -= Time.deltaTime;
+
+            rb.linearVelocity = Vector2.zero;
+
+            if (freezeTimer <= 0f)
+            {
+                Unfreeze();
+        }
+
+            return; // ❗ chặn toàn bộ AI
+        }
+
         attackTimer += Time.deltaTime;
 
         AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
@@ -184,8 +205,37 @@ public abstract class EnemySystemController : MonoBehaviour
             }
         }
     }
+    public virtual void Freeze(float duration)
+    {
+        if (isDead) return;
 
- 
+        isFrozen = true;
+        freezeTimer = duration;
+
+        rb.linearVelocity = Vector2.zero;
+
+        // dừng animation
+        if (anim != null)
+            anim.speed = 0f;
+
+        // hiệu ứng màu
+        if (spriteRenderer != null)
+            spriteRenderer.color = Color.cyan;
+    }
+    protected virtual void Unfreeze()
+    {
+        isFrozen = false;
+
+        //reset
+        if (anim != null)
+            anim.speed = 1f;
+
+        if (spriteRenderer != null)
+            spriteRenderer.color = Color.white;
+    }
+
+
+
 
     protected virtual void OnDrawGizmosSelected()
     {

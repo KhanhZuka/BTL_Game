@@ -32,7 +32,10 @@ public class FlyingEnemy : EnemySystemController
 
     protected override void Update()
     {
+        base.Update();
         if (isDead) return;
+        if (isFrozen) return;
+
         attackTimer += Time.deltaTime;
 
         AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
