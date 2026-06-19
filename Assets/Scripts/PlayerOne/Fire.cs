@@ -2,47 +2,104 @@ using UnityEngine;
 
 public class Fire : MonoBehaviour
 {
-    Rigidbody2D rigidbody2D;
+    private Rigidbody2D rigidbody2D;
+    private FirePool pool;
+
+    private float lifeTime = 3f;
+    private float lifeTimer;
+
     void Awake()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
     }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    private void OnEnable()
     {
+        lifeTimer = lifeTime;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(transform.position.magnitude > 100f)
+        lifeTimer -= Time.deltaTime;
+
+        if (lifeTimer <= 0)
         {
-            Destroy(gameObject);
+            ReturnToPool();
         }
+    }
+
+    public void SetPool(FirePool firePool)
+    {
+        pool = firePool;
     }
 
     public void AddForce(Vector2 direction, float force)
     {
-        rigidbody2D.AddForce(direction * force);
+        rigidbody2D.linearVelocity = Vector2.zero;
+        rigidbody2D.angularVelocity = 0f;
+
+        direction = direction.normalized;
+
+        rigidbody2D.AddForce(direction * force, ForceMode2D.Force);
+
+        if (direction.x > 0)
+        {
+            transform.localScale = new Vector3(
+                -Mathf.Abs(transform.localScale.x),
+                transform.localScale.y,
+                transform.localScale.z
+            );
+        }
+        else if (direction.x < 0)
+        {
+            transform.localScale = new Vector3(
+                Mathf.Abs(transform.localScale.x),
+                transform.localScale.y,
+                transform.localScale.z
+            );
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-          BatEnemy batEnemy = collision.GetComponent<BatEnemy>();
+        BatEnemy batEnemy = collision.GetComponent<BatEnemy>();
         BerserkEnemy berserk = collision.GetComponent<BerserkEnemy>();
         WarriorEnemy warrior = collision.GetComponent<WarriorEnemy>();
-        if (batEnemy != null) {
+
+        if (batEnemy != null)
+        {
             batEnemy.ChangeHealthBat(10);
-            Destroy(gameObject);
+            ReturnToPool();
+            return;
         }
+
         if (berserk != null)
         {
             berserk.ChangeHealthBerserk(10);
-            Destroy(gameObject);
+            ReturnToPool();
+            return;
         }
-        if (warrior != null) {
+
+        if (warrior != null)
+        {
             warrior.ChangeHealthWarrior(10);
-            Destroy(gameObject);
+            ReturnToPool();
+            return;
+        }
+    }
+
+    private void ReturnToPool()
+    {
+        rigidbody2D.linearVelocity = Vector2.zero;
+        rigidbody2D.angularVelocity = 0f;
+
+        if (pool != null)
+        {
+            pool.ReturnFire(gameObject);
+        }
+        else
+        {
+            gameObject.SetActive(false);
         }
     }
 }

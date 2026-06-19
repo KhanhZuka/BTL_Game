@@ -3,6 +3,9 @@ using UnityEngine.UI;
 
 public class WarriorEnemy : MonoBehaviour
 {
+    [Header("Enemy Data")]
+    public EnemyData enemyData;
+
     [Header("Patrol")]
     public Transform pointI;
     public Transform pointK;
@@ -19,8 +22,8 @@ public class WarriorEnemy : MonoBehaviour
     [Header("Health")]
     public Image fillHealth;
     public Image frameHealth;
-    private int maxHealthWarrior = 40;
-    private int healthWarrior = 40;
+    private int maxHealthWarrior;
+    private int healthWarrior;
 
     private Rigidbody2D rigidbody2D;
     private Animator animator;
@@ -39,15 +42,30 @@ public class WarriorEnemy : MonoBehaviour
     public AudioClip berserkSound;
 
     private float nextSoundTime;
-    public float SoundInterval = 3f;
+    public float SoundInterval = 2f;
 
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         target = pointK;
+
+        ApplyEnemyData();
+
         healthWarrior = maxHealthWarrior;
         UpdateHealthBar();
+    }
+
+    void ApplyEnemyData()
+    {
+        if (enemyData == null) return;
+
+        maxHealthWarrior = enemyData.maxHealth;
+        damage = enemyData.damage;
+        speed = enemyData.speed;
+        chaseDistance = enemyData.chaseDistance;
+        attackCooldown = enemyData.attackCooldown;
+        SoundInterval = enemyData.soundInterval;
     }
 
     void FixedUpdate()
