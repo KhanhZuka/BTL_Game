@@ -265,3 +265,4 @@ public class PlayerOne : MonoBehaviour
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
 }
+

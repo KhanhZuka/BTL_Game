@@ -1,6 +1,7 @@
 using System.Collections; 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossController : EnemySystemController
 {
@@ -8,8 +9,11 @@ public class BossController : EnemySystemController
     
     // Tự quản lý mục tiêu do class cha đã ẩn/xóa biến player
     private Transform targetPlayer; 
-    public Collider2D[] playerColliders; 
-    
+    public Collider2D[] playerColliders;
+
+    public Image fillHealth;
+    public Image frameHealth;
+
     [Header("--- Boss Sounds ---")]
     public AudioClip roarSound;
     public AudioClip rollAnticipationSound;
@@ -45,10 +49,10 @@ public class BossController : EnemySystemController
         maxHp = 1000f;          
         attackCooldown = 2.5f;  
         detectionRange = 15f;   
-        attackRange = 8f; 
+        attackRange = 8f;
         
         // Cài đặt sát thương khi Player vô tình chạm vào Boss
-        contactDamage = 1; 
+        contactDamage = 10; 
 
         base.Start(); 
 
@@ -288,8 +292,8 @@ public class BossController : EnemySystemController
         if (isDead) return;
         
         currentHp -= damageAmount;
-        isAlerted = true; 
-        
+        isAlerted = true;
+        UpdateHealthBar();
         if (currentHp <= 0) 
         {
             Die();
@@ -323,6 +327,13 @@ public class BossController : EnemySystemController
         }
     }
 
+    void UpdateHealthBar()
+    {
+        if (fillHealth != null)
+        {
+            fillHealth.fillAmount = (float)currentHp / maxHp;
+        }
+    }
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
         if (isDead) return;

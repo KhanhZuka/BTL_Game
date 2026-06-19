@@ -38,7 +38,26 @@ public class Fire : MonoBehaviour
         rigidbody2D.linearVelocity = Vector2.zero;
         rigidbody2D.angularVelocity = 0f;
 
-        rigidbody2D.AddForce(direction * force);
+        direction = direction.normalized;
+
+        rigidbody2D.AddForce(direction * force, ForceMode2D.Force);
+
+        if (direction.x > 0)
+        {
+            transform.localScale = new Vector3(
+                -Mathf.Abs(transform.localScale.x),
+                transform.localScale.y,
+                transform.localScale.z
+            );
+        }
+        else if (direction.x < 0)
+        {
+            transform.localScale = new Vector3(
+                Mathf.Abs(transform.localScale.x),
+                transform.localScale.y,
+                transform.localScale.z
+            );
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -51,18 +70,21 @@ public class Fire : MonoBehaviour
         {
             batEnemy.ChangeHealthBat(10);
             ReturnToPool();
+            return;
         }
 
         if (berserk != null)
         {
             berserk.ChangeHealthBerserk(10);
             ReturnToPool();
+            return;
         }
 
         if (warrior != null)
         {
             warrior.ChangeHealthWarrior(10);
             ReturnToPool();
+            return;
         }
     }
 

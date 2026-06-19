@@ -181,18 +181,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cafcb09ce1ccb1b429119dc26b2e9d9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BatEnemy
+  enemyData: {fileID: 11400000, guid: b8f98d4bba62dac46a9ae3373b894bed, type: 2}
   pointA: {fileID: 0}
   pointB: {fileID: 0}
   player: {fileID: 0}
-  speed: 5
-  chaseDistance: 5
+  speed: 0
+  chaseDistance: 0
   fillHealth: {fileID: 0}
   frameHealth: {fileID: 0}
-  attackDistance: 1.2
+  attackDistance: 0
   isAttacking: 0
   audioSource: {fileID: 3450713763808370565}
   batSound: {fileID: 8300000, guid: 0c1a3b417d02fdc4cb9839ab81fc6b1f, type: 3}
-  SoundInterval: 3
+  SoundInterval: 0
 --- !u!95 &4367736293210887381
 Animator:
   serializedVersion: 7

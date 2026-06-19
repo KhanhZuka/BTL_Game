@@ -222,13 +222,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10e9496043da8f74eb8e34c887c78f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WarriorEnemy
+  enemyData: {fileID: 11400000, guid: 33dc2e49358073940b4504c149b84c5f, type: 2}
   pointI: {fileID: 0}
   pointK: {fileID: 0}
-  speed: 2
+  speed: 0
   player: {fileID: 0}
-  chaseDistance: 4
-  attackCooldown: 1.2
-  damage: 25
+  chaseDistance: 0
+  attackCooldown: 0
+  damage: 0
   fillHealth: {fileID: 0}
   frameHealth: {fileID: 0}
   attackPoint: {fileID: 8931377041514080662}
@@ -238,7 +239,7 @@ MonoBehaviour:
     m_Bits: 4096
   audioSource: {fileID: 372052253675368129}
   berserkSound: {fileID: 8300000, guid: 2cfc8306521e7f940b0b825596a9b752, type: 3}
-  SoundInterval: 1
+  SoundInterval: 0
 --- !u!50 &426642856603184612
 Rigidbody2D:
   serializedVersion: 5

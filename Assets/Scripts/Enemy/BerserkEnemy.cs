@@ -9,15 +9,15 @@ public class BerserkEnemy : MonoBehaviour
     [Header("Patrol")]
     public Transform pointC;
     public Transform pointD;
-    public float speed = 2f;
+    public float speed;
 
     [Header("Player")]
     public Transform player;
-    public float chaseDistance = 4f;
+    public float chaseDistance;
     private bool isAttacking = false;
-    public float attackCooldown = 1.2f;
+    public float attackCooldown;
     private float nextAttackTime = 0f;
-    public int damage = 15;
+    public int damage;
 
     [Header("Jump Wall")]
     public float jumpForce = 10f;
