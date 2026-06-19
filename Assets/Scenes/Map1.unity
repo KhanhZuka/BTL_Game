@@ -4914,6 +4914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65eae8b24c0fc4f49bcc2382a9cf26e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BerserkEnemy
+  enemyData: {fileID: 11400000, guid: 5b037cb3ac5260f4c90f2db07b0b5420, type: 2}
   pointC: {fileID: 1218593734}
   pointD: {fileID: 1599953544}
   speed: 2
@@ -5487,6 +5488,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 325810275}
     - target: {fileID: 7799138890348722183, guid: 9060d0efadd9530448b23cc0db0c1072, type: 3}
+      propertyPath: enemyData
+      value: 
+      objectReference: {fileID: 11400000, guid: 33dc2e49358073940b4504c149b84c5f, type: 2}
+    - target: {fileID: 7799138890348722183, guid: 9060d0efadd9530448b23cc0db0c1072, type: 3}
       propertyPath: fillHealth
       value: 
       objectReference: {fileID: 1914993779}
@@ -5577,7 +5582,7 @@ CompositeCollider2D:
   - m_Collider: {fileID: 1103257115}
     m_ColliderPaths:
     - - X: 231400000
-        Y: 29400000
+        Y: 39400000
       - X: 231400000
         Y: 61400000
       - X: 209400000
@@ -5585,11 +5590,9 @@ CompositeCollider2D:
       - X: 208600000
         Y: 61000000
       - X: 208600000
-        Y: 29000000
-      - X: 209000000
-        Y: 28600002
+        Y: 38600000
       - X: 230600000
-        Y: 28600002
+        Y: 38600000
     - - X: 181400000
         Y: 31399998
       - X: 139400000
@@ -5602,13 +5605,12 @@ CompositeCollider2D:
         Y: 18600000
   m_CompositePaths:
     m_Paths:
-    - - {x: 23.05999, y: 2.8600001}
-      - {x: 23.14, y: 2.9400108}
+    - - {x: 23.05999, y: 3.8600001}
+      - {x: 23.14, y: 3.9400108}
       - {x: 23.13997, y: 6.14}
       - {x: 20.939995, y: 6.1399975}
       - {x: 20.86, y: 6.099983}
-      - {x: 20.860008, y: 2.8999925}
-      - {x: 20.900011, y: 2.8600001}
+      - {x: 20.86003, y: 3.8600001}
     - - {x: 18.13997, y: 1.86}
       - {x: 18.13997, y: 3.1399999}
       - {x: 13.939996, y: 3.1399972}
@@ -5772,7 +5774,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 2
-      m_TileSpriteIndex: 3
+      m_TileSpriteIndex: 5
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -5782,27 +5784,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 1
-      m_TileSpriteIndex: 2
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
-  - first: {x: 21, y: 3, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 5
-      m_TileSpriteIndex: 5
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
-  - first: {x: 22, y: 3, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 5
-      m_TileSpriteIndex: 5
+      m_TileSpriteIndex: 3
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -5821,8 +5803,8 @@ Tilemap:
   - first: {x: 22, y: 4, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 4
-      m_TileSpriteIndex: 4
+      m_TileIndex: 5
+      m_TileSpriteIndex: 2
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -5858,25 +5840,25 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: ecc13005245eb0d449f913d93a22fb34, type: 2}
   - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 155a0fed1a78b9e48a4caaa8219371e1, type: 2}
-  - m_RefCount: 2
-    m_Data: {fileID: 11400000, guid: f37693e96eef6d444ab0836b518dd571, type: 2}
-  - m_RefCount: 2
-    m_Data: {fileID: 11400000, guid: 37b7a6a3fce7d62409c1fb84b692edb3, type: 2}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: c25041cdb24525643985880fe9931859, type: 2}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: b0a3a530e775c6043b8c5fd91ad91eed, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 2
     m_Data: {fileID: 8457534629377244653, guid: e0744716f2044284fbeb7b5c4fd55149, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: 1644939726588251722, guid: e0744716f2044284fbeb7b5c4fd55149, type: 3}
   - m_RefCount: 1
+    m_Data: {fileID: -1686092743976264993, guid: e0744716f2044284fbeb7b5c4fd55149, type: 3}
+  - m_RefCount: 1
     m_Data: {fileID: -3995477275073983152, guid: e0744716f2044284fbeb7b5c4fd55149, type: 3}
   - m_RefCount: 1
+    m_Data: {fileID: -8534085211564174313, guid: e0744716f2044284fbeb7b5c4fd55149, type: 3}
+  - m_RefCount: 1
     m_Data: {fileID: 7724290689761396270, guid: e0744716f2044284fbeb7b5c4fd55149, type: 3}
-  - m_RefCount: 2
-    m_Data: {fileID: 5355695930943407728, guid: e0744716f2044284fbeb7b5c4fd55149, type: 3}
-  - m_RefCount: 2
-    m_Data: {fileID: 4043313693858740117, guid: e0744716f2044284fbeb7b5c4fd55149, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 10
+  - m_RefCount: 8
     m_Data:
       e00: 1
       e01: 0
@@ -5895,7 +5877,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 10
+  - m_RefCount: 8
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -9666,6 +9648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65eae8b24c0fc4f49bcc2382a9cf26e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BerserkEnemy
+  enemyData: {fileID: 11400000, guid: 5b037cb3ac5260f4c90f2db07b0b5420, type: 2}
   pointC: {fileID: 314132219}
   pointD: {fileID: 69487400}
   speed: 2
@@ -10698,6 +10681,10 @@ PrefabInstance:
       propertyPath: pointB
       value: 
       objectReference: {fileID: 1274195032}
+    - target: {fileID: 3633920858112217749, guid: 90ee39fca0166f4459700c181fe295e3, type: 3}
+      propertyPath: enemyData
+      value: 
+      objectReference: {fileID: 11400000, guid: b8f98d4bba62dac46a9ae3373b894bed, type: 2}
     - target: {fileID: 3633920858112217749, guid: 90ee39fca0166f4459700c181fe295e3, type: 3}
       propertyPath: fillHealth
       value: 
@@ -13926,6 +13913,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1964008536}
     - target: {fileID: 7799138890348722183, guid: 9060d0efadd9530448b23cc0db0c1072, type: 3}
+      propertyPath: enemyData
+      value: 
+      objectReference: {fileID: 11400000, guid: 33dc2e49358073940b4504c149b84c5f, type: 2}
+    - target: {fileID: 7799138890348722183, guid: 9060d0efadd9530448b23cc0db0c1072, type: 3}
       propertyPath: fillHealth
       value: 
       objectReference: {fileID: 801244908}
@@ -14249,6 +14240,10 @@ PrefabInstance:
       propertyPath: pointB
       value: 
       objectReference: {fileID: 435678573}
+    - target: {fileID: 3633920858112217749, guid: 90ee39fca0166f4459700c181fe295e3, type: 3}
+      propertyPath: enemyData
+      value: 
+      objectReference: {fileID: 11400000, guid: b8f98d4bba62dac46a9ae3373b894bed, type: 2}
     - target: {fileID: 3633920858112217749, guid: 90ee39fca0166f4459700c181fe295e3, type: 3}
       propertyPath: fillHealth
       value: 

@@ -3,6 +3,9 @@ using UnityEngine.UI;
 
 public class BerserkEnemy : MonoBehaviour
 {
+    [Header("Enemy Data")]
+    public EnemyData enemyData;
+
     [Header("Patrol")]
     public Transform pointC;
     public Transform pointD;
@@ -27,8 +30,8 @@ public class BerserkEnemy : MonoBehaviour
     [Header("Health")]
     public Image fillHealth;
     public Image frameHealth;
-    private int maxHealthBerserk = 30;
-    private int healthBerserk = 30;
+    private int maxHealthBerserk;
+    private int healthBerserk;
 
     private Rigidbody2D rigidbody2D;
     private Animator animator;
@@ -54,8 +57,23 @@ public class BerserkEnemy : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         target = pointD;
+
+        ApplyEnemyData();
+
         healthBerserk = maxHealthBerserk;
         UpdateHealthBar();
+    }
+
+    void ApplyEnemyData()
+    {
+        if (enemyData == null) return;
+
+        maxHealthBerserk = enemyData.maxHealth;
+        damage = enemyData.damage;
+        speed = enemyData.speed;
+        chaseDistance = enemyData.chaseDistance;
+        attackCooldown = enemyData.attackCooldown;
+        SoundInterval = enemyData.soundInterval;
     }
 
     void FixedUpdate()

@@ -4,26 +4,27 @@ using UnityEngine.UI;
 
 public class BatEnemy : MonoBehaviour
 {
+    [Header("Enemy Data")]
+    public EnemyData enemyData;
+
     public Transform pointA;
     public Transform pointB;
 
     public Transform player;
 
     public float speed = 2.0f;
-
     public float chaseDistance = 5.0f;
 
     Rigidbody2D rigidbody2D;
-
     Transform target;
-
     bool isChasing = false;
 
     public Image fillHealth;
     public Image frameHealth;
 
-    private int maxHealthBat = 20;
-    private int healthBat = 20;
+    private int maxHealthBat;
+    private int healthBat;
+
     public static BatEnemy instance;
     public float attackDistance = 1.2f;
 
@@ -41,6 +42,8 @@ public class BatEnemy : MonoBehaviour
     private float nextSoundTime;
     public float SoundInterval = 3f;
 
+    private int damage = 20;
+
     private void Awake()
     {
         instance = this;
@@ -52,16 +55,28 @@ public class BatEnemy : MonoBehaviour
         animator = GetComponent<Animator>();
         target = pointB;
 
+        ApplyEnemyData();
+
         healthBat = maxHealthBat;
         UpdateHealthBar();
     }
 
+    void ApplyEnemyData()
+    {
+        if (enemyData == null) return;
+
+        maxHealthBat = enemyData.maxHealth;
+        damage = enemyData.damage;
+        speed = enemyData.speed;
+        chaseDistance = enemyData.chaseDistance;
+        attackDistance = enemyData.attackDistance;
+        SoundInterval = enemyData.soundInterval;
+    }
+
     void FixedUpdate()
     {
-        float distanceToPlayer =
-            Vector2.Distance(transform.position, player.position);
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-        // Nếu player vào vùng phát hiện
         if (distanceToPlayer < chaseDistance)
         {
             isChasing = true;
@@ -71,7 +86,6 @@ public class BatEnemy : MonoBehaviour
             isChasing = false;
         }
 
-        // Nếu đủ gần thì attack
         if (distanceToPlayer < attackDistance)
         {
             PlayBatSoundWhenNear();
@@ -90,35 +104,21 @@ public class BatEnemy : MonoBehaviour
 
     void Patrol()
     {
-        Vector2 direction =
-            (target.position - transform.position).normalized;
-
-        rigidbody2D.linearVelocity =
-            direction * speed;
+        Vector2 direction = (target.position - transform.position).normalized;
+        rigidbody2D.linearVelocity = direction * speed;
 
         Flip(direction.x);
 
-        // Đổi điểm tuần tra
         if (Vector2.Distance(transform.position, target.position) < 0.2f)
         {
-            if (target == pointA)
-            {
-                target = pointB;
-            }
-            else
-            {
-                target = pointA;
-            }
+            target = target == pointA ? pointB : pointA;
         }
     }
 
     void ChasePlayer()
     {
-        Vector2 direction =
-            (player.position - transform.position).normalized;
-
-        rigidbody2D.linearVelocity =
-            direction * speed;
+        Vector2 direction = (player.position - transform.position).normalized;
+        rigidbody2D.linearVelocity = direction * speed;
 
         Flip(direction.x);
     }
@@ -173,8 +173,8 @@ public class BatEnemy : MonoBehaviour
     }
 
     void DestroyEnemyBat()
-    {     
-        Destroy(gameObject);  
+    {
+        Destroy(gameObject);
     }
 
     void AttackPlayer()
@@ -188,9 +188,7 @@ public class BatEnemy : MonoBehaviour
 
             animator.SetTrigger("Attack");
 
-            // Đợi animation đánh chạy một đoạn rồi mới trừ máu
             Invoke(nameof(DamagePlayer), 1f);
-
             Invoke(nameof(ResetAttack), 1f);
         }
     }
@@ -205,7 +203,7 @@ public class BatEnemy : MonoBehaviour
     {
         if (playerTarget != null && playerTarget.health > 0 && playerInAttackRange && canDamage)
         {
-            playerTarget.ChangeHealth(-20);
+            playerTarget.ChangeHealth(-damage);
             canDamage = false;
         }
     }
@@ -232,4 +230,3 @@ public class BatEnemy : MonoBehaviour
         }
     }
 }
-    
